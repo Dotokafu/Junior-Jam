@@ -45,8 +45,8 @@ var rng := RandomNumberGenerator.new()
 func _ready() -> void:
 	trash_button.text = I18n.t("button.trash")
 	serve_button.text = I18n.t("button.serve")
-	trash_button.tooltip_text = "[T]"
-	serve_button.tooltip_text = "[F]"
+	trash_button.tooltip_text = I18n.t("key.trash")
+	serve_button.tooltip_text = I18n.t("key.serve")
 	trash_button.pressed.connect(func() -> void: choose("trash"))
 	serve_button.pressed.connect(func() -> void: choose("serve"))
 	hand_rest = hand.position.y

@@ -19,7 +19,7 @@ const CAPTION_MARGIN := 12.0
 var stream_length: float = 0.0
 @onready var art: TextureRect = $Art
 @onready var jar: TextureRect = $Jar
-@onready var stream: ColorRect = $Stream
+@onready var stream: TextureRect = $Stream
 @onready var cup: Control = $Cup
 @onready var liquid: TextureRect = $Cup/Liquid
 @onready var caption: Label = $Caption/Text
@@ -72,7 +72,7 @@ func setup(item: Dictionary, index: int, mixed_color: Color) -> void:
 		node.visible = not has_art
 	var icon_path := ICON_PATH % item.get("id", "")
 	jar.texture = load(icon_path) if ResourceLoader.exists(icon_path) else null
-	stream.color = Color(str(item.get("color", "ffffff")))
+	stream.modulate = Color(str(item.get("color", "ffffff")))
 	liquid.modulate = mixed_color
 
 func reset() -> void:

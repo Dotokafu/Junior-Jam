@@ -213,5 +213,18 @@
   "feedback.saved": "Kaydedildi: Kayıt {slot}",
   "feedback.loaded": "Kayıt {slot} yüklendi.",
   "error.save_slot": "Kaydedilemedi.",
-  "button.load_game": "Kayıt yükle"
+  "button.load_game": "Kayıt yükle",
+  "tip.prefix": "İPUCU  ·  ",
+  "tip.1": "Görünüş kanıt değildir. Siparişi dinle.",
+  "tip.2": "İlk ölçü baz olmalı: kahve, çay, süt… Gece rafında kan, ilik, doku.",
+  "tip.3": "Bir kavanozun üstüne gel: tat çubuklarında etkisini görürsün.",
+  "tip.4": "Gece gelen her müşteri Fallen değildir.",
+  "tip.5": "Fotoğraf dava dosyası açar; dosyayı teslim etmek geri alınamaz.",
+  "tip.6": "Yanlış raftan servis bir türü ele verir.",
+  "tip.7": "Kepengi [M] ile gündüz ve gece rafı arasında geçiş yap.",
+  "tip.8": "Esc menüsünden istediğin zaman kaydedebilirsin.",
+  "key.trash": "[T]",
+  "key.serve": "[F]",
+  "key.close": "[Esc]",
+  "button.close_x": "X"
 }

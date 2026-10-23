@@ -1,0 +1,94 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/ui/fall_cutscene.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/city_back.png" id="2_city"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/building.png" id="3_building"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/cafe_light.png" id="4_cafe_light"]
+[ext_resource type="Texture2D" path="res://assets/cutscene/cafe_sign.png" id="5_sign"]
+
+[node name="FallCutscene" type="Control"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+
+[node name="CityBack" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("2_city")
+expand_mode = 1
+
+[node name="FarLights" type="Control" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Bat" type="TextureRect" parent="."]
+offset_right = 60.0
+offset_bottom = 36.0
+pivot_offset = Vector2(30, 18)
+mouse_filter = 2
+expand_mode = 1
+
+[node name="CafeLight" type="TextureRect" parent="."]
+offset_left = 798.0
+offset_top = 330.0
+offset_right = 1122.0
+offset_bottom = 420.0
+mouse_filter = 2
+texture = ExtResource("4_cafe_light")
+expand_mode = 1
+
+[node name="Walker" type="TextureRect" parent="."]
+offset_left = 770.0
+offset_top = 348.0
+offset_right = 800.0
+offset_bottom = 420.0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="Building" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("3_building")
+expand_mode = 1
+
+[node name="NearLights" type="Control" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="Sign" type="TextureRect" parent="."]
+offset_left = 774.0
+offset_top = 165.0
+offset_right = 1146.0
+offset_bottom = 303.0
+mouse_filter = 2
+texture = ExtResource("5_sign")
+expand_mode = 1
+
+[node name="Title" type="Label" parent="."]
+offset_left = 260.0
+offset_top = 6.0
+offset_right = 1660.0
+offset_bottom = 166.0
+theme_type_variation = &"Title"
+theme_override_font_sizes/font_size = 140
+horizontal_alignment = 1
+
+[node name="Tip" type="Label" parent="."]
+offset_left = 360.0
+offset_top = 1018.0
+offset_right = 1560.0
+offset_bottom = 1062.0
+theme_type_variation = &"HudText"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="NextButton" type="Button" parent="."]
+offset_left = 1560.0
+offset_top = 940.0
+offset_right = 1890.0
+offset_bottom = 1004.0
+theme_type_variation = &"PrimaryButton"

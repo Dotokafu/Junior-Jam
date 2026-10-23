@@ -112,7 +112,11 @@ func run() -> void:
 	session.state.phase = "fall"
 	session.state.stage = "transition"
 	bus.request("refresh")
-	await settle(0.4)
+	await settle(2.3)
+	await capture("fall_bat")
+	await settle(1.1)
+	await capture("fall_walk")
+	await settle(2.6)
 	await capture("fall")
 	session.state.ending = session.content.endings.fallen_world.duplicate(true)
 	session.state.ending["variant"] = "standard"

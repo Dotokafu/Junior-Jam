@@ -17,6 +17,12 @@ signal load_requested(slot: int)
 signal main_menu_requested
 signal quit_requested
 const FADE_TIME := 0.25
+const FallCutscene = preload("res://presentation/ui/fall_cutscene.tscn")
+## Oyun logosu (çizimle değiştirilebilir). Yoksa başlık yazı olarak gösterilir.
+const LOGO_PATH := "res://assets/ui/logo.png"
+const LOGO_SCALE := 6.0
+## tr.json'daki ipucu sayısı (tip.1 … tip.N); The Fall ara sahnesinde rastgele biri gösterilir.
+const TIP_COUNT := 8
 ## Sağ sütunu olan sayfalar; "pause" yalnızca sol listeyi gösterir.
 const PAGES := ["pause", "settings", "save", "load", "help", "new_game", "confirm_new"]
 const STRIP_WIDTH := 640.0
@@ -198,7 +204,15 @@ func _intro(view: Dictionary) -> void:
 	panel.position = Vector2(100, 130)
 	panel.custom_minimum_size = Vector2(860, 0)
 	var box := _vbox(panel, 20)
-	_label(box, I18n.t("app.title"), "Title").add_theme_font_size_override("font_size", 120)
+	if ResourceLoader.exists(LOGO_PATH):
+		var logo := TextureRect.new()
+		logo.texture = load(LOGO_PATH)
+		logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		logo.custom_minimum_size = logo.texture.get_size() * LOGO_SCALE
+		logo.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		box.add_child(logo)
+	else:
+		_label(box, I18n.t("app.title"), "Title").add_theme_font_size_override("font_size", 120)
 	_label(box, I18n.t("app.tagline"), "NameTag")
 	_label(box, I18n.t("intro.description"))
 	var buttons := _vbox(box, 14)
@@ -215,6 +229,14 @@ func _intro(view: Dictionary) -> void:
 	_label(box, I18n.t("intro.modes", {"days": view.get("total_days", 0)}), "Caption")
 
 func _transition(view: Dictionary, fall: bool) -> void:
+	if fall:
+		var cutscene := FallCutscene.instantiate()
+		cutscene.reduced_motion = reduced_motion
+		cutscene.size = Vector2(1920, 1080)
+		screen_layer.add_child(cutscene)
+		cutscene.set_tip(I18n.t("tip.%d" % randi_range(1, TIP_COUNT)))
+		cutscene.next_pressed.connect(func() -> void: next_requested.emit())
+		return
 	var back := ColorRect.new()
 	back.color = Color("120e18")
 	back.size = Vector2(1920, 1080)
