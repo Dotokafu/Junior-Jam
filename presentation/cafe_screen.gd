@@ -3,6 +3,9 @@ extends Control
 ## Domain durumu değiştirmez. Sahneler kalıcıdır; her durumda yeniden kurulmaz.
 const Balloon = preload("res://presentation/dialogue/speech_balloon.gd")
 const CaseFile = preload("res://presentation/ui/case_file.gd")
+const Settings = preload("res://infrastructure/persistence/settings_repository.gd")
+## Coffee Talk gibi: arayüz 1920×1080 tasarlanır, pencereye ölçeklenir, oran farklıysa siyah bant.
+const WINDOW_SIZES: Array[Vector2i] = [Vector2i(1920, 1080), Vector2i(1600, 900), Vector2i(1280, 720)]
 ## Polaroid makinenin üst yarığından çıkar: yarığın kamera ikonundaki yeri ve çıkış mesafesi.
 const EJECT_SLOT := Vector2(82, 24)
 const EJECT_RISE := 150.0
@@ -18,11 +21,13 @@ var photo_busy: bool = false
 var pending_mode: String = "story"
 var muted: bool = false
 var reduced_motion: bool = false
+var settings: Dictionary = Settings.DEFAULTS.duplicate()
 var record_count: int = 0
 var toast_tween: Tween
 @onready var world: Control = $World
 @onready var balloon: Control = $Balloon
 @onready var brew_panel: Control = $BrewPanel
+@onready var brew_comic: Control = $BrewComic
 @onready var book: Control = $RecipeBook
 @onready var case_file: Control = $CaseFile
 @onready var screens: Control = $Screens
@@ -47,6 +52,7 @@ func _ready() -> void:
 	toast.modulate.a = 0.0
 	_setup_hud()
 	_setup_ambience()
+	_load_settings()
 	# Oyun fare + kısayolla oynanır. Tıklanan buton odağı tutarsa Boşluk/Enter konuşmayı
 	# ilerletmek yerine o butonu tekrar basar (AUTO kapanır, aynı kavanoz yeniden eklenir).
 	get_viewport().gui_focus_changed.connect(func(control: Control) -> void:
@@ -64,6 +70,10 @@ func _ready() -> void:
 	screens.sound_toggled.connect(_toggle_sound)
 	screens.motion_toggled.connect(_toggle_motion)
 	screens.speed_cycled.connect(_cycle_speed)
+	screens.fullscreen_toggled.connect(func() -> void:
+		_toggle_fullscreen()
+		_open_modal("menu"))
+	screens.window_size_cycled.connect(_cycle_window_size)
 	EventBus.state_changed.connect(_on_state)
 	EventBus.feedback.connect(_feedback)
 	I18n.language_changed.connect(func(_locale: String) -> void: EventBus.request("refresh"))
@@ -109,6 +119,10 @@ func _on_state(snapshot: Dictionary) -> void:
 	else:
 		world.hide_person()
 	brew_panel.apply(view if playing else {})
+	brew_comic.apply(view if playing else {})
+	if brew_comic.is_open:
+		# Sayfa içeceği zaten gösteriyor; "hazır" bildirimi makine karesinin üstüne binmesin.
+		toast.modulate.a = 0.0
 	world.focus_brew(brew_panel.is_open)
 	_update_balloon(playing)
 	if playing and view.stage == "reaction":
@@ -177,7 +191,8 @@ func _new_game(mode: String) -> void:
 func _open_modal(kind: String) -> void:
 	_close_modal()
 	modal = kind
-	screens.open_modal(kind, {"mode": pending_mode, "muted": muted, "reduced_motion": reduced_motion, "speed": balloon.speed})
+	screens.open_modal(kind, {"mode": pending_mode, "muted": muted, "reduced_motion": reduced_motion, "speed": balloon.speed,
+		"fullscreen": settings.fullscreen, "window_size": settings.window_size})
 
 func _close_modal() -> void:
 	var closing_book := modal == "book"
@@ -242,21 +257,70 @@ func _photo_taken(record: Dictionary) -> void:
 	photo_busy = false
 	case_file.present_new(view, record.id, from)
 
+# --- Ayarlar -----------------------------------------------------------------
+
+## Testler (persistence kapalı) oyuncunun ayar dosyasını okumaz ve yazmaz.
+func _settings_enabled() -> bool:
+	return Session.persistence_enabled
+
+func _load_settings() -> void:
+	if _settings_enabled():
+		settings = Settings.read()
+	muted = settings.muted
+	balloon.speed = settings.text_speed
+	_set_reduced_motion(settings.reduced_motion)
+	if _settings_enabled():
+		_apply_display()
+
+func _save_settings() -> void:
+	settings.muted = muted
+	settings.reduced_motion = reduced_motion
+	settings.text_speed = balloon.speed
+	if _settings_enabled() and not Settings.write(settings):
+		_feedback(I18n.t("error.settings_write"))
+
+func _apply_display() -> void:
+	var window := get_window()
+	if settings.fullscreen:
+		window.mode = Window.MODE_FULLSCREEN
+		return
+	window.mode = Window.MODE_WINDOWED
+	window.size = settings.window_size
+	window.move_to_center()
+
+func _toggle_fullscreen() -> void:
+	settings.fullscreen = not settings.fullscreen
+	_apply_display()
+	_save_settings()
+
+func _cycle_window_size() -> void:
+	var index := WINDOW_SIZES.find(settings.window_size)
+	settings.window_size = WINDOW_SIZES[(index + 1) % WINDOW_SIZES.size()]
+	_apply_display()
+	_save_settings()
+	_open_modal("menu")
+
+func _set_reduced_motion(value: bool) -> void:
+	reduced_motion = value
+	for node: Node in [world, balloon, brew_panel, brew_comic, screens, case_file]:
+		node.reduced_motion = value
+
 func _toggle_sound() -> void:
 	muted = not muted
 	ambience.stream_paused = muted
 	if not muted and ambience.stream and not ambience.playing:
 		ambience.play()
+	_save_settings()
 	_open_modal("menu")
 
 func _toggle_motion() -> void:
-	reduced_motion = not reduced_motion
-	for node: Node in [world, balloon, brew_panel, screens, case_file]:
-		node.reduced_motion = reduced_motion
+	_set_reduced_motion(not reduced_motion)
+	_save_settings()
 	_open_modal("menu")
 
 func _cycle_speed() -> void:
 	balloon.speed = SPEED_ORDER[(SPEED_ORDER.find(balloon.speed) + 1) % SPEED_ORDER.size()]
+	_save_settings()
 	_open_modal("menu")
 
 func _camera_flash() -> void:
@@ -286,11 +350,21 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo:
 		return
 	var key: int = event.keycode
-	if key == KEY_ESCAPE:
+	if key == KEY_F11:
+		_toggle_fullscreen()
+	elif key == KEY_ESCAPE:
 		if modal != "":
 			_close_modal()
 		else:
 			_open_modal("menu")
+	elif brew_comic.is_open:
+		# Demleme sayfası açıkken yalnızca seçim yapılır.
+		if key == KEY_F:
+			brew_comic.choose("serve")
+		elif key == KEY_T:
+			brew_comic.choose("trash")
+		else:
+			return
 	elif key == KEY_B:
 		_toggle_book()
 	elif key == KEY_G:
@@ -304,14 +378,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			EventBus.request("next")
 	elif key == KEY_A:
 		auto_button.button_pressed = not auto_button.button_pressed
-	elif brew_panel.busy:
-		return
 	elif key == KEY_E:
 		EventBus.request("brew")
-	elif key == KEY_F:
-		EventBus.request("serve")
-	elif key == KEY_T:
-		EventBus.request("trash")
 	elif key == KEY_R:
 		EventBus.request("clear")
 	elif key == KEY_C:

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/cafe/brew_shelf.png" id="2_shelf"]
 [ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="3_cup"]
 [ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="4_liquid"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/machine_readout.tscn" id="5_readout"]
 
 [node name="BrewPanel" type="Control"]
 mouse_filter = 2
@@ -69,23 +70,7 @@ theme_type_variation = &"MachinePanel"
 [node name="Box" type="HBoxContainer" parent="Machine/Body"]
 theme_override_constants/separation = 16
 
-[node name="Left" type="VBoxContainer" parent="Machine/Body/Box"]
-custom_minimum_size = Vector2(230, 0)
-theme_override_constants/separation = 8
-
-[node name="Slots" type="VBoxContainer" parent="Machine/Body/Box/Left"]
-theme_override_constants/separation = 8
-
-[node name="Mid" type="VBoxContainer" parent="Machine/Body/Box"]
-size_flags_horizontal = 3
-theme_override_constants/separation = 12
-
-[node name="StatsTitle" type="Label" parent="Machine/Body/Box/Mid"]
-theme_type_variation = &"MachineLabel"
-text = "TAT"
-
-[node name="Stats" type="VBoxContainer" parent="Machine/Body/Box/Mid"]
-theme_override_constants/separation = 14
+[node name="Readout" parent="Machine/Body/Box" instance=ExtResource("5_readout")]
 
 [node name="Right" type="VBoxContainer" parent="Machine/Body/Box"]
 custom_minimum_size = Vector2(150, 0)
@@ -119,67 +104,6 @@ text = "Sıfırla"
 custom_minimum_size = Vector2(0, 62)
 theme_type_variation = &"PrimaryButton"
 text = "Demle"
-
-[node name="Result" type="PanelContainer" parent="Machine"]
-visible = false
-offset_left = 350.0
-offset_top = 450.0
-offset_right = 1116.0
-offset_bottom = 876.0
-theme_type_variation = &"MachinePanel"
-
-[node name="Box" type="VBoxContainer" parent="Machine/Result"]
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="ResultTitle" type="Label" parent="Machine/Result/Box"]
-theme_type_variation = &"MachineLabel"
-text = "HAZIR"
-horizontal_alignment = 1
-
-[node name="CupHolder" type="CenterContainer" parent="Machine/Result/Box"]
-
-[node name="CupStack" type="Control" parent="Machine/Result/Box/CupHolder"]
-custom_minimum_size = Vector2(144, 126)
-
-[node name="Cup" type="TextureRect" parent="Machine/Result/Box/CupHolder/CupStack"]
-offset_right = 144.0
-offset_bottom = 126.0
-texture = ExtResource("3_cup")
-expand_mode = 1
-
-[node name="Liquid" type="TextureRect" parent="Machine/Result/Box/CupHolder/CupStack"]
-offset_right = 144.0
-offset_bottom = 126.0
-pivot_offset = Vector2(72, 54)
-texture = ExtResource("4_liquid")
-expand_mode = 1
-
-[node name="DrinkName" type="Label" parent="Machine/Result/Box"]
-theme_type_variation = &"MachineLabel"
-theme_override_font_sizes/font_size = 44
-text = "Sabah Sisi"
-horizontal_alignment = 1
-
-[node name="DrinkStats" type="Label" parent="Machine/Result/Box"]
-theme_type_variation = &"MachineLabel"
-theme_override_font_sizes/font_size = 22
-horizontal_alignment = 1
-autowrap_mode = 3
-
-[node name="Buttons" type="HBoxContainer" parent="Machine/Result/Box"]
-theme_override_constants/separation = 16
-
-[node name="TrashButton" type="Button" parent="Machine/Result/Box/Buttons"]
-custom_minimum_size = Vector2(0, 62)
-size_flags_horizontal = 3
-text = "Çöpe at"
-
-[node name="ServeButton" type="Button" parent="Machine/Result/Box/Buttons"]
-custom_minimum_size = Vector2(0, 62)
-size_flags_horizontal = 3
-theme_type_variation = &"PrimaryButton"
-text = "Servis et"
 
 [node name="Frame" type="Panel" parent="Machine"]
 mouse_filter = 2

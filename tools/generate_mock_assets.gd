@@ -13,7 +13,7 @@ var written: Array[String] = []
 
 func _initialize() -> void:
 	force = "--force" in OS.get_cmdline_user_args()
-	for folder: String in ["res://assets/cafe", "res://assets/characters", "res://assets/ui/ingredients", "res://assets/ui/icons", "res://assets/ui/chrome", "res://presentation/theme"]:
+	for folder: String in ["res://assets/comic", "res://assets/cafe", "res://assets/characters", "res://assets/ui/ingredients", "res://assets/ui/icons", "res://assets/ui/chrome", "res://presentation/theme"]:
 		DirAccess.make_dir_recursive_absolute(folder)
 	_save(_background(false), "res://assets/cafe/background_day.png")
 	_save(_background(true), "res://assets/cafe/background_night.png")
@@ -27,6 +27,7 @@ func _initialize() -> void:
 		_save(_jar(item), "res://assets/ui/ingredients/%s.png" % item.id)
 	_chrome()
 	_icons()
+	_comic()
 	var wants_theme := force or not FileAccess.file_exists("res://presentation/theme/cafe_theme.tres")
 	# Tema çerçeve dokularına bağlı; dokular içe aktarılmadan kurulursa çerçeveler boş kalır.
 	if wants_theme and not ResourceLoader.exists("res://assets/ui/chrome/panel.png"):
@@ -244,6 +245,12 @@ func _chrome() -> void:
 	_save_up(_frame(Color("f1ead8"), Color("8a7a62"), Color("fbf7ec"), Color("ddd3bc")), dir + "paper.png")
 	_save_up(_frame(Color("c9a466"), Color("5e4424"), Color("dcbd84")), dir + "tab.png")
 	_save_up(_frame(Color("ecd09a"), Color("5e4424"), Color("f6e2b8")), dir + "tab_active.png")
+	var comic := _blank(12, 12)
+	_rect(comic, 0, 0, 12, 12, Color("0b080e"))
+	_rect(comic, 2, 2, 8, 8, Color("efe6d2"))
+	_rect(comic, 3, 3, 6, 6, Color(0, 0, 0, 0))
+	_save_up(comic, dir + "comic_frame.png")
+	_save_up(_frame(Color("f2d675"), Color("0b080e"), Color("f8e6a0")), dir + "caption.png")
 	var brew_frame := _blank(12, 12)
 	_rect(brew_frame, 0, 0, 12, 12, Color("0b080e"))
 	_rect(brew_frame, 3, 3, 6, 6, Color(0, 0, 0, 0))
@@ -348,6 +355,85 @@ func _tape() -> Image:
 		_rect(image, x + 1, 6, 1, 1, Color(0, 0, 0, 0))
 	return image
 
+# --- Çizgi roman demleme sayfası ----------------------------------------------
+
+func _comic() -> void:
+	_save(_hand_cup(false), "res://assets/comic/hand_cup.png")
+	_save(_hand_cup(true), "res://assets/comic/hand_cup_liquid.png")
+	_save(_step_backdrop(), "res://assets/comic/step_backdrop.png")
+	_save(_result_backdrop(), "res://assets/comic/result_backdrop.png")
+	var dots := _blank(6, 6)
+	_rect(dots, 2, 2, 2, 2, Color(1, 1, 1, 1))
+	_save(dots, "res://assets/comic/halftone.png")
+	var dir := "res://assets/ui/icons/"
+	var trash := _blank(32, 32)
+	_rect(trash, 7, 4, 18, 3, Color("8f8a78"))
+	_rect(trash, 13, 2, 6, 2, Color("8f8a78"))
+	_rect(trash, 8, 8, 16, 22, Color("8f8a78"))
+	for x in [11, 15, 19]:
+		_rect(trash, x, 10, 2, 18, Color("5e5a4e"))
+	_save_up(trash, dir + "trash.png")
+	var serve := _blank(32, 32)
+	_rect(serve, 10, 10, 12, 10, Color("8f8a78"))
+	_rect(serve, 22, 12, 4, 5, Color("8f8a78"))
+	_rect(serve, 6, 21, 22, 2, Color("8f8a78"))
+	_rect(serve, 4, 25, 26, 3, Color("b88b6a"))
+	for x in [12, 15, 18]:
+		_rect(serve, x, 3 + (x % 2), 1, 5, Color("8f8a78"))
+	_save_up(serve, dir + "serve.png")
+
+## Sağ elde tutulan fincan, yakın plan. liquid=true yalnızca sıvı yüzeyinin beyaz maskesi.
+func _hand_cup(liquid: bool) -> Image:
+	var image := _blank(120, 100)
+	if liquid:
+		_rect(image, 22, 30, 56, 8, Color.WHITE)
+		_rect(image, 26, 28, 48, 12, Color.WHITE)
+		return image
+	var cup := Color("f2ece0")
+	var shade := Color("cfc6b4")
+	_rect(image, 16, 26, 68, 4, OUTLINE)
+	_rect(image, 14, 30, 72, 30, OUTLINE)
+	_rect(image, 18, 60, 64, 10, OUTLINE)
+	_rect(image, 26, 70, 48, 6, OUTLINE)
+	_rect(image, 16, 30, 68, 30, cup)
+	_rect(image, 20, 60, 60, 9, cup)
+	_rect(image, 28, 69, 44, 5, shade)
+	_rect(image, 16, 44, 8, 16, shade)
+	_rect(image, 20, 28, 60, 12, Color("6b4a36"))
+	# El: sağdan fincanı kavrar
+	var skin := Color("c98d6c")
+	_rect(image, 76, 34, 30, 40, OUTLINE)
+	_rect(image, 78, 36, 28, 36, skin)
+	for y in [38, 47, 56]:
+		_rect(image, 70, y, 12, 8, OUTLINE)
+		_rect(image, 71, y + 1, 11, 6, skin)
+	_rect(image, 98, 60, 22, 40, OUTLINE)
+	_rect(image, 100, 62, 20, 38, skin.darkened(0.1))
+	_rect(image, 104, 72, 16, 28, Color("4a5a6a"))
+	return image
+
+## Adım karesinin arka planı (204×200, oyunda ×3 = 612×600): tezgâh yakın planı.
+func _step_backdrop() -> Image:
+	var image := _blank(204, 200)
+	image.fill(Color("2a2026"))
+	for y in range(0, 200, 6):
+		_rect(image, 0, y, 204, 1, Color("30252c"))
+	_rect(image, 0, 160, 204, 40, Color("4f6466"))
+	_rect(image, 0, 160, 204, 3, Color("7a9294"))
+	return image
+
+## Tam ekran servis karesinin arka planı (627×347, oyunda ×3 = 1881×1041).
+func _result_backdrop() -> Image:
+	var image := _blank(627, 347)
+	image.fill(Color("1f1a22"))
+	for i in range(0, 627, 10):
+		_rect(image, i, 0, 1, 347, Color("241e27"))
+	_rect(image, 0, 250, 627, 97, Color("3a4a4c"))
+	_rect(image, 0, 250, 627, 3, Color("6a8284"))
+	_rect(image, 470, 270, 30, 26, Color("d9cf8f"))
+	_rect(image, 506, 266, 34, 30, Color("e3d99a"))
+	return image
+
 func _rounded_tile(fill: Color) -> Image:
 	var image := _blank(24, 24)
 	_rect(image, 2, 1, 20, 22, OUTLINE)
@@ -416,6 +502,25 @@ func _theme() -> Theme:
 		theme.set_color(state, "FileTab", INK)
 	theme.set_font_size("font_size", "FileTab", 22)
 	_variation(theme, "BrewFrame", "Panel", {"panel": _nine("brew_frame.png", 12, 0, false)})
+	_variation(theme, "ComicFrame", "Panel", {"panel": _nine("comic_frame.png", 12, 0, false)})
+	_variation(theme, "CaptionBox", "PanelContainer", {"panel": _nine("caption.png", 12, 10)})
+	_label(theme, "CaptionText", INK, 22)
+	_label(theme, "Sfx", Color("fff2c9"), 60)
+	theme.set_color("font_outline_color", "Sfx", Color("0b080e"))
+	theme.set_constant("outline_size", "Sfx", 14)
+	_label(theme, "ComicTitle", cream, 64)
+	theme.set_color("font_outline_color", "ComicTitle", Color("0b080e"))
+	theme.set_constant("outline_size", "ComicTitle", 10)
+	theme.set_type_variation("ComicChoice", "Button")
+	for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+		theme.set_stylebox(state, "ComicChoice", StyleBoxEmpty.new())
+	theme.set_color("font_color", "ComicChoice", Color("b8b09a"))
+	theme.set_color("font_hover_color", "ComicChoice", Color("fff2c9"))
+	theme.set_color("font_pressed_color", "ComicChoice", Color("f0c987"))
+	theme.set_color("icon_hover_color", "ComicChoice", Color("fff6dc"))
+	theme.set_color("font_disabled_color", "ComicChoice", Color(1, 1, 1, 0.3))
+	theme.set_color("icon_disabled_color", "ComicChoice", Color(1, 1, 1, 0.3))
+	theme.set_font_size("font_size", "ComicChoice", 36)
 	return theme
 
 func _nine(file: String, margin: int, content: int = -1, center: bool = true) -> StyleBoxTexture:

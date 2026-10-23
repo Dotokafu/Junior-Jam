@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/brewing/machine_readout.gd" id="1_script"]
+
+[node name="MachineReadout" type="HBoxContainer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+script = ExtResource("1_script")
+
+[node name="Left" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(230, 0)
+theme_override_constants/separation = 8
+
+[node name="Slots" type="VBoxContainer" parent="Left"]
+theme_override_constants/separation = 8
+
+[node name="Mid" type="VBoxContainer" parent="."]
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="StatsTitle" type="Label" parent="Mid"]
+theme_type_variation = &"MachineLabel"
+text = "TAT"
+
+[node name="Stats" type="VBoxContainer" parent="Mid"]
+theme_override_constants/separation = 14

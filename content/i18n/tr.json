@@ -60,7 +60,7 @@
   "menu.title": "Bir nefes arası",
   "help.title": "Tezgâhın arkasında",
   "confirm.title": "Yeni bir ilk gün",
-  "help.body": "1. Konuşmaları dinle. Görünüş tek başına kanıt değildir.\n2. Sipariş gelince makine açılır. İlk ölçü baz (kahve, çay, süt…), sonraki iki ölçü karışım. Çubuklar sıcak / soğuk / tatlı / acı dengesini gösterir; malzemenin üstüne gelince etkisini görürsün.\n3. Demle [E], sonra Servis et [F] ya da Çöpe at [T].\n4. Gece rafı için kepengi çevir [M]. Yanlış raftan servis bir türü ele verir.\n5. 2. günden itibaren fotoğraf makinesiyle çek [C]; Dosyalar'dan [G] kayıtları tedarikçilere teslim edebilirsin.\n\nTıkla / Boşluk: metni geç  ·  A: otomatik  ·  Esc: menü",
+  "help.body": "1. Konuşmaları dinle. Görünüş tek başına kanıt değildir.\n2. Sipariş gelince makine açılır. İlk ölçü baz (kahve, çay, süt…), sonraki iki ölçü karışım. Çubuklar sıcak / soğuk / tatlı / acı dengesini gösterir; malzemenin üstüne gelince etkisini görürsün.\n3. Demle [E], sonra Servis et [F] ya da Çöpe at [T].\n4. Gece rafı için kepengi çevir [M]. Yanlış raftan servis bir türü ele verir.\n5. 2. günden itibaren fotoğraf makinesiyle çek [C]; Dosyalar'dan [G] kayıtları tedarikçilere teslim edebilirsin.\n\nTıkla / Boşluk: metni geç  ·  A: otomatik  ·  Esc: menü  ·  F11: tam ekran",
   "confirm.body": "Yeni hikâye mevcut otomatik kaydın üzerine yazacak.\n\nİlk sabaha dönmek istiyor musun?",
   "button.start_endless": "Endless başlat",
   "button.start_story": "Yeni hikâyeye başla",
@@ -185,5 +185,9 @@
   "hud.files": "DOSYALAR",
   "dossier.case_header": "DAVA DOSYASI  ·  NO. {number}",
   "dossier.stamp_defne": "DEFNE'YE TESLİM",
-  "dossier.stamp_vey": "VEY'E TESLİM"
+  "dossier.stamp_vey": "VEY'E TESLİM",
+  "menu.fullscreen_on": "Ekran: tam ekran  [F11]",
+  "menu.fullscreen_off": "Ekran: pencere  [F11]",
+  "menu.window_size": "Pencere boyutu: {size}",
+  "error.settings_write": "Ayarlar kaydedilemedi."
 }

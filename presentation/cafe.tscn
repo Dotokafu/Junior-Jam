@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/files.png" id="11_files"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/camera_device.png" id="12_camera"]
 [ext_resource type="Texture2D" path="res://assets/ui/polaroid.png" id="15_polaroid"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/brew_comic.tscn" id="16_comic"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/book.png" id="13_book"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/menu.png" id="14_menu"]
 
@@ -149,6 +150,9 @@ text = "MENÜ"
 icon = ExtResource("14_menu")
 icon_alignment = 1
 vertical_icon_alignment = 0
+
+[node name="BrewComic" parent="." instance=ExtResource("16_comic")]
+visible = false
 
 [node name="RecipeBook" parent="." instance=ExtResource("6_book")]
 visible = false
