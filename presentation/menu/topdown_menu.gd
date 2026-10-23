@@ -42,13 +42,23 @@ const BOKEH_LIGHTS: Array[Dictionary] = [
 	{"pos": Vector2(1580, 310), "r": 40.0, "color": Color(0.9, 0.65, 0.35, 0.10)},
 ]
 
+const MENU_BG_PATH := "res://assets/menu/background.png"
+var custom_bg_texture: Texture2D = null
+
 func _ready() -> void:
 	director = MenuDirectorScript.new()
+	_check_custom_background()
 	_setup_ui_strings()
 	_connect_cup(story_cup, "story")
 	_connect_cup(endless_cup, "endless")
 	_connect_cup(settings_cup, "settings")
 	set_kettle_active(true)
+
+func _check_custom_background() -> void:
+	if ResourceLoader.exists(MENU_BG_PATH):
+		custom_bg_texture = load(MENU_BG_PATH)
+	else:
+		custom_bg_texture = null
 
 func _setup_ui_strings() -> void:
 	title_label.text = I18n.t("app.title")
@@ -188,6 +198,11 @@ func _notification(what: int) -> void:
 # --- Blurlu Barista Tezgâhı Çizimi ------------------------------------------
 
 func _draw() -> void:
+	# 0. Harici özel arka plan çizimi varsa doğrudan onu kullan
+	if custom_bg_texture:
+		draw_texture_rect(custom_bg_texture, Rect2(Vector2.ZERO, size), false)
+		return
+
 	# 1. Uzak Kafe Derinliği (Üst alan - y: 0 ile 420 arası)
 	draw_rect(Rect2(0, 0, size.x, 430), Color("100b0e"))
 

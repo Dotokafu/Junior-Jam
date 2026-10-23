@@ -10,6 +10,9 @@ signal cup_selected(cup: TopdownCup)
 @export var cup_id: String = "story"
 @export var title_text: String = "HİKÂYE"
 @export var subtitle_text: String = ""
+@export var custom_texture: Texture2D = null
+
+var custom_texture_loaded: Texture2D = null
 
 var fill_progress: float = 0.0:
 	set(value):
@@ -36,6 +39,7 @@ const COLOR_ACCENT_GOLD := Color(0.96, 0.82, 0.48)
 func _ready() -> void:
 	custom_minimum_size = Vector2(280, 290)
 	size = Vector2(280, 290)
+	_check_custom_texture()
 	_apply_palette()
 	button.text = title_text
 	button.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -44,6 +48,16 @@ func _ready() -> void:
 	button.button_down.connect(_on_button_down)
 	button.button_up.connect(_on_button_up)
 	button.pressed.connect(_on_button_pressed)
+
+func _check_custom_texture() -> void:
+	if custom_texture != null:
+		custom_texture_loaded = custom_texture
+		return
+	var path: String = "res://assets/menu/cup_%s.png" % cup_id
+	if ResourceLoader.exists(path):
+		custom_texture_loaded = load(path)
+	else:
+		custom_texture_loaded = null
 
 func _process(delta: float) -> void:
 	if is_pouring:
@@ -106,6 +120,7 @@ func set_cup_data(p_id: String, p_title: String, p_subtitle: String = "") -> voi
 	cup_id = p_id
 	title_text = p_title
 	subtitle_text = p_subtitle
+	_check_custom_texture()
 	_apply_palette()
 	queue_redraw()
 
@@ -173,6 +188,12 @@ func _draw() -> void:
 	var center_saucer: Vector2 = Vector2(140.0, 218.0)
 	var rx_saucer: float = 112.0
 	var ry_saucer: float = 38.0
+
+	# Harici özel fincan çizimi (assets/menu/cup_<id>.png) varsa onu kullan
+	if custom_texture_loaded:
+		draw_texture_rect(custom_texture_loaded, Rect2(Vector2.ZERO, size), false)
+		_draw_liquid_and_progress(center_rim, rx_rim, ry_rim, center_saucer, rx_saucer, ry_saucer)
+		return
 
 	# 1. Tabak Gölgesi (Tezgâh üstünde 2.5D eliptik yumuşak gölge)
 	_draw_ellipse(center_saucer + Vector2(0, 10), rx_saucer + 10.0, ry_saucer + 8.0, COLOR_TABLE_SHADOW)
@@ -296,3 +317,17 @@ func _draw() -> void:
 	if is_hovered or is_pouring:
 		var highlight_alpha: float = 0.35 + 0.18 * sin(pulse_time)
 		_draw_ellipse_arc(center_saucer, rx_saucer + 6.0, ry_saucer + 4.0, 0.0, TAU, Color(COLOR_ACCENT_GOLD.r, COLOR_ACCENT_GOLD.g, COLOR_ACCENT_GOLD.b, highlight_alpha), 1.8)
+
+func _draw_liquid_and_progress(center_rim: Vector2, rx_rim: float, ry_rim: float, center_saucer: Vector2, rx_saucer: float, ry_saucer: float) -> void:
+	if fill_progress > 0.01:
+		var liquid_y: float = lerpf(182.0, 102.0, fill_progress)
+		var liquid_rx: float = lerpf(46.0, 63.0, fill_progress)
+		var liquid_ry: float = lerpf(20.0, 27.0, fill_progress)
+		var liquid_center: Vector2 = Vector2(140.0, liquid_y)
+		_draw_ellipse(liquid_center, liquid_rx, liquid_ry, COLOR_COFFEE_DEEP)
+		if fill_progress > 0.12:
+			_draw_ellipse_arc(liquid_center, maxf(liquid_rx - 2.5, 4.0), maxf(liquid_ry - 1.5, 2.0), 0.0, TAU, COLOR_COFFEE_CREMA, 3.5)
+	if fill_progress > 0.005:
+		var start_angle: float = -PI * 0.5
+		var sweep: float = TAU * fill_progress
+		_draw_ellipse_arc(center_saucer, rx_saucer + 2.0, ry_saucer + 2.0, start_angle, start_angle + sweep, COLOR_ACCENT_GOLD, 4.0)
