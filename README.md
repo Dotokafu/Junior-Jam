@@ -1,12 +1,54 @@
 # CoFFallen
 
-Godot ile yapılmış, hikâye ve Endless modları olan oynanabilir kahve oyunu prototipi. Çizimler geçici yer tutucudur. Godot 4.7.2 ile doğrulandı.
+CoFFallen, gündüz insanlara, gece insanlara ve Fallen'lara hizmet verdiğimiz bir kahve oyunu. Bu depo oyunun çalışma klasörüdür. Şu an oynanabilir prototip aşamasındadır; çizimler geçici yer tutucudur.
+
+## İlk kez açıyorsan: üç şeyi bilmen yeterli
+
+**Godot oyunu çalıştıran programdır.** **JSON dosyaları oyunun yazılı defterleridir:** konuşmalar, karakterler, tarifler ve düğme yazıları burada durur. **Görseller `assets/` klasörüne konur.** Bir konuşmayı veya tarifi değiştirmek için programlama bilmen gerekmez.
+
+| Yapmak istediğin | Açacağın dosya |
+| --- | --- |
+| Oyunu Godot'a eklemek | Ana klasördeki `project.godot` |
+| Bir karakterin adını, görünüş bilgisini veya sicilini değiştirmek | `content/characters.json` |
+| Belli gün gelecek karakteri ve konuşmasını düzenlemek | `content/days.json` |
+| Yeni içecek veya tarif eklemek | `content/recipes.json` |
+| Düğme, yardım veya bildirim yazısını değiştirmek | `content/i18n/tr.json` |
+| Rastgele müşteri sayısını ve insan/Fallen ihtimalini değiştirmek | `content/encounter_pools.json` |
+| Sonların metnini ve denge eşiklerini değiştirmek | `content/endings.json` |
+| Kendi çizimlerini eklemek | `assets/` ve [görsel ekleme rehberi](assets/README.md) |
+
+JSON'da **`id` kaydın sabit kimliğidir**, **`name` ekranda görünen adıdır**. Örneğin `latte` kimliğini değiştirmeden görünen içecek adını değiştirebilirsin. Dosyayı kaydet, oyunu yeniden başlat ve yeni içeriği denemek için yeni hikâye aç. Ayrıntılı örnekler: [İçerik ekleme rehberi](docs/ICERIK_EKLEME.md).
+
+## Godot'a ekleme: oyun proje listesinde görünmüyorsa
+
+Projeyi bilgisayara indirmek veya GitHub'dan çekmek, Godot'un proje listesine kendiliğinden eklemez. **Bir kez içe aktarmak gerekir.** Bu proje Godot **4.7.2** ile kontrol edildi.
+
+1. Godot'u aç; **Proje Yöneticisi / Project Manager** ekranına gel.
+2. **İçe Aktar / Import** düğmesine bas.
+3. İndirdiğin `Junior-Jam` klasörünün içindeki **`project.godot`** dosyasını seç. ZIP indirdiysen önce ZIP'i bir klasöre çıkar.
+4. **İçe Aktar ve Düzenle / Import & Edit** seçeneğiyle aç. Godot ilk açılışta dosyaları hazırlarken bekle.
+5. Listede oyunun adı **CoFFallen** olarak görünür; klasör adı `Junior-Jam` olarak kalabilir. Sonraki açılışlarda CoFFallen'a çift tıklaman yeterlidir.
+6. Editörde sağ üstteki **▶ Çalıştır** düğmesine bas. Klavye karşılığı **F5**'tir. Açılan oyun ekranında **Hikâye modu** veya **Endless** seç.
+
+Bu bilgisayarda içe aktarılacak dosyanın tam yolu:
+
+```text
+/home/kaanalper/Junior-Jam/project.godot
+```
+
+Godot açıkken listeye kayıt eklenmişse Proje Yöneticisi'ni kapatıp yeniden aç. Hâlâ görünmüyorsa arama kutusunu ve etiket filtrelerini temizle, ardından yukarıdaki dosyayı içe aktar.
+
+**Editörde boş bir kök düğüm görmek normaldir:** bu prototipin ekranı oyun çalışırken kodla oluşturulur. Oyunu görmek için ▶ / F5 kullan. Ana sahne `presentation/cafe.tscn` dosyasıdır. JSON metinlerini bir metin editörüyle düzenleyebilirsin.
+
+Godot'un kendi anlatımı: [mevcut projeyi içe aktarma](https://docs.godotengine.org/en/stable/tutorials/editor/project_manager.html#opening-and-importing-projects).
 
 ## Çalıştırma
 
-Godot'ta `project.godot` dosyasını aç ve **F5**'e bas. Ana ekrandan Hikâye veya Endless seç. Terminalden: `godot --path .`
+Oyun **fareyle işaretleyip tıklayarak** oynanır. Konuşma ilerletme, malzeme seçimi, demleme, servis, kitap, ayraç, kepenk, fotoğraf ve dosya tesliminin hepsinin ekranda düğmesi vardır. Klavye kısayolları ek kolaylıktır.
 
-İlk gece: normal bir içecek servis et → **B** ile defteri aç → sağdaki **???** ayracına tıkla → defteri kapat → parlayan kepenk düğmesine bas. İkinci gün fotoğraf/GBT açılır. Oyun kararları otomatik kaydeder.
+İlk gece: normal bir içecek servis et → **Eski deftere bak** düğmesine tıkla → sağdaki **???** ayracına tıkla → defteri kapat → parlayan kepenk düğmesine tıkla. İkinci gün fotoğraf/GBT açılır. Oyun kararları otomatik kaydeder.
+
+Terminal kullanıyorsan proje klasöründen `godot --path .` oyunu, `godot --editor --path .` editörü açar.
 
 | İşlem | Tuş |
 | --- | --- |
@@ -17,7 +59,15 @@ Godot'ta `project.godot` dosyasını aç ve **F5**'e bas. Ana ekrandan Hikâye v
 | Fotoğraf / GBT terminali | C / G |
 | Menü / pencereyi kapat | Esc |
 
-## Nerede ne var?
+## Mimariyi basitçe anlamak
+
+Bir müşteri geldiğini düşün: **`content` kimin ne söyleyeceğini anlatır; `domain` hangi fincanın doğru olduğunu bilir; `application` sıradaki işi yürütür; `presentation` gördüğün ekranı çizer; `infrastructure` dosyaları okur ve kaydeder.** Bu görevler ayrı tutulduğu için yeni çizim veya konuşma eklerken kahve kurallarını değiştirmek gerekmez.
+
+**EventBus bir haber panosu gibi çalışır.** Örneğin Servis Et'e tıklayınca ekran panoya “servis istendi” mesajı bırakır. Oyun oturumu kuralları kontrol eder, sonucu yine panoya bırakır; ekran sonucu gösterir. Ekranlar birbirinin içini değiştirmez. **DDD**, bu projede kahve hazırlama, müşteri üretme ve karar sonuçları gibi oyun kurallarını kendi bölümlerinde tutmamızın adıdır.
+
+Bir gece hazırlanırken ortak üretici önce o gece mutlaka gelmesi gereken hikâye karakterlerini yerleştirir. Sonra rastgele müşteriler için insan/Fallen, karakter, görünüş ve ürün havuzlarından seçim yapar. Hikâye ve Endless aynı üreticiyi kullanır. Böylece yeni bir müşteri için ayrı bir oyun akışı yazmak gerekmez.
+
+### Teknik dosya haritası
 
 | Klasör | Sorumluluk |
 | --- | --- |
