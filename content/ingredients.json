@@ -5,84 +5,384 @@
       "name": "Kahve",
       "side": "human",
       "color": "986e48",
-      "description": "Kavrulmuş çekirdek"
+      "description": "Kavrulmuş çekirdek",
+      "base": true,
+      "mix": false,
+      "adjective": "Kahveli",
+      "stats": {
+        "warm": [
+          2,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          3,
+          2,
+          1
+        ]
+      }
     },
     {
       "id": "milk",
       "name": "Süt",
       "side": "human",
       "color": "e9dbc0",
-      "description": "Sabah teslimatı"
+      "description": "Sabah teslimatı",
+      "base": true,
+      "mix": true,
+      "adjective": "Sütlü",
+      "stats": {
+        "warm": [
+          1,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          1,
+          1
+        ],
+        "sweet": [
+          1,
+          1,
+          1
+        ],
+        "bitter": [
+          0,
+          0,
+          0
+        ]
+      }
     },
     {
       "id": "cocoa",
       "name": "Kakao",
       "side": "human",
       "color": "6b4440",
-      "description": "Acı, koyu kakao"
+      "description": "Acı, koyu kakao",
+      "base": false,
+      "mix": true,
+      "adjective": "Kakaolu",
+      "stats": {
+        "warm": [
+          0,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          2,
+          1
+        ],
+        "bitter": [
+          0,
+          2,
+          1
+        ]
+      }
     },
     {
       "id": "tea",
       "name": "Çay",
       "side": "human",
       "color": "8f9b72",
-      "description": "Kurutulmuş yaprak"
+      "description": "Kurutulmuş yaprak",
+      "base": true,
+      "mix": false,
+      "adjective": "Çaylı",
+      "stats": {
+        "warm": [
+          2,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          1,
+          1,
+          1
+        ]
+      }
     },
     {
       "id": "honey",
       "name": "Bal",
       "side": "human",
       "color": "d8a459",
-      "description": "Son kovanlardan"
+      "description": "Son kovanlardan",
+      "base": false,
+      "mix": true,
+      "adjective": "Ballı",
+      "stats": {
+        "warm": [
+          0,
+          1,
+          0
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          3,
+          2
+        ],
+        "bitter": [
+          0,
+          0,
+          0
+        ]
+      }
     },
     {
       "id": "water",
       "name": "Su",
       "side": "human",
       "color": "8bafba",
-      "description": "Arıtılmış su"
+      "description": "Arıtılmış su",
+      "base": false,
+      "mix": true,
+      "adjective": "Sulu",
+      "stats": {
+        "warm": [
+          0,
+          0,
+          0
+        ],
+        "cool": [
+          0,
+          2,
+          2
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          0,
+          0,
+          0
+        ]
+      }
     },
     {
       "id": "blood",
       "name": "Kan",
       "side": "fallen",
       "color": "974356",
-      "description": "Sıcak tutulmalı"
+      "description": "Sıcak tutulmalı",
+      "base": true,
+      "mix": false,
+      "adjective": "Kanlı",
+      "stats": {
+        "warm": [
+          3,
+          2,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          1,
+          1,
+          1
+        ],
+        "bitter": [
+          0,
+          0,
+          0
+        ]
+      }
     },
     {
       "id": "marrow",
       "name": "İlik",
       "side": "fallen",
       "color": "d1b69c",
-      "description": "Gece teslimatı"
+      "description": "Gece teslimatı",
+      "base": true,
+      "mix": true,
+      "adjective": "İlikli",
+      "stats": {
+        "warm": [
+          1,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          2,
+          1
+        ],
+        "bitter": [
+          0,
+          0,
+          0
+        ]
+      }
     },
     {
       "id": "ash",
       "name": "Kül",
       "side": "fallen",
       "color": "8d8598",
-      "description": "Soğuk, ince kül"
+      "description": "Soğuk, ince kül",
+      "base": false,
+      "mix": true,
+      "adjective": "Küllü",
+      "stats": {
+        "warm": [
+          0,
+          0,
+          0
+        ],
+        "cool": [
+          0,
+          2,
+          1
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          0,
+          1,
+          1
+        ]
+      }
     },
     {
       "id": "tissue",
       "name": "Doku",
       "side": "fallen",
       "color": "b57b7b",
-      "description": "Mühürlü kavanoz"
+      "description": "Mühürlü kavanoz",
+      "base": true,
+      "mix": false,
+      "adjective": "Dokulu",
+      "stats": {
+        "warm": [
+          0,
+          0,
+          0
+        ],
+        "cool": [
+          2,
+          1,
+          1
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          1,
+          1,
+          0
+        ]
+      }
     },
     {
       "id": "bile",
       "name": "Safra",
       "side": "fallen",
       "color": "9a9e65",
-      "description": "Acı bir son tat"
+      "description": "Acı bir son tat",
+      "base": false,
+      "mix": true,
+      "adjective": "Safralı",
+      "stats": {
+        "warm": [
+          0,
+          0,
+          0
+        ],
+        "cool": [
+          0,
+          1,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          0,
+          3,
+          2
+        ]
+      }
     },
     {
       "id": "salt",
       "name": "Tuz",
       "side": "fallen",
       "color": "c4c7cf",
-      "description": "Koruyucu kristaller"
+      "description": "Koruyucu kristaller",
+      "base": false,
+      "mix": true,
+      "adjective": "Tuzlu",
+      "stats": {
+        "warm": [
+          0,
+          0,
+          0
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          0,
+          2,
+          2
+        ]
+      }
     }
   ]
 }

@@ -139,5 +139,15 @@
   "error.unknown_character": "Havuzda bilinmeyen karakter: ",
   "error.wrong_species_pool": "Karakter yanlış tür havuzunda: ",
   "error.file_read": "Dosya okunamadı: ",
-  "error.invalid_json": "JSON hatası: "
+  "error.invalid_json": "JSON hatası: ",
+  "feedback.not_base": "{name} baz olamaz. İlk ölçü kahve, çay, süt gibi bir baz olmalı.",
+  "feedback.not_mix": "{name} yalnızca baz olarak kullanılabilir.",
+  "feedback.trashed": "Fincanı döktün. Malzemeler geri gelmez.",
+  "drink.name_pure": "Saf {base}",
+  "drink.name_double": "Bol {adj} {base}",
+  "drink.name_strong": "Koyu {adj} {base}",
+  "drink.name_mix": "{first} {second} {base}",
+  "error.unreachable_order": "Hiçbir karışımla yapılamayan tat siparişi: ",
+  "error.ingredient_stats": "Malzemenin warm/cool/sweet/bitter değerleri üçer sayı olmalı: ",
+  "error.recipe_order": "Tarifin ilk malzemesi baz, diğerleri karışım olmalı: "
 }
