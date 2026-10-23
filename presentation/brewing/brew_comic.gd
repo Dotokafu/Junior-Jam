@@ -10,12 +10,24 @@ const STEP_GAP := 0.08
 const HOLD_TIME := 0.5
 const SWAP_TIME := 0.25
 const SERVE_RISE := 80.0
+## Hazırlık sayfası yerleşimleri (1920×1080). Her demlemede biri seçilir, üstüne küçük kayma ve
+## eğiklik eklenir: kareler dönerek gelmez, yalnızca sayfa her seferinde biraz farklı durur.
+## machine: makine karesi; steps: 3 adım karesi. Rect2(x, y, genişlik, yükseklik)
+const LAYOUTS := [
+	{"machine": Rect2(20, 20, 1880, 420), "steps": [Rect2(20, 460, 613, 600), Rect2(653, 460, 613, 600), Rect2(1286, 460, 614, 600)]},
+	{"machine": Rect2(20, 20, 1160, 450), "steps": [Rect2(1200, 20, 700, 520), Rect2(20, 490, 760, 570), Rect2(800, 560, 1100, 500)]},
+	{"machine": Rect2(660, 20, 1240, 430), "steps": [Rect2(20, 20, 620, 1040), Rect2(660, 470, 600, 590), Rect2(1280, 470, 620, 590)]},
+	{"machine": Rect2(300, 20, 1320, 420), "steps": [Rect2(20, 520, 600, 540), Rect2(640, 460, 640, 600), Rect2(1300, 540, 600, 520)]},
+]
+const JITTER := 10.0
+const TILT := 0.022
 var view: Dictionary = {}
 var reduced_motion: bool = false
 var is_open: bool = false
 var busy: bool = false
 var sequence_id: int = 0
 var hand_rest: float = 0.0
+var rng := RandomNumberGenerator.new()
 @onready var steps_page: Control = $Steps
 @onready var machine_frame: Control = $Steps/MachineFrame
 @onready var readout: Control = $Steps/MachineFrame/Machine/Box/Readout
@@ -38,7 +50,28 @@ func _ready() -> void:
 	trash_button.pressed.connect(func() -> void: choose("trash"))
 	serve_button.pressed.connect(func() -> void: choose("serve"))
 	hand_rest = hand.position.y
+	rng.randomize()
 	hide()
+
+func _apply_layout() -> void:
+	var layout: Dictionary = LAYOUTS[rng.randi_range(0, LAYOUTS.size() - 1)]
+	_place(machine_frame, layout.machine)
+	var frame_size: Vector2 = layout.machine.size
+	for node: Control in [$Steps/MachineFrame/Shelf, $Steps/MachineFrame/Frame]:
+		node.position = Vector2.ZERO
+		node.size = frame_size
+	var machine: Control = $Steps/MachineFrame/Machine
+	machine.position = (frame_size - machine.size) / 2.0
+	for i in range(steps.size()):
+		_place(steps[i], layout.steps[i])
+		steps[i].randomize_look(rng)
+
+func _place(node: Control, rect: Rect2) -> void:
+	var jitter := Vector2(rng.randf_range(-JITTER, JITTER), rng.randf_range(-JITTER, JITTER))
+	node.position = rect.position + jitter
+	node.size = rect.size
+	node.pivot_offset = rect.size / 2.0
+	node.rotation = rng.randf_range(-TILT, TILT)
 
 func apply(snapshot: Dictionary) -> void:
 	view = snapshot
@@ -79,6 +112,7 @@ func _open() -> void:
 	sequence_id += 1
 	var my_sequence := sequence_id
 	_fill(view.drink)
+	_apply_layout()
 	show()
 	modulate.a = 1.0
 	if reduced_motion:

@@ -12,11 +12,14 @@ var started: bool = false
 var content_ok: bool = false
 ## Testler gerçek kullanıcının kaydını değiştirmeden aynı komutları çalıştırabilir.
 var persistence_enabled: bool = true
+## Kayıt kartlarının özeti; her yayında dosya okumamak için yalnızca kayıt değişince yenilenir.
+var save_slots: Array = []
 
 func _ready() -> void:
 	content.translate = I18n.t
 	content_ok = content.load_all()
 	EventBus.command_requested.connect(_on_command)
+	save_slots = Saves.summaries()
 	if not content_ok:
 		push_error("\n".join(content.errors))
 
@@ -30,16 +33,21 @@ func _on_command(action: String, payload: Dictionary) -> void:
 		state.run_seed = int(payload.get("seed", Time.get_ticks_usec()))
 		started = true
 		_restock()
-	elif action == "continue":
-		var data := Saves.read()
-		if not _valid_save(data):
-			EventBus.feedback.emit(I18n.t("error.incompatible_save"))
+	elif action == "continue" or action == "load_slot":
+		var slot := int(payload.get("slot", Saves.AUTO_SLOT)) if action == "load_slot" else Saves.AUTO_SLOT
+		if not _load(slot):
 			return
-		state = State.restore(data)
-		if state.phase in ["day", "night"] and state.visits.is_empty():
-			state.visits = _generate_visits()
-		started = true
 	elif action == "refresh":
+		_publish()
+		return
+	elif action == "main_menu":
+		# Her komuttan sonra otomatik kayıt yazıldığı için ilerleme kaybolmaz.
+		started = false
+		save_slots = Saves.summaries()
+		_publish()
+		return
+	elif action == "save_slot":
+		_save_slot(int(payload.get("slot", 1)))
 		_publish()
 		return
 	elif not started or state.phase == "ending":
@@ -65,8 +73,35 @@ func _on_command(action: String, payload: Dictionary) -> void:
 			"photo": _photograph()
 			"report": _report(str(payload.get("id", "")))
 	_publish()
-	if started and persistence_enabled and not Saves.write(state.serialize()):
+	if not started or not persistence_enabled:
+		return
+	var saved := state.serialize()
+	if Saves.write(saved):
+		save_slots[Saves.AUTO_SLOT] = Saves.summary_for(Saves.AUTO_SLOT, saved, int(Time.get_unix_time_from_system()))
+	else:
 		EventBus.feedback.emit(I18n.t("error.save_write"))
+
+func _load(slot: int) -> bool:
+	var data := Saves.read(slot)
+	if not _valid_save(data):
+		EventBus.feedback.emit(I18n.t("error.incompatible_save"))
+		return false
+	state = State.restore(data)
+	if state.phase in ["day", "night"] and state.visits.is_empty():
+		state.visits = _generate_visits()
+	started = true
+	if slot != Saves.AUTO_SLOT:
+		EventBus.feedback.emit(I18n.t("feedback.loaded", {"slot": slot}))
+	return true
+
+func _save_slot(slot: int) -> void:
+	if not started or state.phase == "ending" or slot < 1 or slot > Saves.SLOT_COUNT:
+		return
+	if Saves.write(state.serialize(), slot):
+		EventBus.feedback.emit(I18n.t("feedback.saved", {"slot": slot}))
+	else:
+		EventBus.feedback.emit(I18n.t("error.save_slot"))
+	save_slots = Saves.summaries()
 
 func _valid_save(data: Dictionary) -> bool:
 	if data.is_empty():
@@ -322,6 +357,7 @@ func snapshot() -> Dictionary:
 	view.brew["tiers"] = Brewing.tiers(view.brew.stats)
 	view.brew["color"] = Brewing.color(state.selected, content.ingredient_map).to_html(false) if not state.selected.is_empty() else ""
 	view["has_save"] = Saves.exists()
+	view["slots"] = save_slots.duplicate(true)
 	view["content_errors"] = content.errors.duplicate()
 	view["ingredients"] = content.ingredients.duplicate(true)
 	view["recipes"] = content.recipes.duplicate(true)
@@ -334,7 +370,8 @@ func snapshot() -> Dictionary:
 	view.visit.erase("person")
 	view["line"] = ""
 	if content_ok and state.stage == "dialogue":
-		view.line = _lines()[mini(state.line_index, _lines().size() - 1)]
+		var lines := _lines()
+		view.line = lines[mini(state.line_index, lines.size() - 1)] if not lines.is_empty() else ""
 	elif state.stage == "brewing":
 		# Coffee Talk gibi: demlerken balonda siparişin kendisi durur.
 		var lines := _lines()

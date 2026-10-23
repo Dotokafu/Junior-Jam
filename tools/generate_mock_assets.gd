@@ -521,6 +521,28 @@ func _theme() -> Theme:
 	theme.set_color("font_disabled_color", "ComicChoice", Color(1, 1, 1, 0.3))
 	theme.set_color("icon_disabled_color", "ComicChoice", Color(1, 1, 1, 0.3))
 	theme.set_font_size("font_size", "ComicChoice", 36)
+	# Esc menüsü: çerçevesiz büyük satırlar ve kâğıt kayıt kartları
+	theme.set_type_variation("MenuItem", "Button")
+	for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+		theme.set_stylebox(state, "MenuItem", StyleBoxEmpty.new())
+	theme.set_color("font_color", "MenuItem", cream)
+	theme.set_color("font_hover_color", "MenuItem", Color("f0c987"))
+	theme.set_color("font_pressed_color", "MenuItem", Color("f0c987"))
+	theme.set_color("font_hover_pressed_color", "MenuItem", Color("f0c987"))
+	theme.set_color("font_disabled_color", "MenuItem", Color(1, 1, 1, 0.25))
+	theme.set_color("font_outline_color", "MenuItem", Color("0b080e"))
+	theme.set_constant("outline_size", "MenuItem", 8)
+	theme.set_font_size("font_size", "MenuItem", 46)
+	theme.set_type_variation("SlotCard", "Button")
+	theme.set_stylebox("normal", "SlotCard", _nine("paper.png", 12, 22))
+	theme.set_stylebox("hover", "SlotCard", _nine("tab_active.png", 12, 22))
+	theme.set_stylebox("pressed", "SlotCard", _nine("tab.png", 12, 22))
+	theme.set_stylebox("disabled", "SlotCard", _nine("button_disabled.png", 12, 22))
+	theme.set_stylebox("focus", "SlotCard", StyleBoxEmpty.new())
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color"]:
+		theme.set_color(state, "SlotCard", INK)
+	theme.set_color("font_disabled_color", "SlotCard", Color("4a4448"))
+	theme.set_font_size("font_size", "SlotCard", 26)
 	return theme
 
 func _nine(file: String, margin: int, content: int = -1, center: bool = true) -> StyleBoxTexture:

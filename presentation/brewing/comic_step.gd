@@ -10,6 +10,12 @@ const JAR_TOP := 0.08
 const COUNTER_TOP := 0.8
 const SFX_TOP := 0.4
 const LIQUID_DEPTH := 32.0
+## Her demlemede kare biraz farklı çizilir (yalnızca görsel; oyun durumunu etkilemez).
+const JAR_TILT := Vector2(-2.45, -1.95)
+const SFX_TILT := Vector2(-0.3, 0.25)
+const SFX_SCALE := Vector2(0.85, 1.25)
+const SFX_DRIFT := 70.0
+const CAPTION_MARGIN := 12.0
 var stream_length: float = 0.0
 @onready var art: TextureRect = $Art
 @onready var jar: TextureRect = $Jar
@@ -19,8 +25,21 @@ var stream_length: float = 0.0
 @onready var caption: Label = $Caption/Text
 @onready var sfx: Label = $Sfx
 
+var sfx_offset := Vector2.ZERO
+var sfx_size := 1.0
+var caption_bottom: bool = false
+
 func _ready() -> void:
 	resized.connect(_layout)
+	_layout()
+
+## Kavanoz eğimi, ses efektinin yeri/açısı/boyutu ve anlatım kutusunun köşesi rastgele.
+func randomize_look(rng: RandomNumberGenerator) -> void:
+	jar.rotation = rng.randf_range(JAR_TILT.x, JAR_TILT.y)
+	sfx.rotation = rng.randf_range(SFX_TILT.x, SFX_TILT.y)
+	sfx_size = rng.randf_range(SFX_SCALE.x, SFX_SCALE.y)
+	sfx_offset = Vector2(rng.randf_range(-SFX_DRIFT, SFX_DRIFT), rng.randf_range(-SFX_DRIFT, SFX_DRIFT) * 0.6)
+	caption_bottom = rng.randf() < 0.35
 	_layout()
 
 ## Kavanoz üstte eğik, akış ortadan iner, fincan tezgâhın üstünde durur.
@@ -34,7 +53,9 @@ func _layout() -> void:
 	stream.position = Vector2(center_x - stream.size.x / 2.0, jar.position.y + 160.0)
 	stream_length = cup.position.y + LIQUID_DEPTH - stream.position.y
 	stream.size.y = stream_length
-	sfx.position = Vector2(center_x - sfx.size.x / 2.0, size.y * SFX_TOP)
+	sfx.position = Vector2(center_x - sfx.size.x / 2.0, size.y * SFX_TOP) + sfx_offset
+	var caption_box: Control = $Caption
+	caption_box.position = Vector2(CAPTION_MARGIN, size.y - caption_box.size.y - CAPTION_MARGIN if caption_bottom else CAPTION_MARGIN)
 	pivot_offset = size / 2.0
 	sfx.pivot_offset = sfx.size / 2.0
 
@@ -65,7 +86,7 @@ func show_instantly() -> void:
 	scale = Vector2.ONE
 	stream.size.y = stream_length
 	sfx.modulate.a = 1.0
-	sfx.scale = Vector2.ONE
+	sfx.scale = Vector2.ONE * sfx_size
 
 ## Kare belirir → akış dökülür → ses efekti patlar. Bekleyebilmek için tween döner.
 func play() -> Tween:
@@ -79,5 +100,5 @@ func play() -> Tween:
 	chain.tween_callback(func() -> void: sfx.scale = Vector2(1.6, 1.6))
 	chain.set_parallel(true)
 	chain.tween_property(sfx, "modulate:a", 1.0, 0.08)
-	chain.tween_property(sfx, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	chain.tween_property(sfx, "scale", Vector2.ONE * sfx_size, 0.16).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	return chain
