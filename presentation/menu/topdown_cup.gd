@@ -5,7 +5,6 @@ class_name TopdownCup
 
 signal pour_started(cup: TopdownCup)
 signal pour_ended(cup: TopdownCup)
-signal cup_selected(cup: TopdownCup)
 
 @export var cup_id: String = "story"
 @export var title_text: String = "HİKÂYE"
@@ -47,7 +46,6 @@ func _ready() -> void:
 	button.mouse_exited.connect(_on_mouse_exited)
 	button.button_down.connect(_on_button_down)
 	button.button_up.connect(_on_button_up)
-	button.pressed.connect(_on_button_pressed)
 
 func _check_custom_texture() -> void:
 	if custom_texture != null:
@@ -136,9 +134,11 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	is_hovered = false
-	if not is_pouring:
-		var pal: Dictionary = _get_palette()
-		title_label.modulate = pal.text_color
+	if is_pouring:
+		is_pouring = false
+		pour_ended.emit(self)
+	var pal: Dictionary = _get_palette()
+	title_label.modulate = pal.text_color
 	queue_redraw()
 
 func _on_button_down() -> void:
@@ -149,11 +149,6 @@ func _on_button_down() -> void:
 func _on_button_up() -> void:
 	is_pouring = false
 	pour_ended.emit(self)
-	queue_redraw()
-
-func _on_button_pressed() -> void:
-	fill_progress = 1.0
-	cup_selected.emit(self)
 	queue_redraw()
 
 # --- 2.5D Çizim Yardımcıları -----------------------------------------------

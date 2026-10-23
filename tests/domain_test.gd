@@ -57,10 +57,10 @@ func _initialize() -> void:
 	check(test_cup.fill_amount == 0.0 and not test_cup.is_full, "Fincan sıfırlama")
 	var menu_dir := MenuDirector.new()
 	check(menu_dir.get_all_cups().size() == 3, "Ana menüde tam üç seçenek olmalı")
-	check(menu_dir.resolve_selection("story", true).action == "continue", "Kayıt varsa hikaye devam eder")
-	check(menu_dir.resolve_selection("story", false).action == "new_game", "Kayıt yoksa yeni hikaye başlar")
+	check(menu_dir.resolve_selection("story", true).type == "save_select", "Starta basınca save seçimi açılmalı")
+	check(menu_dir.resolve_selection("story", false).type == "save_select", "Kayıt olmasa bile save/yeni oyun seçimi açılır")
 	check(menu_dir.resolve_selection("endless", false).mode == "endless", "Endless modu")
-	check(menu_dir.resolve_selection("settings", false).kind == "menu", "Ayarlar menü penceresini açar")
+	check(menu_dir.resolve_selection("settings", false).kind == "settings", "Ayarlar menü penceresini açar")
 	print("DOMAIN: ", "PASS" if failures == 0 else "FAIL", " (", failures, " hata)")
 	quit(failures)
 

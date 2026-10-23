@@ -8,6 +8,7 @@ class_name TopdownMenu
 signal start_requested(action: String, mode: String)
 signal new_game_requested(mode: String)
 signal settings_requested()
+signal save_select_requested()
 
 const MenuDirectorScript = preload("res://domain/menu/menu_director.gd")
 const TopdownCupScene = preload("res://presentation/menu/topdown_cup.tscn")
@@ -66,7 +67,7 @@ func _setup_ui_strings() -> void:
 	hint_label.text = I18n.t("menu.pour_hint")
 
 	var story_title: String = I18n.t("menu.story")
-	var story_sub: String = I18n.t("menu.continue_hint") if has_save else ""
+	var story_sub: String = I18n.t("menu.save_select")
 	story_cup.set_cup_data("story", story_title, story_sub)
 	endless_cup.set_cup_data("endless", I18n.t("menu.endless"), "SONSUZ VARDİYA")
 	settings_cup.set_cup_data("settings", I18n.t("menu.settings"), "SES & EKRAN")
@@ -80,18 +81,11 @@ func _connect_cup(cup: TopdownCup, id: String) -> void:
 	cup.cup_id = id
 	cup.pour_started.connect(func(c: TopdownCup) -> void: _start_pouring(c.cup_id))
 	cup.pour_ended.connect(func(c: TopdownCup) -> void: _stop_pouring(c.cup_id))
-	cup.cup_selected.connect(func(c: TopdownCup) -> void: _complete_selection_instant(c.cup_id))
 
-func _complete_selection_instant(cup_id: String) -> void:
-	if selection_locked or director == null:
-		return
-	var cup_obj: RefCounted = director.get_cup(cup_id)
-	if cup_obj:
-		cup_obj.fill_amount = cup_obj.fill_target
-		cup_obj.is_full = true
-	var resolution: Dictionary = director.resolve_selection(cup_id, has_save)
-	pouring_cup_id = cup_id
-	_handle_selection_completed(resolution)
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		if is_holding_pour:
+			_stop_pouring(pouring_cup_id)
 
 func _start_pouring(cup_id: String) -> void:
 	if selection_locked:
@@ -146,6 +140,10 @@ func _handle_selection_completed(resolution: Dictionary) -> void:
 	await get_tree().create_timer(0.25).timeout
 
 	match resolution.get("type", ""):
+		"save_select":
+			save_select_requested.emit()
+			selection_locked = false
+			reset_menu()
 		"start":
 			var action: String = resolution.get("action", "new_game")
 			var mode: String = resolution.get("mode", "story")

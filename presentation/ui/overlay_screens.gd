@@ -101,6 +101,7 @@ func _menu_strip(active: String, state: Dictionary) -> void:
 		_menu_item(box, I18n.t("pause.new_game"), "new_game", active, func() -> void: page_requested.emit("new_game"))
 		_menu_item(box, I18n.t("pause.main_menu"), "", active, func() -> void: main_menu_requested.emit())
 	else:
+		_menu_item(box, I18n.t("pause.new_game"), "new_game", active, func() -> void: page_requested.emit("new_game"))
 		_menu_item(box, I18n.t("pause.back"), "", active, func() -> void: modal_closed.emit())
 	_menu_item(box, I18n.t("pause.quit"), "", active, func() -> void: quit_requested.emit())
 	# Konteyner dışındaki etiketlere genişlik verilmezse her harf alt satıra kayar.
@@ -154,6 +155,7 @@ func _page(kind: String, state: Dictionary) -> void:
 			for summary: Dictionary in state.get("slots", []):
 				var slot := int(summary.slot)
 				_slot_card(box, summary, func() -> void: load_requested.emit(slot), summary.get("empty", true))
+			_button(box, I18n.t("button.start_story"), func() -> void: start_requested.emit("new_game", "story"), true)
 		"help":
 			_label(box, I18n.t("help.body"))
 		"new_game":
@@ -215,7 +217,9 @@ func _intro(view: Dictionary) -> void:
 	menu.new_game_requested.connect(func(mode: String) -> void:
 		new_game_requested.emit(mode))
 	menu.settings_requested.connect(func() -> void:
-		settings_requested.emit())
+		page_requested.emit("settings"))
+	menu.save_select_requested.connect(func() -> void:
+		page_requested.emit("load"))
 
 func _transition(view: Dictionary, fall: bool) -> void:
 	if fall:

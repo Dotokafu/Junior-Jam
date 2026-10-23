@@ -29,8 +29,8 @@ func resolve_selection(cup_id: String, has_save: bool) -> Dictionary:
 	match cup_id:
 		"story":
 			return {
-				"type": "start",
-				"action": "continue" if has_save else "new_game",
+				"type": "save_select",
+				"action": "open_saves",
 				"mode": "story"
 			}
 		"endless":
@@ -43,7 +43,7 @@ func resolve_selection(cup_id: String, has_save: bool) -> Dictionary:
 			return {
 				"type": "modal",
 				"action": "open_settings",
-				"kind": "menu"
+				"kind": "settings"
 			}
 		_:
 			return {}

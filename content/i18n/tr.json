@@ -69,6 +69,7 @@
   "menu.settings": "Ayarlar",
   "menu.pour_hint": "Doldurmak için bardağa tıkla ve basılı tut",
   "menu.continue_hint": "Kayıttan Devam",
+  "menu.save_select": "Kayıt Seçimi",
   "menu.auto_save": "Kararların otomatik kaydedilir.",
   "menu.motion_reduced": "Hareket: azaltılmış",
   "menu.motion_normal": "Hareket: normal",
