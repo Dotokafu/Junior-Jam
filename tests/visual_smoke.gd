@@ -28,7 +28,9 @@ func run() -> void:
 	await settle(0.3)
 	await capture("intro")
 	# Kayıt varsa "Yeni hikâye" onay penceresi açar; ikisinde de gerçek fare tıklaması oyunu başlatmalı.
-	if find_button(screen, locale.t("button.story_mode")):
+	if find_button(screen, locale.t("menu.story")):
+		await click(locale.t("menu.story"))
+	elif find_button(screen, locale.t("button.story_mode")):
 		await click(locale.t("button.story_mode"))
 	else:
 		await click(locale.t("button.new_story"))

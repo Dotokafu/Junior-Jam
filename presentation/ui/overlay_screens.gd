@@ -3,6 +3,7 @@ extends Control
 ## Hepsi temadan stil alır; düzen bilinçli olarak sade tutuldu (tasarım gelince sahneye taşınabilir).
 signal start_requested(action: String, mode: String)
 signal new_game_requested(mode: String)
+signal settings_requested
 signal next_requested
 signal modal_closed
 signal sound_toggled
@@ -11,6 +12,8 @@ signal speed_cycled
 signal fullscreen_toggled
 signal window_size_cycled
 const FADE_TIME := 0.25
+const TopdownMenuScene = preload("res://presentation/menu/topdown_menu.tscn")
+var topdown_menu: Control = null
 var screen: String = ""
 var modal: String = ""
 var reduced_motion: bool = false
@@ -42,6 +45,8 @@ func apply(view: Dictionary) -> bool:
 
 func open_modal(kind: String, state: Dictionary) -> void:
 	modal = kind
+	if topdown_menu and is_instance_valid(topdown_menu):
+		topdown_menu.set_kettle_active(false)
 	_clear(modal_layer)
 	var dim := _dim(modal_layer, 0.9)
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -74,29 +79,23 @@ func open_modal(kind: String, state: Dictionary) -> void:
 func close_modal() -> void:
 	modal = ""
 	_clear(modal_layer)
+	if topdown_menu and is_instance_valid(topdown_menu):
+		topdown_menu.set_kettle_active(true)
+		topdown_menu.reset_menu()
 
 # --- Ekranlar --------------------------------------------------------------
 
 func _intro(view: Dictionary) -> void:
-	_dim(screen_layer, 0.45)
-	var panel := PanelContainer.new()
-	screen_layer.add_child(panel)
-	panel.position = Vector2(100, 130)
-	panel.custom_minimum_size = Vector2(860, 0)
-	var box := _vbox(panel, 20)
-	_label(box, I18n.t("app.title"), "Title").add_theme_font_size_override("font_size", 120)
-	_label(box, I18n.t("app.tagline"), "NameTag")
-	_label(box, I18n.t("intro.description"))
-	var buttons := _vbox(box, 14)
-	buttons.custom_minimum_size = Vector2(520, 0)
-	if view.get("has_save", false):
-		_button(buttons, I18n.t("button.continue_save"), func() -> void: start_requested.emit("continue", "story"), true)
-		_button(buttons, I18n.t("button.new_story"), func() -> void: new_game_requested.emit("story"))
-		_button(buttons, I18n.t("button.new_endless"), func() -> void: new_game_requested.emit("endless"))
-	else:
-		_button(buttons, I18n.t("button.story_mode"), func() -> void: start_requested.emit("new_game", "story"), true)
-		_button(buttons, I18n.t("button.endless_mode"), func() -> void: start_requested.emit("new_game", "endless"))
-	_label(box, I18n.t("intro.modes", {"days": view.get("total_days", 0)}), "Caption")
+	var menu: Control = TopdownMenuScene.instantiate()
+	screen_layer.add_child(menu)
+	topdown_menu = menu
+	menu.setup_view(view)
+	menu.start_requested.connect(func(action: String, mode: String) -> void:
+		start_requested.emit(action, mode))
+	menu.new_game_requested.connect(func(mode: String) -> void:
+		new_game_requested.emit(mode))
+	menu.settings_requested.connect(func() -> void:
+		settings_requested.emit())
 
 func _transition(view: Dictionary, fall: bool) -> void:
 	var back := ColorRect.new()
@@ -139,6 +138,9 @@ func _error(view: Dictionary) -> void:
 # --- Yardımcılar -----------------------------------------------------------
 
 func _clear(layer: Control) -> void:
+	if layer == screen_layer:
+		topdown_menu = null
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	for child: Node in layer.get_children():
 		child.queue_free()
 

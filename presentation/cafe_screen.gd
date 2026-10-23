@@ -65,6 +65,7 @@ func _ready() -> void:
 	case_file.closed.connect(_close_modal)
 	screens.start_requested.connect(_start)
 	screens.new_game_requested.connect(_new_game)
+	screens.settings_requested.connect(func() -> void: _open_modal("menu"))
 	screens.next_requested.connect(func() -> void: EventBus.request("next"))
 	screens.modal_closed.connect(_close_modal)
 	screens.sound_toggled.connect(_toggle_sound)
