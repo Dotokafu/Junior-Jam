@@ -24,25 +24,25 @@ texture = ExtResource("2_day")
 expand_mode = 1
 
 [node name="Character" parent="." instance=ExtResource("7_character")]
-offset_left = 460.0
-offset_top = 208.0
-offset_right = 940.0
-offset_bottom = 880.0
+offset_left = 430.0
+offset_top = 220.0
+offset_right = 970.0
+offset_bottom = 1000.0
 
 [node name="Counter" type="TextureRect" parent="."]
 mouse_filter = 2
-offset_top = 750.0
-offset_right = 1920.0
+offset_top = 840.0
+offset_right = 2220.0
 offset_bottom = 1080.0
 texture = ExtResource("4_counter")
 expand_mode = 1
 
 [node name="Cup" type="Control" parent="."]
 mouse_filter = 2
-offset_left = 900.0
-offset_top = 684.0
-offset_right = 996.0
-offset_bottom = 768.0
+offset_left = 652.0
+offset_top = 772.0
+offset_right = 748.0
+offset_bottom = 856.0
 
 [node name="Body" type="TextureRect" parent="Cup"]
 mouse_filter = 2

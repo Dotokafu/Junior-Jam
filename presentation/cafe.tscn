@@ -8,6 +8,12 @@
 [ext_resource type="PackedScene" path="res://presentation/ui/recipe_book.tscn" id="6_book"]
 [ext_resource type="PackedScene" path="res://presentation/ui/phone.tscn" id="7_phone"]
 [ext_resource type="Script" path="res://presentation/ui/overlay_screens.gd" id="8_screens"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/auto.png" id="9_auto"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/ffwd.png" id="10_ffwd"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/phone.png" id="11_phone"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/camera.png" id="12_camera"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/book.png" id="13_book"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/menu.png" id="14_menu"]
 
 [node name="CoFFallen" type="Control"]
 layout_mode = 3
@@ -24,85 +30,97 @@ script = ExtResource("1_script")
 
 [node name="Balloon" parent="." instance=ExtResource("4_balloon")]
 
+[node name="BrewPanel" parent="." instance=ExtResource("5_brew")]
+
 [node name="Hud" type="Control" parent="."]
 mouse_filter = 2
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="DayPlaque" type="PanelContainer" parent="Hud"]
+[node name="DayText" type="Label" parent="Hud"]
 offset_left = 28.0
-offset_top = 24.0
-offset_right = 388.0
-offset_bottom = 124.0
-
-[node name="Box" type="VBoxContainer" parent="Hud/DayPlaque"]
-
-[node name="DayLabel" type="Label" parent="Hud/DayPlaque/Box"]
-theme_type_variation = &"Caption"
-text = "GÜN 01 / 04"
-
-[node name="PhaseLabel" type="Label" parent="Hud/DayPlaque/Box"]
-theme_type_variation = &"NameTag"
-text = "GÜNDÜZ"
-
-[node name="PhotoButton" type="Button" parent="Hud"]
-offset_left = 28.0
-offset_top = 140.0
-offset_right = 388.0
-offset_bottom = 200.0
-theme_type_variation = &"IconButton"
-text = "Fotoğraf çek   [C]"
+offset_top = 20.0
+offset_right = 760.0
+offset_bottom = 60.0
+theme_type_variation = &"HudText"
+text = "GÜN 01 / 04  ·  GÜNDÜZ"
 
 [node name="TopRight" type="HBoxContainer" parent="Hud"]
-offset_left = 1600.0
-offset_top = 24.0
-offset_right = 1892.0
-offset_bottom = 84.0
-theme_override_constants/separation = 12
+offset_left = 1676.0
+offset_top = 16.0
+offset_right = 1900.0
+offset_bottom = 136.0
+theme_override_constants/separation = 8
 
 [node name="AutoButton" type="Button" parent="Hud/TopRight"]
-custom_minimum_size = Vector2(140, 56)
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[A]"
 theme_type_variation = &"IconButton"
 toggle_mode = true
 text = "AUTO"
+icon = ExtResource("9_auto")
+icon_alignment = 1
+vertical_icon_alignment = 0
 
 [node name="FfwdButton" type="Button" parent="Hud/TopRight"]
-custom_minimum_size = Vector2(140, 56)
+custom_minimum_size = Vector2(108, 118)
 theme_type_variation = &"IconButton"
 toggle_mode = true
 text = "FFWD"
+icon = ExtResource("10_ffwd")
+icon_alignment = 1
+vertical_icon_alignment = 0
 
-[node name="DecisionButton" type="Button" parent="Hud"]
-offset_left = 640.0
-offset_top = 990.0
-offset_right = 1180.0
-offset_bottom = 1054.0
-theme_type_variation = &"PrimaryButton"
-text = "Teslimatı bitir"
+[node name="BottomLeft" type="HBoxContainer" parent="Hud"]
+offset_left = 20.0
+offset_top = 946.0
+offset_right = 280.0
+offset_bottom = 1064.0
+theme_override_constants/separation = 8
 
-[node name="BottomBar" type="HBoxContainer" parent="Hud"]
-offset_left = 28.0
-offset_top = 990.0
-offset_right = 600.0
-offset_bottom = 1054.0
-theme_override_constants/separation = 12
-
-[node name="PhoneButton" type="Button" parent="Hud/BottomBar"]
-custom_minimum_size = Vector2(170, 60)
+[node name="PhoneButton" type="Button" parent="Hud/BottomLeft"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[G]"
 theme_type_variation = &"IconButton"
-text = "GBT  [G]"
+text = "GBT"
+icon = ExtResource("11_phone")
+icon_alignment = 1
+vertical_icon_alignment = 0
 
-[node name="BookButton" type="Button" parent="Hud/BottomBar"]
-custom_minimum_size = Vector2(190, 60)
+[node name="PhotoButton" type="Button" parent="Hud/BottomLeft"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[C]"
 theme_type_variation = &"IconButton"
-text = "Defter  [B]"
+text = "FOTO"
+icon = ExtResource("12_camera")
+icon_alignment = 1
+vertical_icon_alignment = 0
 
-[node name="MenuButton" type="Button" parent="Hud/BottomBar"]
-custom_minimum_size = Vector2(150, 60)
+[node name="BottomRight" type="HBoxContainer" parent="Hud"]
+offset_left = 1660.0
+offset_top = 946.0
+offset_right = 1900.0
+offset_bottom = 1064.0
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="BookButton" type="Button" parent="Hud/BottomRight"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[B]"
 theme_type_variation = &"IconButton"
-text = "Menü"
+text = "DEFTER"
+icon = ExtResource("13_book")
+icon_alignment = 1
+vertical_icon_alignment = 0
 
-[node name="BrewPanel" parent="." instance=ExtResource("5_brew")]
+[node name="MenuButton" type="Button" parent="Hud/BottomRight"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[Esc]"
+theme_type_variation = &"IconButton"
+text = "MENÜ"
+icon = ExtResource("14_menu")
+icon_alignment = 1
+vertical_icon_alignment = 0
 
 [node name="RecipeBook" parent="." instance=ExtResource("6_book")]
 visible = false
@@ -133,11 +151,10 @@ offset_bottom = 1080.0
 
 [node name="Toast" type="Label" parent="."]
 offset_left = 460.0
-offset_top = 28.0
+offset_top = 900.0
 offset_right = 1460.0
-offset_bottom = 88.0
-theme_override_colors/font_outline_color = Color(0.07, 0.05, 0.09, 1)
-theme_override_constants/outline_size = 10
+offset_bottom = 940.0
+theme_type_variation = &"HudText"
 horizontal_alignment = 1
 autowrap_mode = 3
 

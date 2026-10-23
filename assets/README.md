@@ -3,21 +3,27 @@
 Buradaki PNG'lerin hepsi geçici. **Gerçek çizimi aynı klasöre, aynı adla kaydet; kod değişmez.**
 Godot dosyayı yeniden içe aktarır, oyun yeni çizimi kullanır.
 
-Oyun 1920×1080 çalışır. Çizimler **640×360 ölçeğinde** yapılır ve oyunda **×3** büyütülür
-(piksel sanatı için keskin, `nearest` filtre açık). Yani 1 çizim pikseli = 3 ekran pikseli.
+Oyun 1920×1080 çalışır. **Mekân, demleme ekranı ve arayüz piksel**: 640×360 ölçeğinde çizilir,
+oyunda **×3** büyütülür (keskin `nearest` filtre). Yani 1 çizim pikseli = 3 ekran pikseli.
+**Karakterler el çizimi**: ölçek serbest, yumuşak filtreyle gösterilir.
 
 | Dosya | Çizim ölçüsü | Ne |
 |---|---|---|
 | `cafe/background_day.png` | 640×360 | Gündüz kafe duvarı, raflar, pencere |
 | `cafe/background_night.png` | 640×360 | Aynı mekân, gece (The Fall) |
-| `cafe/counter.png` | 640×110 | Tezgâh; karakterin önüne çizilir. Ekranda y=750'den başlar |
+| `cafe/counter.png` | 740×80 | Tezgâh; karakterin önüne çizilir. Ekranda y=840'tan başlar, demlerken kamera kaydığı için ekrandan 100 px geniş |
 | `cafe/cup.png` | 32×28 | Servis fincanı |
 | `cafe/cup_liquid.png` | 32×28 | Fincanın sıvı kısmı, **beyaz** çiz; oyun içeceğin rengine boyar |
-| `characters/<id>.png` | 160×224 | Karakter, şeffaf arka plan. Alt kısmı tezgâhın arkasında kalır |
-| `ui/ingredients/<id>.png` | 24×24 | Demleme makinesindeki malzeme ikonu |
+| `characters/<id>.png` | serbest (önerilen 1080×1560) | **El çizimi**, şeffaf arka plan, piksel değil. 540×780 kutuya oranı korunarak sığar, alttan hizalanır, yumuşak filtreyle çizilir. Alt kısmı tezgâhın arkasında kalır |
+| `cafe/brew_shelf.png` | 380×300 | Demleme ekranının arka planı (yakın plan raf). Kavanozlar üst rafa (y=100) dizilir |
+| `ui/ingredients/<id>.png` | 32×40 | Raftaki kavanoz; makine slotunda da küçük ikon olarak görünür |
+| `ui/icons/*.png` | 24×24 (kayıtta ×3 = 72×72) | HUD ikonları: phone, camera, book, menu, auto, ffwd |
+| `ui/chrome/*.png` | 12×12 / 16×16 (kayıtta ×3) | 9-slice çerçeveler: balon, makine, buton, defter, telefon |
 
 `<id>` = `content/characters.json` ve `content/ingredients.json` içindeki `id` (ör. `ada.png`, `coffee.png`).
 Rastgele müşteriler görünüşünü `encounter_pools.json` → `portraits` listesindeki karakterlerden alır.
+
+Yazı tipi: **Pixelify Sans** (OFL, `fonts/PixelifySans-OFL.txt`), Türkçe karakterleri tam.
 
 ## Arayüz stili (UI ekibi)
 

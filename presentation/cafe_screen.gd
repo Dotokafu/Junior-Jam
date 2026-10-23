@@ -23,15 +23,14 @@ var toast_tween: Tween
 @onready var flash: ColorRect = $Flash
 @onready var toast: Label = $Toast
 @onready var hud: Control = $Hud
-@onready var day_label: Label = $Hud/DayPlaque/Box/DayLabel
-@onready var phase_label: Label = $Hud/DayPlaque/Box/PhaseLabel
+@onready var day_text: Label = $Hud/DayText
+@onready var top_right: Control = $Hud/TopRight
 @onready var auto_button: Button = $Hud/TopRight/AutoButton
 @onready var ffwd_button: Button = $Hud/TopRight/FfwdButton
-@onready var photo_button: Button = $Hud/PhotoButton
-@onready var decision_button: Button = $Hud/DecisionButton
-@onready var phone_button: Button = $Hud/BottomBar/PhoneButton
-@onready var book_button: Button = $Hud/BottomBar/BookButton
-@onready var menu_button: Button = $Hud/BottomBar/MenuButton
+@onready var phone_button: Button = $Hud/BottomLeft/PhoneButton
+@onready var photo_button: Button = $Hud/BottomLeft/PhotoButton
+@onready var book_button: Button = $Hud/BottomRight/BookButton
+@onready var menu_button: Button = $Hud/BottomRight/MenuButton
 @onready var ambience: AudioStreamPlayer = $Ambience
 
 func _ready() -> void:
@@ -42,6 +41,7 @@ func _ready() -> void:
 	_setup_hud()
 	_setup_ambience()
 	balloon.advance_requested.connect(func() -> void: EventBus.request("next"))
+	balloon.decision_pressed.connect(func() -> void: EventBus.request("next"))
 	balloon.line_started.connect(func() -> void: world.character.bounce())
 	book.closed.connect(_close_modal)
 	phone.closed.connect(_close_modal)
@@ -60,15 +60,13 @@ func _ready() -> void:
 func _setup_hud() -> void:
 	auto_button.text = I18n.t("hud.auto")
 	ffwd_button.text = I18n.t("hud.ffwd")
-	photo_button.text = I18n.t("button.photo")
-	decision_button.text = I18n.t("button.finish_delivery")
+	photo_button.text = I18n.t("hud.photo")
 	phone_button.text = I18n.t("hud.phone")
 	book_button.text = I18n.t("hud.book")
-	menu_button.text = I18n.t("button.menu")
+	menu_button.text = I18n.t("hud.menu")
 	auto_button.toggled.connect(func(on: bool) -> void: balloon.auto = on)
 	ffwd_button.toggled.connect(func(on: bool) -> void: balloon.fast_forward = on)
 	photo_button.pressed.connect(func() -> void: EventBus.request("photo"))
-	decision_button.pressed.connect(func() -> void: EventBus.request("next"))
 	phone_button.pressed.connect(_toggle_phone)
 	book_button.pressed.connect(_toggle_book)
 	menu_button.pressed.connect(func() -> void: _open_modal("menu"))
@@ -117,13 +115,15 @@ func _update_hud() -> void:
 	if not view.started:
 		return
 	var day_key := "header.endless_day" if view.mode == "endless" else "header.story_day"
-	day_label.text = I18n.t(day_key, {"day": "%02d" % view.day, "total": "%02d" % view.total_days})
-	phase_label.text = I18n.t("phase." + view.phase)
+	var day := I18n.t(day_key, {"day": "%02d" % view.day, "total": "%02d" % view.total_days})
+	day_text.text = I18n.t("hud.day_phase", {"day": day, "phase": I18n.t("phase." + view.phase)})
+	# Demlerken üst köşeler sipariş şeridine ve makineye kalır.
+	var brewing: bool = view.stage in ["brewing", "tutorial"]
+	day_text.visible = not brewing
+	top_right.visible = not brewing
 	photo_button.visible = view.day >= 2 and view.phase in ["day", "night"]
 	photo_button.disabled = view.stage == "reaction"
-	decision_button.visible = view.stage == "decision"
-	$Hud/TopRight.visible = view.stage not in ["brewing", "tutorial"]
-	phone_button.disabled = view.day < 2
+	phone_button.visible = view.day >= 2
 
 func _update_balloon(playing: bool) -> void:
 	if not playing or view.line == "":
@@ -143,7 +143,7 @@ func _update_balloon(playing: bool) -> void:
 	var key := "%d|%s|%d|%s|%d|%s" % [view.day, view.phase, view.visit_index, view.stage, view.line_index, view.line]
 	balloon.docked = mode == Balloon.Mode.STATIC
 	balloon.point_at(world.balloon_point())
-	balloon.say(speaker, view.line, mode, key, hint)
+	balloon.say(speaker, view.line, mode, key, hint, I18n.t("button.finish_delivery"))
 
 # --- Komutlar ve pencereler -------------------------------------------------
 

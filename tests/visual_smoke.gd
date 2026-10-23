@@ -21,7 +21,7 @@ func run() -> void:
 	session.persistence_enabled = false
 	root.content_scale_size = Vector2i(1920, 1080)
 	root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
-	root.size = Vector2i(1280, 720)
+	root.size = Vector2i(1920, 1080)
 	screen = load("res://presentation/cafe.tscn").instantiate()
 	root.add_child(screen)
 	screen.muted = true
