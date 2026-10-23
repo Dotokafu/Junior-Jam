@@ -38,6 +38,8 @@ func _ready() -> void:
 	rest_y = folder.position.y
 	polaroid_rest = polaroid.position
 	$Folder/CloseButton.pressed.connect(func() -> void: closed.emit())
+	$Folder/CloseButton.text = I18n.t("button.close_x")
+	$Folder/CloseButton.tooltip_text = I18n.t("key.close")
 	report_button.pressed.connect(func() -> void: EventBus.request("report", {"id": selected_id}))
 	$Folder/Paper/Box/ObservationCaption.text = I18n.t("dossier.observation")
 	$Folder/Paper/Box/RecordCaption.text = I18n.t("dossier.record")
