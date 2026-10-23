@@ -1,0 +1,48 @@
+{
+  "fallen_chance_at_night": 0.5,
+  "human": [
+    "guest_h01",
+    "guest_h02",
+    "guest_h03",
+    "guest_h04"
+  ],
+  "fallen": [
+    "guest_f01",
+    "guest_f02",
+    "guest_f03",
+    "guest_f04"
+  ],
+  "portraits": [
+    "defne",
+    "vey",
+    "ada",
+    "eren",
+    "mira",
+    "ilya",
+    "atlas",
+    "saye",
+    "narin"
+  ],
+  "story_random_visits": {
+    "day": 0,
+    "night": 1
+  },
+  "endless_visits": {
+    "day": 3,
+    "night": 4
+  },
+  "endless_morning": [
+    "Yeni bir gün. Rafları yeniden doldurdum.",
+    "Terminal dün gecenin fotoğraflarını saklıyor. Sicil, birinin kim olduğunu tek başına söylemez.",
+    "Şüphelendiğin Fallen kayıtlarını verebilir veya kendine saklayabilirsin."
+  ],
+  "endless_evening": [
+    "Gece teslimatı geldi. Yarın da açık kalabilecek misin?",
+    "Elindeki insan kayıtları işime yarar. Bana verirsen onları bulabilirim.",
+    "Dosya vermemek de bir seçim. Her iki taraf ne yaptığını izliyor."
+  ],
+  "default_smalltalk": [
+    "Yağmur bugün de dinmeyecek gibi."
+  ],
+  "order_template": "Bir {drink} alabilir miyim?"
+}

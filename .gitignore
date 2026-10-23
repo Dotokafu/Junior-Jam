@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Yerel araç ayarları ve oturum verileri
+.claude/
+.codex/
+.agents/
+.aws/

@@ -1,0 +1,81 @@
+{
+  "recipes": [
+    {
+      "id": "espresso",
+      "name": "Uzun Gece",
+      "side": "human",
+      "ingredients": [
+        "coffee",
+        "coffee",
+        "water"
+      ],
+      "description": "Çift kahve, bir ölçü su. Uyanık kalmak zorunda olanlara."
+    },
+    {
+      "id": "latte",
+      "name": "Sabah Sisi",
+      "side": "human",
+      "ingredients": [
+        "coffee",
+        "milk",
+        "milk"
+      ],
+      "description": "Bir kahve, iki süt. Eskiden sıradan bir sabah vardı."
+    },
+    {
+      "id": "mocha",
+      "name": "Son Işık",
+      "side": "human",
+      "ingredients": [
+        "coffee",
+        "milk",
+        "cocoa"
+      ],
+      "description": "Kahve, süt, kakao. Biraz sıcaklık hâlâ mümkün."
+    },
+    {
+      "id": "tea",
+      "name": "Sığınak",
+      "side": "human",
+      "ingredients": [
+        "tea",
+        "honey",
+        "water"
+      ],
+      "description": "Çay, bal, su. Titreyen eller için."
+    },
+    {
+      "id": "red",
+      "name": "Kızıl Hatıra",
+      "side": "fallen",
+      "ingredients": [
+        "blood",
+        "blood",
+        "marrow"
+      ],
+      "description": "İki kan, bir ilik. Bir zamanlar sana da tanıdık gelirdi."
+    },
+    {
+      "id": "ashfall",
+      "name": "Kül Yağmuru",
+      "side": "fallen",
+      "ingredients": [
+        "ash",
+        "blood",
+        "salt"
+      ],
+      "description": "Kül, kan, tuz. Yağmurun söndüremediği açlık."
+    },
+    {
+      "id": "hollow",
+      "name": "Boşluk",
+      "side": "fallen",
+      "ingredients": [
+        "tissue",
+        "marrow",
+        "bile"
+      ],
+      "description": "Doku, ilik, safra. Adı konulamayan bir eksiklik."
+    }
+  ]
+}

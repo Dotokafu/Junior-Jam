@@ -1,0 +1,47 @@
+{
+  "endings": {
+    "human_supplier": {
+      "number": "I",
+      "title": "Sabah gelmedi",
+      "subtitle": "DEFNE’NİN SON TESLİMATI",
+      "text": "Defne bu sabah kasaları indirmedi. Tezgâha, Vey’e verdiğin yüzlerin fotoğraflarını bıraktı. “Hepsi buradan geçmiş,” dedi. Kapının kilidi döndü. Bu kez içeride kalan sendin.",
+      "errors": "Yanlış servis ettiğin fincanlar da rapora eklendi. Bazı kurbanlar sen onları tanımadan önce insanlıklarını kaybetmişti; yalnızca senin gözünde."
+    },
+    "fallen_supplier": {
+      "number": "II",
+      "title": "Kapının öbür yanı",
+      "subtitle": "VEY HESABI KAPATIR",
+      "text": "Vey raflara bakmadı. Boş sandalyeleri saydı. Defne’ye verdiğin her dosyanın yerinde bir sessizlik vardı. “Bizden bu kadar çok kişiyi nasıl tanıdın?” dedi. Işığı kapatırken ilk kez eldivenini çıkardı.",
+      "errors": "Yanlış fincanların kokusu seni çoktan ele vermişti. Birini tanımakla, birini bildiğini sanmak arasındaki farkı çok geç öğrendin."
+    },
+    "fallen_world": {
+      "number": "III",
+      "title": "İlk kez evinde",
+      "subtitle": "THE FALL ARTIK BİTMİYOR",
+      "text": "Şehir sustu. Sığınakların ışıkları birer birer söndü; sabah yalnızca eski bir alışkanlık olarak kaldı. Vey son fincanı önüne koydu. Kızıl Hatıra. Bu kez kokusu yabancı gelmedi. Aynada gözlerin onun gözleriyle aynı renkti. Sen hep onlardan biriydin.",
+      "errors": "Kime ne verdiğini karıştırdığın geceler vardı. Şehir, iyi niyetle yanlış verilen kararlar arasındaki farkı göremedi."
+    },
+    "grey": {
+      "number": "IV",
+      "title": "İki ışık arasında",
+      "subtitle": "KİMSE KAZANMADI. BAZILARI YAŞADI.",
+      "text": "Defne sabah geldi. Vey gece. İkisi de diğerinin her şeyi bilmediğinden emin olamadı. Listeler yarım kaldı, bazı kapılar çalınmadı. Ne şehir kurtuldu ne açlık bitti. Ama Narin ertesi sabah ders verdi. Sen dükkânı açtın.",
+      "errors": ""
+    },
+    "reserved": {
+      "number": "V",
+      "title": "Henüz yazılmadı",
+      "subtitle": "TASARIM AŞAMASINDA",
+      "text": "Beşinci sonun hikâyesi ve açılma koşulları daha sonra belirlenecek. Bu yuva mevcut oyunda tetiklenmez.",
+      "errors": "",
+      "enabled": false
+    }
+  },
+  "rules": {
+    "supplier_capture_threshold": 3,
+    "grey_minimum_reports": 2,
+    "grey_minimum_share": 0.4,
+    "grey_maximum_share": 0.6,
+    "grey_maximum_errors": 1
+  }
+}

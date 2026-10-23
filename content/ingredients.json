@@ -1,0 +1,88 @@
+{
+  "ingredients": [
+    {
+      "id": "coffee",
+      "name": "Kahve",
+      "side": "human",
+      "color": "986e48",
+      "description": "Kavrulmuş çekirdek"
+    },
+    {
+      "id": "milk",
+      "name": "Süt",
+      "side": "human",
+      "color": "e9dbc0",
+      "description": "Sabah teslimatı"
+    },
+    {
+      "id": "cocoa",
+      "name": "Kakao",
+      "side": "human",
+      "color": "6b4440",
+      "description": "Acı, koyu kakao"
+    },
+    {
+      "id": "tea",
+      "name": "Çay",
+      "side": "human",
+      "color": "8f9b72",
+      "description": "Kurutulmuş yaprak"
+    },
+    {
+      "id": "honey",
+      "name": "Bal",
+      "side": "human",
+      "color": "d8a459",
+      "description": "Son kovanlardan"
+    },
+    {
+      "id": "water",
+      "name": "Su",
+      "side": "human",
+      "color": "8bafba",
+      "description": "Arıtılmış su"
+    },
+    {
+      "id": "blood",
+      "name": "Kan",
+      "side": "fallen",
+      "color": "974356",
+      "description": "Sıcak tutulmalı"
+    },
+    {
+      "id": "marrow",
+      "name": "İlik",
+      "side": "fallen",
+      "color": "d1b69c",
+      "description": "Gece teslimatı"
+    },
+    {
+      "id": "ash",
+      "name": "Kül",
+      "side": "fallen",
+      "color": "8d8598",
+      "description": "Soğuk, ince kül"
+    },
+    {
+      "id": "tissue",
+      "name": "Doku",
+      "side": "fallen",
+      "color": "b57b7b",
+      "description": "Mühürlü kavanoz"
+    },
+    {
+      "id": "bile",
+      "name": "Safra",
+      "side": "fallen",
+      "color": "9a9e65",
+      "description": "Acı bir son tat"
+    },
+    {
+      "id": "salt",
+      "name": "Tuz",
+      "side": "fallen",
+      "color": "c4c7cf",
+      "description": "Koruyucu kristaller"
+    }
+  ]
+}
