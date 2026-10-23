@@ -1,0 +1,44 @@
+[2026-03-30T10:43:39.980Z] Could not locate the bindings file. Tried:
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Debug/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/out/Debug/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/Debug/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/out/Release/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/Release/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/default/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/compiled/25.6.1/linux/x64/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/addon-build/release/install-root/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/addon-build/debug/install-root/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/addon-build/default/install-root/better_sqlite3.node
+ → /home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/lib/binding/node-v141-linux-x64/better_sqlite3.node
+[2026-05-20T05:00:18.343Z] The module '/home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 147. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+[2026-05-21T11:18:07.516Z] The module '/home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 147. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+[2026-05-21T11:21:08.954Z] The module '/home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 147. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+[2026-05-21T11:24:43.375Z] The module '/home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 147. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+[2026-05-23T21:39:06.193Z] The module '/home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 147. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+[2026-05-24T09:14:03.418Z] The module '/home/kaanalper/.claude/plugins/cache/context-mode/context-mode/1.0.53/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 147. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
