@@ -38,7 +38,24 @@ Bu bilgisayarda içe aktarılacak dosyanın tam yolu:
 
 Godot açıkken listeye kayıt eklenmişse Proje Yöneticisi'ni kapatıp yeniden aç. Hâlâ görünmüyorsa arama kutusunu ve etiket filtrelerini temizle, ardından yukarıdaki dosyayı içe aktar.
 
-**Editörde boş bir kök düğüm görmek normaldir:** bu prototipin ekranı oyun çalışırken kodla oluşturulur. Oyunu görmek için ▶ / F5 kullan. Ana sahne `presentation/cafe.tscn` dosyasıdır. JSON metinlerini bir metin editörüyle düzenleyebilirsin.
+### Sahneyi oyunu başlatmadan 2B sekmesinde görmek
+
+1. Soldaki **Dosya Sistemi / FileSystem** bölümünden `presentation/cafe.tscn` dosyasına çift tıkla.
+2. Üstten **2B / 2D** sekmesine geç. Kafe ve arayüz, oyun çalışmadan da görünür.
+3. Soldaki Sahne ağacından **CoFFallen** kökünü seç. Gerekirse fare 2B alanındayken **F** ile seçimi ekrana sığdır veya yakınlaşmayı azalt.
+4. Sağdaki **Inspector → Editor Preview** alanından görmek istediğin ekranı seç:
+
+| Seçenek | Gösterdiği |
+| --- | --- |
+| `day` / `night` | Gündüz / gece kafe ve servis arayüzü |
+| `book_human` / `book_fallen` | Normal / Fallen tarif kitabı |
+| `dossier` | Örnek fotoğraflı GBT ekranı |
+| `intro` | Başlangıç menüsü |
+| `fall` / `ending` | The Fall geçişi / örnek son |
+
+**Editor Character** alanına `ada`, `eren` veya `mira` gibi bir karakter kimliği yazarak çizimini görebilirsin. JSON'u değiştirdikten sonra **Refresh Preview** kutusuna tıkla. Bu seçenekler editör içindir; oyunun başlangıç durumunu değiştirmez. Güncellemeden sonra sahne hâlâ boşsa sahne sekmesini kapatıp tekrar aç; gerekirse Godot'u yeniden başlat.
+
+Önizleme gerçek arayüz çizimini ve aynı JSON metinlerini kullanır. Editörde kayıt oluşturmaz, oyun oturumu başlatmaz ve ortam sesi çalmaz. Arayüz düğmeleri kodla oluşturulur; yerleşimi sürükleyerek değiştirmek için sahnede kalıcı düğümlere dönüştürme ayrıca gerekir. Oynanışı denemek için ▶ / F5 kullan.
 
 Godot'un kendi anlatımı: [mevcut projeyi içe aktarma](https://docs.godotengine.org/en/stable/tutorials/editor/project_manager.html#opening-and-importing-projects).
 

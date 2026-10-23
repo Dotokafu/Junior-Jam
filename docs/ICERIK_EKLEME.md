@@ -95,6 +95,8 @@ Sabit oyuncu metni GDScript içine yazılmaz:
 I18n.t("feedback.drink_ready", {"drink": drink.name})
 ```
 
+Editörde de çizilen arayüzlerde `CafeUI.text(...)` aynı anahtarı kullanır: oyun sırasında `I18n`'e gider, 2B önizlemede aynı JSON'u salt okunur açar. Böylece editörde oyun oturumu başlatmak gerekmez.
+
 Çevrilebilir cümleyi parçalara bölme; değişkenler için `{name}` gibi adlandırılmış alanlar kullan. Sistem tepkilerinde kayıt dosyasına cümle yerine `reaction_key` yazılır. Diyaloglar, karakter/ürün adları, siciller ve son metinleri kendi JSON dosyalarında tutulur. Rastgele sipariş cümlesi `encounter_pools.json` içindeki `order_template` alanıdır.
 
 Yeni arayüz dili için `content/i18n/en.json` gibi bir katalog ekleyebilirsin. `I18n.set_language("en")` arayüzü yeniler; eksik anahtarlar Türkçe kataloğa düşer. Hikâye ve içerik JSON'larının ayrı dil sürümleri henüz eklenmedi; yalnızca arayüz kataloğu eklemek hikâyeyi çevirmiş olmaz.

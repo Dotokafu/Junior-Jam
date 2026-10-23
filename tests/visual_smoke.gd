@@ -18,6 +18,7 @@ func run() -> void:
 	root.size = Vector2i(1280, 800)
 	screen = load("res://presentation/cafe.tscn").instantiate()
 	root.add_child(screen)
+	screen.muted = true
 	screen.view.has_save = false
 	screen._render()
 	await capture("intro")
@@ -29,7 +30,7 @@ func run() -> void:
 	await capture("dialogue")
 	await click(locale.t("button.listen"))
 	if session.state.line_index != 1:
-		push_error("POINT_CLICK_DIALOGUE_FAILED")
+		push_error("POINT_CLICK_DIALOGUE_FAILED: " + str(session.state.line_index))
 		quit(1)
 		return
 	for i in range(7):

@@ -1,3 +1,4 @@
+@tool
 extends Control
 ## Fotoğraf yer tutucusu. portrait_texture varsa gerçek çizimi kullanır.
 var portrait: Dictionary = {}

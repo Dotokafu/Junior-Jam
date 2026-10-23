@@ -1,3 +1,4 @@
+@tool
 class_name ContentRepository
 extends RefCounted
 ## İçerik sınırı. JSON dosyaları yalnızca burada okunur ve doğrulanır.

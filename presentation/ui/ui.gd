@@ -1,3 +1,4 @@
+@tool
 class_name CafeUI
 extends RefCounted
 const INK := Color("e5d7bd")
@@ -8,6 +9,20 @@ const TITLE: Font = preload("res://assets/fonts/LiberationSerif-Regular.ttf")
 const ITALIC: Font = preload("res://assets/fonts/LiberationSerif-Italic.ttf")
 const BODY: Font = preload("res://assets/fonts/LiberationSans-Regular.ttf")
 const MONO: Font = preload("res://assets/fonts/LiberationMono-Regular.ttf")
+static var preview_messages: Dictionary = {}
+
+static func text(key: String, parameters: Dictionary = {}) -> String:
+	if not Engine.is_editor_hint():
+		var tree := Engine.get_main_loop() as SceneTree
+		var locale := tree.root.get_node_or_null("I18n") if tree else null
+		if locale:
+			return locale.t(key, parameters)
+	# Editörde oyun autoload'ları çalışmaz; aynı JSON kataloğunu salt okunur aç.
+	if preview_messages.is_empty():
+		var parser := JSON.new()
+		if parser.parse(FileAccess.get_file_as_string("res://content/i18n/tr.json")) == OK and parser.data is Dictionary:
+			preview_messages = parser.data
+	return str(preview_messages.get(key, "[" + key + "]")).format(parameters)
 
 static func box(parent: Node, bounds: Rect2, fill: Color = Color("201c28"), border: Color = Color("49404b")) -> Panel:
 	var node := Panel.new()
@@ -68,7 +83,8 @@ static func button(parent: Node, text: String, bounds: Rect2, callback: Callable
 	node.add_theme_color_override("font_hover_color", Color("251e28") if primary else INK)
 	node.add_theme_color_override("font_pressed_color", Color("251e28") if primary else INK)
 	node.add_theme_color_override("font_disabled_color", Color("655e6c"))
-	node.pressed.connect(callback)
+	if not Engine.is_editor_hint():
+		node.pressed.connect(callback)
 	return node
 
 static func clear(parent: Node) -> void:

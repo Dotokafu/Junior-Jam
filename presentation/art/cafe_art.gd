@@ -1,4 +1,6 @@
+@tool
 extends Control
+const UI = preload("res://presentation/ui/ui.gd")
 ## Özgün, kodla çizilen piksel dekor. Hikâye/oyun kuralları içermez.
 var night: bool = false
 var fallen_shelf: bool = false
@@ -20,7 +22,7 @@ func _ready() -> void:
 	clip_contents = true
 
 func _process(delta: float) -> void:
-	if reduced_motion:
+	if Engine.is_editor_hint() or reduced_motion:
 		return
 	clock_time += delta
 	frame_time += delta
@@ -137,7 +139,7 @@ func _window() -> void:
 	draw_line(Vector2(457, 32), Vector2(442, 48), Color("9e8b80"))
 	draw_line(Vector2(457, 32), Vector2(475, 48), Color("9e8b80"))
 	r(435, 47, 46, 18, "292535")
-	draw_string(mono_font, Vector2(442, 59), I18n.t("decor.open"), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("c7ad84"))
+	draw_string(mono_font, Vector2(442, 59), UI.text("decor.open"), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("c7ad84"))
 
 func _shelves() -> void:
 	r(23, 27, 149, 116, "211e28")
@@ -301,4 +303,4 @@ func _counter() -> void:
 	for x in range(605, 634, 3):
 		r(x, 157, 1, 5, "9a8477")
 	r(639, 157, 5, 5, "b49b77")
-	draw_string(title_font, Vector2(435, 182), I18n.t("decor.counter_motto"), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("a3847b"))
+	draw_string(title_font, Vector2(435, 182), UI.text("decor.counter_motto"), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("a3847b"))
