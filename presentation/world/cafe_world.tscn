@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/world/cafe_world.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/cafe/background_day.png" id="2_day"]
+[ext_resource type="Texture2D" path="res://assets/cafe/background_night.png" id="3_night"]
+[ext_resource type="Texture2D" path="res://assets/cafe/counter.png" id="4_counter"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="5_cup"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="6_liquid"]
+[ext_resource type="PackedScene" path="res://presentation/world/character_view.tscn" id="7_character"]
+
+[node name="CafeWorld" type="Control"]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+day_background = ExtResource("2_day")
+night_background = ExtResource("3_night")
+
+[node name="Background" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_day")
+expand_mode = 1
+
+[node name="Character" parent="." instance=ExtResource("7_character")]
+offset_left = 460.0
+offset_top = 208.0
+offset_right = 940.0
+offset_bottom = 880.0
+
+[node name="Counter" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_top = 750.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("4_counter")
+expand_mode = 1
+
+[node name="Cup" type="Control" parent="."]
+mouse_filter = 2
+offset_left = 900.0
+offset_top = 684.0
+offset_right = 996.0
+offset_bottom = 768.0
+
+[node name="Body" type="TextureRect" parent="Cup"]
+mouse_filter = 2
+offset_right = 96.0
+offset_bottom = 84.0
+texture = ExtResource("5_cup")
+expand_mode = 1
+
+[node name="Liquid" type="TextureRect" parent="Cup"]
+mouse_filter = 2
+offset_right = 96.0
+offset_bottom = 84.0
+texture = ExtResource("6_liquid")
+expand_mode = 1

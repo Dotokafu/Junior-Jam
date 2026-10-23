@@ -1,53 +1,73 @@
-@tool
 extends Control
-const UI = preload("res://presentation/ui/ui.gd")
-var view: Dictionary
+## Tarif defteri (yer tutucu). Sol sayfa raf, sağ sayfa tarifler. Gece sekmesi öğreticiyle açılır.
+signal closed
+const Brewing = preload("res://domain/brewing/brewing_rules.gd")
+var view: Dictionary = {}
 var page: String = "human"
-var on_close: Callable
+@onready var left_page: VBoxContainer = $Book/LeftPage/Box
+@onready var right_page: VBoxContainer = $Book/RightPage/Box
+@onready var human_tab: Button = $Tabs/HumanTab
+@onready var fallen_tab: Button = $Tabs/FallenTab
+@onready var close_button: Button = $CloseButton
 
-func setup(snapshot: Dictionary, close_callback: Callable, selected_page: String) -> void:
+func _ready() -> void:
+	human_tab.pressed.connect(func() -> void: _change_page("human"))
+	fallen_tab.pressed.connect(func() -> void: _change_page("fallen"))
+	close_button.pressed.connect(func() -> void: closed.emit())
+	close_button.text = I18n.t("button.close_book")
+	human_tab.text = I18n.t("book.human_tab")
+
+func open(snapshot: Dictionary, start_page: String) -> void:
+	page = start_page if snapshot.tutorial != "locked" else "human"
+	refresh(snapshot)
+
+func refresh(snapshot: Dictionary) -> void:
 	view = snapshot
-	on_close = close_callback
-	page = selected_page
+	fallen_tab.visible = view.tutorial != "locked"
+	fallen_tab.text = I18n.t("book.hidden_tab") if view.tutorial == "book_hint" else I18n.t("transition.fall_title")
+	fallen_tab.theme_type_variation = &"PrimaryButton" if view.tutorial == "book_hint" else &""
 	_render()
-
-func _render() -> void:
-	UI.clear(self)
-	UI.box(self, Rect2(0, 0, 1440, 900), Color(0.035, 0.026, 0.05, 0.94), Color.TRANSPARENT)
-	var dark := page == "fallen"
-	var paper := Color("30232f") if dark else Color("d6c6a4")
-	var ink := Color("d7b7bf") if dark else Color("463b36")
-	var faded := Color("a38691") if dark else Color("807160")
-	UI.box(self, Rect2(106, 78, 1228, 744), Color("18151e"), Color("756151"))
-	UI.box(self, Rect2(124, 96, 590, 708), paper, paper)
-	UI.box(self, Rect2(718, 96, 598, 708), paper.darkened(0.025), paper)
-	UI.box(self, Rect2(711, 97, 9, 706), paper.darkened(0.15), paper.darkened(0.15))
-	UI.label(self, UI.text("book.eyebrow"), Rect2(158, 120, 460, 24), 14, faded, UI.MONO)
-	UI.label(self, UI.text("book.fallen_title") if dark else UI.text("book.human_title"), Rect2(158, 164, 500, 70), 44, ink, UI.ITALIC)
-	UI.label(self, UI.text("book.instructions"), Rect2(158, 248, 494, 80), 21, ink, UI.BODY, true)
-	UI.label(self, UI.text("book.fallen_quote") if dark else UI.text("book.human_quote"), Rect2(158, 366, 484, 118), 32, ink, UI.ITALIC, true)
-	UI.label(self, UI.text("book.fallen_note" if dark else "book.human_note"), Rect2(158, 602, 492, 94), 19, faded, UI.BODY, true)
-	UI.label(self, UI.text("book.fallen_page") if dark else UI.text("book.human_page"), Rect2(158, 744, 460, 28), 14, faded, UI.MONO)
-	var recipes: Array = view.recipes.filter(func(recipe: Dictionary) -> bool: return recipe.side == page)
-	for i in range(recipes.size()):
-		var recipe: Dictionary = recipes[i]
-		var y := 142 + i * 145
-		UI.label(self, "%02d" % (i + 1), Rect2(758, y, 40, 35), 14, faded, UI.MONO)
-		UI.label(self, recipe.name, Rect2(809, y - 8, 448, 46), 32, ink, UI.TITLE)
-		var names: Array[String] = []
-		for id: String in recipe.ingredients:
-			for ingredient: Dictionary in view.ingredients:
-				if ingredient.id == id:
-					names.append(ingredient.name)
-		UI.label(self, UI.text("format.ingredient_join").join(names), Rect2(809, y + 39, 442, 28), 20, ink, UI.BODY)
-		UI.label(self, recipe.description, Rect2(809, y + 72, 440, 55), 17, faded, UI.BODY, true)
-	UI.button(self, UI.text("book.human_tab"), Rect2(1334, 128, 94, 52), func() -> void: _change_page("human"))
-	if view.tutorial != "locked":
-		UI.button(self, UI.text("book.hidden_tab") if view.tutorial == "book_hint" else UI.text("transition.fall_title"), Rect2(1334, 192, 94, 64), func() -> void: _change_page("fallen"), true)
-	UI.button(self, UI.text("button.close_book"), Rect2(1037, 746, 249, 42), on_close)
 
 func _change_page(target: String) -> void:
 	page = target
 	if target == "fallen":
 		EventBus.request("book_tab")
 	_render()
+
+func _render() -> void:
+	for container: VBoxContainer in [left_page, right_page]:
+		for child: Node in container.get_children():
+			child.queue_free()
+	var dark := page == "fallen"
+	_text(left_page, I18n.t("book.eyebrow"), 20, true)
+	_text(left_page, I18n.t("book.fallen_title" if dark else "book.human_title"), 48)
+	_text(left_page, I18n.t("book.instructions"), 22)
+	_text(left_page, I18n.t("book.ingredients_title"), 26, true)
+	for item: Dictionary in view.get("ingredients", []):
+		if item.side == page:
+			var role := I18n.t("book.base_tag") if item.get("base", false) else I18n.t("book.mix_tag")
+			if item.get("base", false) and item.get("mix", false):
+				role = I18n.t("book.both_tag")
+			_text(left_page, "%s — %s · %s" % [item.name, role, item.description], 22)
+	_text(left_page, I18n.t("book.fallen_note" if dark else "book.human_note"), 20, true)
+	_text(right_page, I18n.t("book.recipes_title"), 26, true)
+	var names := {}
+	for item: Dictionary in view.get("ingredients", []):
+		names[item.id] = item.name
+	for recipe: Dictionary in view.get("recipes", []):
+		if recipe.side != page:
+			continue
+		_text(right_page, recipe.name, 34)
+		_text(right_page, I18n.t("format.ingredient_join").join(recipe.ingredients.map(func(id: String) -> String: return names.get(id, id))), 22)
+		_text(right_page, recipe.description, 20, true)
+	_text(right_page, I18n.t("book.fallen_page" if dark else "book.human_page"), 20, true)
+
+func _text(parent: Control, content: String, font_size: int, faded: bool = false) -> void:
+	var label := Label.new()
+	label.theme_type_variation = &"BookText"
+	label.text = content
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", font_size)
+	if faded:
+		label.modulate = Color(1, 1, 1, 0.65)
+	parent.add_child(label)

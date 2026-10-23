@@ -275,7 +275,7 @@ func _photograph() -> void:
 	var person := _person()
 	state.records.append({"id": _record_id(), "character": person.id, "name": person.name,
 		"day": state.day, "dossier": person.dossier, "appearance": person.appearance,
-		"portrait": {"skin": person.skin, "hair": person.hair, "coat": person.coat, "portrait_texture": person.get("portrait_texture", "")},
+		"portrait": {"portrait_id": person.get("portrait_id", person.id), "portrait_texture": person.get("portrait_texture", "")},
 		"truth": person.species, "guess": "unknown", "reported_to": ""})
 	EventBus.feedback.emit(I18n.t("feedback.photo_saved"))
 

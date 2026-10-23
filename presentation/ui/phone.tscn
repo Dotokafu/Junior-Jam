@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/ui/phone.gd" id="1_script"]
+
+[node name="Phone" type="Control"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+
+[node name="Dim" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.03, 0.025, 0.045, 0.75)
+
+[node name="Frame" type="PanelContainer" parent="."]
+offset_left = 620.0
+offset_top = 40.0
+offset_right = 1300.0
+offset_bottom = 1040.0
+theme_type_variation = &"PhoneFrame"
+
+[node name="Screen" type="PanelContainer" parent="Frame"]
+theme_type_variation = &"PhoneScreen"
+
+[node name="Box" type="VBoxContainer" parent="Frame/Screen"]
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Frame/Screen/Box"]
+theme_type_variation = &"PhoneText"
+theme_override_font_sizes/font_size = 30
+text = "GBT"
+autowrap_mode = 3
+
+[node name="Intro" type="Label" parent="Frame/Screen/Box"]
+modulate = Color(1, 1, 1, 0.7)
+theme_type_variation = &"PhoneText"
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="List" type="ScrollContainer" parent="Frame/Screen/Box"]
+custom_minimum_size = Vector2(0, 220)
+horizontal_scroll_mode = 0
+
+[node name="Items" type="VBoxContainer" parent="Frame/Screen/Box/List"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Detail" type="VBoxContainer" parent="Frame/Screen/Box"]
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="CloseButton" type="Button" parent="."]
+offset_left = 1340.0
+offset_top = 976.0
+offset_right = 1740.0
+offset_bottom = 1040.0
+text = "Terminali kapat"

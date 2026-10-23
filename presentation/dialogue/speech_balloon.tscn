@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/dialogue/speech_balloon.gd" id="1_script"]
+
+[node name="SpeechBalloon" type="Control"]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+
+[node name="Tail" type="Polygon2D" parent="."]
+color = Color(0.0902, 0.0706, 0.1059, 0.933)
+
+[node name="Panel" type="PanelContainer" parent="."]
+offset_left = 920.0
+offset_top = 300.0
+offset_right = 1580.0
+offset_bottom = 480.0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"BalloonPanel"
+
+[node name="Box" type="VBoxContainer" parent="Panel"]
+mouse_filter = 2
+custom_minimum_size = Vector2(600, 0)
+theme_override_constants/separation = 10
+
+[node name="NameTag" type="Label" parent="Panel/Box"]
+theme_type_variation = &"NameTag"
+text = "Ada"
+
+[node name="Text" type="RichTextLabel" parent="Panel/Box"]
+mouse_filter = 2
+custom_minimum_size = Vector2(600, 0)
+fit_content = true
+scroll_active = false
+text = "Bir Sabah Sisi alabilir miyim? Bir kahve, iki süt."
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Box"]
+mouse_filter = 2
+
+[node name="Hint" type="Label" parent="Panel/Box/Footer"]
+size_flags_horizontal = 3
+theme_type_variation = &"Caption"
+
+[node name="Arrow" type="Label" parent="Panel/Box/Footer"]
+theme_type_variation = &"NameTag"
+text = "▼"
