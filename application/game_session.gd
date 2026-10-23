@@ -62,7 +62,7 @@ func _on_command(action: String, payload: Dictionary) -> void:
 					state.drink = {}
 			"brew": _brew()
 			"trash": _trash()
-			"serve": _serve()
+			"serve": _serve(bool(payload.get("latte_art", false)))
 			"shelf": _switch_shelf()
 			"book_tab":
 				if state.tutorial == "book_hint":
@@ -87,6 +87,7 @@ func _load(slot: int) -> bool:
 		EventBus.feedback.emit(I18n.t("error.incompatible_save"))
 		return false
 	state = State.restore(data)
+	_upgrade_ingredients()
 	if state.phase in ["day", "night"] and state.visits.is_empty():
 		state.visits = _generate_visits()
 	started = true
@@ -121,6 +122,18 @@ func _valid_save(data: Dictionary) -> bool:
 		if index < 0 or index >= visits.size():
 			return false
 	return true
+
+## Eski kayıtlar: raflara sonradan eklenen malzemelerin stoğu açılır; artık olmayan malzemeyle yarım
+## kalmış seçim temizlenir.
+func _upgrade_ingredients() -> void:
+	for ingredient: Dictionary in content.ingredients:
+		if not state.stock.has(ingredient.id):
+			state.stock[ingredient.id] = 10
+	for id: String in state.selected:
+		if not content.ingredient_map.has(id):
+			state.selected = []
+			state.drink = {}
+			return
 
 func _restock(side: String = "") -> void:
 	for ingredient: Dictionary in content.ingredients:
@@ -257,9 +270,11 @@ func _trash() -> void:
 	state.drink = {}
 	EventBus.feedback.emit(I18n.t("feedback.trashed"))
 
-func _serve() -> void:
+## latte_art: içecek latte art ekranından servis edildi (yalnızca izinli içecekte işaretlenir).
+func _serve(latte_art: bool = false) -> void:
 	if state.stage != "brewing" or state.drink.is_empty():
 		return
+	state.drink["latte_art"] = latte_art and bool(state.drink.get("latte_art_allowed", false))
 	if state.day == 1 and state.phase == "night" and state.tutorial == "locked":
 		state.tutorial = "book_hint"
 		state.stage = "tutorial"

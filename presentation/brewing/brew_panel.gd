@@ -1,5 +1,6 @@
 extends Control
-## Demleme ekranı: yakın plan raf (kavanozlar), kepenk, makine. Snapshot okur, EventBus'a komut yollar;
+## Demleme ekranı: yakın plan iki raf (kavanozlar), kepenk, makine. Coffee Talk gibi: üst rafta ana
+## malzemeler (base), altta ek malzemeler (yalnızca mix), sağda uzun duran serbest malzeme (base + mix: süt). Snapshot okur, EventBus'a komut yollar;
 ## tat önizlemesini BrewingRules'tan hesaplar. Kavanoz çizimleri: res://assets/ui/ingredients/<id>.png
 ## Demle'ye basınca seçim ekranı (servis / çöp) çizgi roman sayfasında açılır: bkz. brew_comic.
 const Brewing = preload("res://domain/brewing/brewing_rules.gd")
@@ -7,13 +8,18 @@ const ICON_PATH := "res://assets/ui/ingredients/%s.png"
 const OPEN_X := 780.0
 const CLOSED_X := 1940.0
 const SLIDE_TIME := 0.4
-## Kavanozlar üst rafın üstüne dizilir (raf tahtası brew_shelf.png'de y=300).
+## Raf yerleşimi (brew_shelf.png'de üst tahta y=240 ve x<840, alt tahta y=450). Kavanoz tahtaya oturur,
+## etiketi tahtanın altındadır.
 const JAR_SIZE := Vector2(96, 120)
-const JAR_ROW_Y := 180.0
+const TALL_SIZE := Vector2(150, 188)
+const TOP_BOARD_Y := 240.0
+const BOTTOM_BOARD_Y := 450.0
 const JAR_FIRST_X := 70.0
-const JAR_STEP := 170.0
+const JAR_STEP := 190.0
+const TALL_X := 875.0
+const TAG_GAP := 8.0
+const TAG_HEIGHT := 44.0
 const JAR_LIFT := 10.0
-const TAG_Y := 330.0
 var view: Dictionary = {}
 var reduced_motion: bool = false
 var is_open: bool = false
@@ -21,6 +27,7 @@ var shelf_shown: String = ""
 var hovered: String = ""
 var slide_tween: Tween
 var jars: Dictionary = {}
+const ROLE_KEYS := {"main": "brew.role_main", "free": "brew.role_free", "extra": "brew.role_extra"}
 @onready var machine: Control = $Machine
 @onready var shelf_title: Label = $Machine/ShelfTitle
 @onready var jar_layer: Control = $Machine/Jars
@@ -64,8 +71,21 @@ func select_index(index: int) -> void:
 
 # --- Güncelleme ----------------------------------------------------------
 
+## Raftaki sıra (1–9 kısayolları da bu sırayı izler): ana malzemeler, serbest malzeme, ek malzemeler.
 func _shelf_items() -> Array:
-	return view.get("ingredients", []).filter(func(item: Dictionary) -> bool: return item.side == view.get("shelf", "human"))
+	var items: Array = view.get("ingredients", []).filter(func(item: Dictionary) -> bool: return item.side == view.get("shelf", "human"))
+	var ordered: Array = []
+	for role: String in ["main", "free", "extra"]:
+		ordered.append_array(items.filter(func(item: Dictionary) -> bool: return _role(item) == role))
+	return ordered
+
+## main: yalnızca baz (üst raf); free: baz + karışım (sağda, uzun); extra: yalnızca karışım (alt raf).
+static func _role(item: Dictionary) -> String:
+	var base: bool = item.get("base", false)
+	var mix: bool = item.get("mix", false)
+	if base and mix:
+		return "free"
+	return "main" if base else "extra"
 
 func _ingredient_map() -> Dictionary:
 	var map := {}
@@ -110,20 +130,23 @@ func _rebuild_jars() -> void:
 		child.queue_free()
 	jars.clear()
 	var items := _shelf_items()
+	var row_index := {"main": 0, "extra": 0}
 	for i in range(items.size()):
 		var item: Dictionary = items[i]
-		var x := JAR_FIRST_X + i * JAR_STEP
+		var role := _role(item)
+		var rect := _jar_rect(role, row_index.get(role, 0))
+		if row_index.has(role):
+			row_index[role] += 1
 		var button := TextureButton.new()
 		var icon_path := ICON_PATH % item.id
 		if ResourceLoader.exists(icon_path):
 			button.texture_normal = load(icon_path)
 		button.ignore_texture_size = true
-		button.stretch_mode = TextureButton.STRETCH_SCALE
-		button.position = Vector2(x + (JAR_STEP - JAR_SIZE.x) / 2.0 - 20.0, JAR_ROW_Y)
-		button.size = JAR_SIZE
+		button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+		button.position = rect.position
+		button.size = rect.size
 		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		var role := I18n.t("book.base_tag") if item.get("base", false) else I18n.t("book.mix_tag")
-		button.tooltip_text = "%s · %s  [%d]" % [item.description, role, i + 1]
+		button.tooltip_text = "%s · %s  [%d]" % [item.description, I18n.t(ROLE_KEYS[role]), i + 1]
 		button.pressed.connect(func() -> void: EventBus.request("select", {"id": item.id}))
 		button.mouse_entered.connect(_on_jar_hover.bind(item.id, button, true))
 		button.mouse_exited.connect(_on_jar_hover.bind(item.id, button, false))
@@ -132,20 +155,29 @@ func _rebuild_jars() -> void:
 		tag.theme_type_variation = &"HudText"
 		tag.add_theme_font_size_override("font_size", 24)
 		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		tag.position = Vector2(x - 20.0, TAG_Y)
-		tag.size = Vector2(JAR_STEP, 60)
+		tag.position = Vector2(rect.get_center().x - JAR_STEP / 2.0, rect.end.y + TAG_GAP)
+		tag.size = Vector2(JAR_STEP, TAG_HEIGHT)
 		tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		jar_layer.add_child(tag)
-		jars[item.id] = {"button": button, "tag": tag}
+		jars[item.id] = {"button": button, "tag": tag, "rest_y": rect.position.y}
 	_refresh_jars()
+
+## Kavanozun raftaki yeri: ana malzemeler üst tahtada, ekler alt tahtada soldan sağa; serbest malzeme
+## sağda alt tahtaya oturan uzun kutu.
+func _jar_rect(role: String, index: int) -> Rect2:
+	if role == "free":
+		return Rect2(Vector2(TALL_X, BOTTOM_BOARD_Y - TALL_SIZE.y), TALL_SIZE)
+	var board := TOP_BOARD_Y if role == "main" else BOTTOM_BOARD_Y
+	return Rect2(Vector2(JAR_FIRST_X + index * JAR_STEP + (JAR_STEP - JAR_SIZE.x) / 2.0, board - JAR_SIZE.y), JAR_SIZE)
 
 func _on_jar_hover(id: String, button: TextureButton, entered: bool) -> void:
 	hovered = id if entered else ""
 	_refresh_stats()
+	var rest: float = jars.get(id, {}).get("rest_y", button.position.y)
 	if reduced_motion or button.disabled:
-		button.position.y = JAR_ROW_Y
+		button.position.y = rest
 		return
-	create_tween().tween_property(button, "position:y", JAR_ROW_Y - (JAR_LIFT if entered else 0.0), 0.08)
+	create_tween().tween_property(button, "position:y", rest - (JAR_LIFT if entered else 0.0), 0.08)
 
 func _refresh_stats() -> void:
 	if view.is_empty():
@@ -194,7 +226,7 @@ func _swap_shelf() -> void:
 	if first or reduced_motion:
 		_rebuild_jars()
 		return
-	var full := TAG_Y + 60.0 - shutter.position.y
+	var full := BOTTOM_BOARD_Y + TAG_GAP + TAG_HEIGHT - shutter.position.y
 	var curtain := create_tween()
 	curtain.tween_property(shutter, "size:y", full, 0.18).set_ease(Tween.EASE_IN)
 	curtain.tween_callback(_rebuild_jars)

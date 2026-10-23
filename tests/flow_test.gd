@@ -4,6 +4,7 @@ var session: Node
 var bus: Node
 var failures: int = 0
 var tutorial_checked: bool = false
+var latte_seen: bool = false
 
 func check(ok: bool, message: String) -> void:
 	if not ok:
@@ -20,6 +21,7 @@ func run() -> void:
 	for strategy: String in ["silent", "balanced", "give_humans", "give_fallen", "mistakes"]:
 		simulate(strategy)
 	simulate("silent", "endless")
+	check(latte_seen, "Akışta en az bir latte art'lı içecek denenmeli")
 	print("FLOW: ", "PASS" if failures == 0 else "FAIL", " (", failures, " hata)")
 	quit(failures)
 
@@ -66,7 +68,10 @@ func simulate(strategy: String, mode: String = "story") -> void:
 				command("select", {"id": ingredient})
 			command("brew")
 			check(not state.drink.is_empty(), "Karışım hazırlanmalı")
-			command("serve")
+			var art_allowed: bool = state.drink.get("latte_art_allowed", false)
+			latte_seen = latte_seen or art_allowed
+			command("serve", {"latte_art": true})
+			check(state.stage != "reaction" or state.drink.get("latte_art", false) == art_allowed, "Latte art yalnızca izinli içecekte işaretlenmeli")
 		elif state.stage == "tutorial":
 			check(state.tutorial == "book_hint", "İlk yanlış fincan gizli ayracı açmalı")
 			command("shelf")

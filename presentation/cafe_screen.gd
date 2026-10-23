@@ -370,6 +370,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var key: int = event.keycode
 	if key == KEY_F11:
 		_toggle_fullscreen()
+	elif brew_comic.latte.is_open:
+		# Latte art açıkken tuşlar önce ona gider (Esc = geri, Enter = servis).
+		if not brew_comic.latte.handle_key(key):
+			return
 	elif key == KEY_ESCAPE:
 		# Alt sayfadan menü listesine, listeden oyuna döner.
 		if modal in screens.PAGES and modal != "pause" and view.get("started", false):
@@ -384,6 +388,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			brew_comic.choose("serve")
 		elif key == KEY_T:
 			brew_comic.choose("trash")
+		elif key == KEY_L:
+			brew_comic.choose("latte_art")
 		else:
 			return
 	elif key == KEY_B:

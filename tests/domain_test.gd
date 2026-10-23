@@ -32,6 +32,20 @@ func _initialize() -> void:
 	check(BrewingRules.matches_order({"stats": {"sweet": 2}}, drink), "Tat siparişi tier ile karşılanır")
 	check(not BrewingRules.matches_order({"stats": {"sweet": 3}}, drink), "Yetersiz tier reddedilir")
 	check(not BrewingRules.matches_order("latte", drink), "Tarif siparişi kimlik ister")
+	# Latte art (Coffee Talk): süt ilk kez 2. ya da 3. yuvada geçmeli; tarifli içecekte tarifin bayrağı geçerli.
+	items.milk["latte"] = true
+	check(BrewingRules.latte_art_allowed(["coffee", "honey", "milk"], items, {}), "Karışımdaki süt latte art açar")
+	check(not BrewingRules.latte_art_allowed(["milk", "honey", "honey"], items, {}), "Baz süt latte art açmaz")
+	check(not BrewingRules.latte_art_allowed(["milk", "milk", "honey"], items, {}), "Süt ilk yuvadaysa sonrakiler sayılmaz")
+	check(BrewingRules.latte_art_allowed(["coffee", "milk", "milk"], items, {"id": "latte", "latte_art": true}), "Tarif bayrağı latte art açar")
+	check(not BrewingRules.latte_art_allowed(["coffee", "milk", "honey"], items, {"id": "mocha"}), "Bayraksız tarif sütü yok sayar")
+	var milky := BrewingRules.brew(["coffee", "honey", "milk"], items, [], names)
+	check(milky.latte_art_allowed and not milky.latte_art, "Demlenen içecek latte art iznini taşır, çizim servis anında eklenir")
+	check(not BrewingRules.matches_order({"stats": {"sweet": 1}, "latte_art": true}, milky), "Latte art isteyen sipariş çizimsiz reddedilir")
+	milky["latte_art"] = true
+	check(BrewingRules.matches_order({"stats": {"sweet": 1}, "latte_art": true}, milky), "Latte art'lı içecek siparişi karşılar")
+	check(not BrewingRules.matches_order({"stats": {"sweet": 1}, "latte_art": false}, milky), "Latte art istemeyen sipariş reddeder")
+	check(BrewingRules.find_sequence({"stats": {"sweet": 1}, "latte_art": true}, "human", items, []).size() == 3, "Latte art siparişi için dizi bulunur")
 	check(EndingRules.resolve(3, 0, 0, 0, false).id == "human_supplier", "İnsan tedarikçisi sonu")
 	check(EndingRules.resolve(0, 3, 0, 0, false).id == "fallen_supplier", "Fallen tedarikçisi sonu")
 	check(EndingRules.resolve(1, 1, 0, 0, true).id == "grey", "Gri son")

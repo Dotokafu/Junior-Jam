@@ -81,6 +81,16 @@ static func identify(selected: Array, recipes: Array) -> Dictionary:
 			return recipe.duplicate(true)
 	return {}
 
+## Coffee Talk kuralı: tarifli içecekte tarifin "latte_art" bayrağı belirler; tarifsizde "latte" malzemesi
+## (süt) dizide ilk kez 2. ya da 3. yuvada geçmelidir. Süt bazdaysa sonraki sütler sayılmaz.
+static func latte_art_allowed(selected: Array, ingredients: Dictionary, recipe: Dictionary) -> bool:
+	if not recipe.is_empty():
+		return bool(recipe.get("latte_art", false))
+	for slot in range(selected.size()):
+		if ingredients.get(selected[slot], {}).get("latte", false):
+			return slot > 0
+	return false
+
 ## names: drink.name_* şablonları (çeviri katmanından gelir, domain metin bilmez).
 static func generated_name(selected: Array, ingredients: Dictionary, names: Dictionary) -> String:
 	var base: String = ingredients[selected[0]].name
@@ -100,9 +110,10 @@ static func brew(selected: Array, ingredients: Dictionary, recipes: Array, names
 	if selected.size() != SLOTS or not is_valid_sequence(selected, ingredients):
 		return {}
 	var totals := stats(selected, ingredients)
-	var drink := identify(selected, recipes)
-	if drink.is_empty():
-		drink = {"id": "custom", "name": generated_name(selected, ingredients, names)}
+	var recipe := identify(selected, recipes)
+	var drink := recipe.duplicate() if not recipe.is_empty() else {"id": "custom", "name": generated_name(selected, ingredients, names)}
+	drink["latte_art_allowed"] = latte_art_allowed(selected, ingredients, recipe)
+	drink["latte_art"] = false
 	drink["side"] = ingredients[selected[0]].side
 	drink["ingredients"] = selected.duplicate()
 	drink["stats"] = totals
@@ -119,13 +130,16 @@ static func can_consume(selected: Array, stock: Dictionary) -> bool:
 			return false
 	return selected.size() == SLOTS
 
-## Tarif kimliği (String) ya da {"stats": {...}} tat isteği.
+## Tarif kimliği (String) ya da {"stats": {...}} tat isteği. Tat isteği "latte_art": true/false da
+## isteyebilir (Coffee Talk'taki latte_art kuralı: çizimin varlığı istenenle aynı olmalı).
 static func matches_order(order: Variant, drink: Dictionary) -> bool:
 	if drink.is_empty():
 		return false
 	if order is String:
 		return drink.get("id", "") == order
 	if order is Dictionary:
+		if order.has("latte_art") and bool(order.latte_art) != bool(drink.get("latte_art", false)):
+			return false
 		var wanted: Dictionary = order.get("stats", {})
 		var actual: Dictionary = drink.get("tiers", {})
 		for stat: String in wanted:
@@ -142,12 +156,14 @@ static func find_sequence(order: Variant, side: String, ingredients: Dictionary,
 				return recipe.ingredients.duplicate()
 		return []
 	var ids: Array = ingredients.keys().filter(func(id: String) -> bool: return ingredients[id].side == side)
+	var wants_art: bool = order is Dictionary and bool(order.get("latte_art", false))
 	for a: String in ids:
 		for b: String in ids:
 			for c: String in ids:
 				var sequence := [a, b, c]
 				if not is_valid_sequence(sequence, ingredients):
 					continue
-				if matches_order(order, {"tiers": tiers(stats(sequence, ingredients))}):
+				var art := wants_art and latte_art_allowed(sequence, ingredients, identify(sequence, recipes))
+				if matches_order(order, {"tiers": tiers(stats(sequence, ingredients)), "latte_art": art}):
 					return sequence
 	return []

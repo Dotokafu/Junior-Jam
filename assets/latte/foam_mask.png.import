@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dd3w3p5f1dhv3"
-path="res://.godot/imported/honey.png-731f1037fb7c95dd6477cc07349f3532.ctex"
+uid="uid://cj81ktwwwqlx3"
+path="res://.godot/imported/foam_mask.png-f5a562e629706dfcc3af2eda9da10901.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/ingredients/honey.png"
-dest_files=["res://.godot/imported/honey.png-731f1037fb7c95dd6477cc07349f3532.ctex"]
+source_file="res://assets/latte/foam_mask.png"
+dest_files=["res://.godot/imported/foam_mask.png-f5a562e629706dfcc3af2eda9da10901.ctex"]
 
 [params]
 

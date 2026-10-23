@@ -38,6 +38,13 @@ func run() -> void:
 	check(not session.started and feedback.size() > before, "Boş yuva yüklenmemeli ve uyarı vermeli")
 	bus.request("load_slot", {"slot": 2})
 	check(session.started, "Ana menüden kayıt yüklenebilmeli")
+	# Eski kayıt: sonradan eklenen malzemenin stoğu açılır, artık olmayan malzemeli seçim temizlenir.
+	var old: Dictionary = session.state.serialize()
+	old.stock.erase("matcha")
+	old.selected = ["honey"]
+	Saves.write(old, 3)
+	bus.request("load_slot", {"slot": 3})
+	check(int(session.state.stock.get("matcha", 0)) == 10 and session.state.selected.is_empty(), "Eski kayıt yeni raflara yükseltilmeli")
 	session.state.phase = "ending"
 	session.state.stage = "ending"
 	bus.request("save_slot", {"slot": 1})

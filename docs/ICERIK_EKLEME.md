@@ -74,12 +74,24 @@ Aynı başlangıç değeri, gün, dönem ve içerik aynı listeyi üretir. Üret
   "id": "yeni_tarif",
   "name": "Yeni Tarif",
   "side": "human",
-  "ingredients": ["coffee", "milk", "cocoa"],
+  "ingredients": ["coffee", "milk", "cinnamon"],
   "description": "Tarif kitabındaki açıklama."
 }
 ```
 
 Rastgele ürün havuzu tariflerin `side` alanından otomatik oluşturulur. Ek kod yazılmaz. Üç ölçü zorunludur, tekrar serbesttir, sıralama önemsizdir. Aynı üç malzemeye ikinci bir tarif tanımlama. İnsan rafını Defne sabah, Fallen rafını Vey gece sonunda yeniler. İlk gecenin gizli rafında önceki baristadan kalan başlangıç stoğu vardır.
+
+## Malzeme ve raf yeri
+
+`ingredients.json`'daki `base` / `mix` bayrakları malzemenin hem kuralını hem raftaki yerini belirler:
+
+| `base` | `mix` | Raf | Kural |
+| --- | --- | --- | --- |
+| true | false | Üst raf (ana malzeme: kahve, matcha, kakao, çay) | Yalnızca 1. ölçü; sonra yalnızca kendisi tekrar edebilir |
+| true | true | Sağda (serbest: süt) | Her ölçüye girer |
+| false | true | Alt raf (ek malzeme: tarçın, nane, baharat, limon) | Ana malzeme olmadan konamaz |
+
+`"latte": true` olan malzeme (süt) 2. ya da 3. ölçüdeyse içecek latte art'a açılır; tarifli içecekte tarifin `"latte_art"` bayrağı geçerlidir.
 
 ## Metin / i18n
 

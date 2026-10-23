@@ -72,6 +72,8 @@ Terminal kullanıyorsan proje klasöründen `godot --path .` oyunu, `godot --edi
 | Diyalog / sonraki ziyaret | Boşluk |
 | Malzeme seç | 1–6 |
 | Demle / servis et / sıfırla | E / F / R |
+| Latte art (sütlü içecekte, servis sayfasında) | L |
+| Latte art: süt dök / çiz / akışı çevir / baştan / fincanı çevir | 1 / 2 / I / R / Q–E (servis: Enter, geri: Esc) |
 | Tarif kitabı / raf kepengi | B / M |
 | Fotoğraf çek / Dava dosyaları | C / G |
 | Menü / pencereyi kapat | Esc |
@@ -127,6 +129,8 @@ godot --headless --path . --script tests/domain_test.gd
 godot --headless --path . --script tests/encounter_test.gd
 godot --headless --path . --script tests/flow_test.gd
 godot --headless --path . --script tests/localization_test.gd
+godot --headless --path . --script tests/save_test.gd
+godot --path . --script tests/latte_test.gd
 godot --path . --script tests/visual_smoke.gd
 ```
 
