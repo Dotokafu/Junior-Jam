@@ -49,7 +49,7 @@ Godot açıkken listeye kayıt eklenmişse Proje Yöneticisi'ni kapatıp yeniden
 | --- | --- |
 | `day` / `night` | Gündüz / gece kafe ve servis arayüzü |
 | `book_human` / `book_fallen` | Normal / Fallen tarif kitabı |
-| `dossier` | Örnek fotoğraflı GBT ekranı |
+| `dossier` | Örnek fotoğraflı dava dosyası |
 | `intro` | Başlangıç menüsü |
 | `fall` / `ending` | The Fall geçişi / örnek son |
 
@@ -63,7 +63,7 @@ Godot'un kendi anlatımı: [mevcut projeyi içe aktarma](https://docs.godotengin
 
 Oyun **fareyle işaretleyip tıklayarak** oynanır. Konuşma ilerletme, malzeme seçimi, demleme, servis, kitap, ayraç, kepenk, fotoğraf ve dosya tesliminin hepsinin ekranda düğmesi vardır. Klavye kısayolları ek kolaylıktır.
 
-İlk gece: normal bir içecek servis et → **Eski deftere bak** düğmesine tıkla → sağdaki **???** ayracına tıkla → defteri kapat → parlayan kepenk düğmesine tıkla. İkinci gün fotoğraf/GBT açılır. Oyun kararları otomatik kaydeder.
+İlk gece: normal bir içecek servis et → **Eski deftere bak** düğmesine tıkla → sağdaki **???** ayracına tıkla → defteri kapat → parlayan kepenk düğmesine tıkla. İkinci gün fotoğraf makinesiyle çek, dava dosyasını açılır. Oyun kararları otomatik kaydeder.
 
 Terminal kullanıyorsan proje klasöründen `godot --path .` oyunu, `godot --editor --path .` editörü açar.
 
@@ -73,7 +73,7 @@ Terminal kullanıyorsan proje klasöründen `godot --path .` oyunu, `godot --edi
 | Malzeme seç | 1–6 |
 | Demle / servis et / sıfırla | E / F / R |
 | Tarif kitabı / raf kepengi | B / M |
-| Fotoğraf / GBT terminali | C / G |
+| Fotoğraf çek / Dava dosyaları | C / G |
 | Menü / pencereyi kapat | Esc |
 
 ## Mimariyi basitçe anlamak
@@ -96,7 +96,7 @@ Bir gece hazırlanırken ortak üretici önce o gece mutlaka gelmesi gereken hik
 | `domain/shift/` | Kaydedilebilir oyun durumu. |
 | `application/` | EventBus ve komutları çalıştıran oyun oturumu. Durumu yalnızca oturum değiştirir. |
 | `infrastructure/` | JSON okuma/doğrulama, i18n ve otomatik kayıt. |
-| `presentation/` | Ekranlar, tarif kitabı, GBT, yer tutucu çizimler. |
+| `presentation/` | Ekranlar, tarif defteri, dava dosyası, yer tutucu çizimler. |
 | `tests/` | Oyun kuralları, vardiya üretimi, hikâye/Endless akışları ve ekran kontrolü. |
 
 ```mermaid

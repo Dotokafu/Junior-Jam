@@ -8,6 +8,8 @@ signal modal_closed
 signal sound_toggled
 signal motion_toggled
 signal speed_cycled
+signal fullscreen_toggled
+signal window_size_cycled
 const FADE_TIME := 0.25
 var screen: String = ""
 var modal: String = ""
@@ -45,7 +47,7 @@ func open_modal(kind: String, state: Dictionary) -> void:
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	var panel := PanelContainer.new()
 	modal_layer.add_child(panel)
-	panel.position = Vector2(560, 150)
+	panel.position = Vector2(560, 40)
 	panel.custom_minimum_size = Vector2(800, 0)
 	var box := _vbox(panel, 18)
 	_label(box, {"menu": I18n.t("menu.title"), "help": I18n.t("help.title"), "confirm_new": I18n.t("confirm.title")}.get(kind, ""), "Title")
@@ -61,6 +63,10 @@ func open_modal(kind: String, state: Dictionary) -> void:
 			_button(box, I18n.t("menu.sound_off" if state.get("muted", false) else "menu.sound_on"), func() -> void: sound_toggled.emit())
 			_button(box, I18n.t("menu.motion_reduced" if state.get("reduced_motion", false) else "menu.motion_normal"), func() -> void: motion_toggled.emit())
 			_button(box, I18n.t("menu.text_speed", {"speed": I18n.t("speed." + str(state.get("speed", "normal")))}), func() -> void: speed_cycled.emit())
+			_button(box, I18n.t("menu.fullscreen_on" if state.get("fullscreen", false) else "menu.fullscreen_off"), func() -> void: fullscreen_toggled.emit())
+			var window_size: Vector2i = state.get("window_size", Vector2i(1920, 1080))
+			var size_button := _button(box, I18n.t("menu.window_size", {"size": "%d×%d" % [window_size.x, window_size.y]}), func() -> void: window_size_cycled.emit())
+			size_button.disabled = state.get("fullscreen", false)
 			_button(box, I18n.t("button.new_story"), func() -> void: new_game_requested.emit("story"))
 			_button(box, I18n.t("button.new_endless"), func() -> void: new_game_requested.emit("endless"))
 	_button(box, I18n.t("button.back"), func() -> void: modal_closed.emit(), kind != "confirm_new")

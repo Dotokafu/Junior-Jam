@@ -5,16 +5,17 @@
 
 [node name="CharacterView" type="Control"]
 mouse_filter = 2
-offset_right = 480.0
-offset_bottom = 672.0
+offset_right = 540.0
+offset_bottom = 780.0
 script = ExtResource("1_script")
 
 [node name="Body" type="TextureRect" parent="."]
 mouse_filter = 2
-offset_right = 480.0
-offset_bottom = 672.0
+offset_right = 540.0
+offset_bottom = 780.0
+texture_filter = 2
 texture = ExtResource("2_preview")
 expand_mode = 1
 
 [node name="BalloonAnchor" type="Marker2D" parent="."]
-position = Vector2(394, 94)
+position = Vector2(432, 515)

@@ -21,13 +21,20 @@ func run() -> void:
 	session.persistence_enabled = false
 	root.content_scale_size = Vector2i(1920, 1080)
 	root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
-	root.size = Vector2i(1280, 720)
+	root.size = Vector2i(1920, 1080)
 	screen = load("res://presentation/cafe.tscn").instantiate()
 	root.add_child(screen)
 	screen.muted = true
 	await settle(0.3)
 	await capture("intro")
-	await click(locale.t("button.story_mode") if find_button(screen, locale.t("button.story_mode")) else locale.t("button.new_story"))
+	# Kayıt varsa "Yeni hikâye" onay penceresi açar; ikisinde de gerçek fare tıklaması oyunu başlatmalı.
+	if find_button(screen, locale.t("button.story_mode")):
+		await click(locale.t("button.story_mode"))
+	else:
+		await click(locale.t("button.new_story"))
+		await settle(0.2)
+		await click(locale.t("button.start_story"))
+	check(session.started, "Giriş butonuna tıklamak oyunu başlatmalı")
 	if not session.started:
 		bus.request("new_game", {"mode": "story", "seed": 4217})
 	await settle(0.6)
@@ -37,6 +44,12 @@ func run() -> void:
 	await click_point(Vector2(300, 500))
 	await settle(0.2)
 	check(session.state.line_index > before, "Sahneye tıklamak konuşmayı ilerletmeli")
+	# Buton odak tutmamalı: AUTO'ya tıkladıktan sonra Boşluk konuşmayı ilerletir, AUTO'yu kapatmaz.
+	# Tek basış: odak düğmede kalsaydı Boşluk AUTO'yu geri kapatırdı.
+	await click(locale.t("hud.auto"))
+	await press(KEY_SPACE)
+	check(screen.auto_button.button_pressed, "Boşluk, tıklanan AUTO butonunu kapatmamalı")
+	screen.auto_button.button_pressed = false
 	for i in range(8):
 		if session.state.stage == "brewing":
 			break
@@ -48,11 +61,22 @@ func run() -> void:
 	await settle(0.2)
 	await capture("brewing")
 	bus.request("brew")
+	await settle(0.9)
+	check(screen.brew_comic.is_open and screen.brew_comic.busy, "Demleyince çizgi roman sayfası açılmalı, seçim animasyon bitene kadar kilitli")
 	await settle(1.6)
+	await capture("comic_steps")
+	await settle(2.4)
+	check(screen.brew_comic.steps_page.visible == false and screen.brew_comic.serve_page.visible, "Hazırlık kapanıp servis sayfası tam ekran gelmeli")
 	await capture("brewed")
-	bus.request("serve")
+	# Seçim çizgi roman sayfasında: "Servis et"e gerçekten tıkla.
+	await click(locale.t("button.serve"))
 	await settle(0.8)
+	check(session.state.stage == "reaction" and not screen.brew_comic.is_open, "Servis seçimi sayfayı kapatıp tepkiye geçmeli")
 	await capture("reaction")
+	screen._open_modal("menu")
+	await settle(0.3)
+	await capture("menu")
+	screen._close_modal()
 	screen._toggle_book()
 	await settle(0.2)
 	await capture("book")
@@ -64,13 +88,23 @@ func run() -> void:
 	session.state.tutorial = "ready"
 	session.state.visit_index = 0
 	session.state.visits = session._generate_visits()
-	bus.request("photo")
+	bus.request("refresh")
 	await settle(0.6)
 	await capture("night")
-	screen._toggle_phone()
-	await settle(0.2)
-	await capture("phone")
+	# Çek: polaroid makineden çıkar, dava dosyası alttan açılır, fotoğraf yerine yapışır.
+	await click(locale.t("hud.photo"))
+	await settle(0.4)
+	await capture("photo_eject")
+	await settle(2.4)
+	check(screen.case_file.visible and session.state.records.size() == 1, "Çekince dava dosyası açılmalı")
+	await capture("case_new")
 	screen._close_modal()
+	await settle(0.5)
+	screen._toggle_files()
+	await settle(0.5)
+	await capture("files")
+	screen._close_modal()
+	await settle(0.5)
 	session.state.phase = "fall"
 	session.state.stage = "transition"
 	bus.request("refresh")
@@ -108,18 +142,28 @@ func click(text: String) -> void:
 		return
 	await click_point(target.get_global_rect().get_center())
 
-## Tasarım koordinatı (1920×1080) → pencere koordinatı.
+## Tasarım koordinatı (1920×1080) → pencere koordinatı (ölçek + letterbox dahil).
 func click_point(point: Vector2) -> void:
-	var window_point := point * Vector2(root.size) / Vector2(root.content_scale_size)
+	# Gerçek pencere olayı gibi gönder: Godot ölçek/letterbox dönüşümünü kendisi geri alır.
+	var window_point: Vector2 = root.get_final_transform() * point
 	var motion := InputEventMouseMotion.new()
 	motion.position = window_point
-	root.push_input(motion, true)
+	root.push_input(motion)
 	for pressed: bool in [true, false]:
 		var event := InputEventMouseButton.new()
 		event.position = window_point
 		event.button_index = MOUSE_BUTTON_LEFT
 		event.pressed = pressed
-		root.push_input(event, true)
+		root.push_input(event)
+		await process_frame
+
+func press(code: Key) -> void:
+	for pressed: bool in [true, false]:
+		var event := InputEventKey.new()
+		event.keycode = code
+		event.physical_keycode = code
+		event.pressed = pressed
+		root.push_input(event)
 		await process_frame
 
 func find_button(node: Node, text: String) -> Button:

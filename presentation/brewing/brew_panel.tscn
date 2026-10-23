@@ -1,8 +1,10 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://presentation/brewing/brew_panel.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="2_cup"]
-[ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="3_liquid"]
+[ext_resource type="Texture2D" path="res://assets/cafe/brew_shelf.png" id="2_shelf"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="3_cup"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="4_liquid"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/machine_readout.tscn" id="5_readout"]
 
 [node name="BrewPanel" type="Control"]
 mouse_filter = 2
@@ -11,175 +13,100 @@ offset_bottom = 1080.0
 script = ExtResource("1_script")
 
 [node name="Machine" type="Control" parent="."]
-offset_left = 1000.0
-offset_top = 24.0
-offset_right = 1896.0
-offset_bottom = 1056.0
+offset_left = 780.0
+offset_right = 1920.0
+offset_bottom = 900.0
 
-[node name="Backdrop" type="ColorRect" parent="Machine"]
-mouse_filter = 2
-offset_left = -16.0
-offset_top = -24.0
-offset_right = 912.0
-offset_bottom = 1056.0
-color = Color(0.11, 0.08, 0.094, 1)
+[node name="Shelf" type="TextureRect" parent="Machine"]
+offset_right = 1140.0
+offset_bottom = 900.0
+texture = ExtResource("2_shelf")
+expand_mode = 1
 
-[node name="Shelf" type="PanelContainer" parent="Machine"]
-offset_right = 896.0
-offset_bottom = 430.0
-theme_type_variation = &"ShelfPanel"
-
-[node name="Box" type="VBoxContainer" parent="Machine/Shelf"]
-theme_override_constants/separation = 12
-
-[node name="Header" type="HBoxContainer" parent="Machine/Shelf/Box"]
-
-[node name="ShelfTitle" type="Label" parent="Machine/Shelf/Box/Header"]
-size_flags_horizontal = 3
-theme_type_variation = &"NameTag"
+[node name="ShelfTitle" type="Label" parent="Machine"]
+offset_left = 36.0
+offset_top = 30.0
+offset_right = 600.0
+offset_bottom = 70.0
+theme_type_variation = &"HudText"
 text = "GÜNDÜZ RAFI"
 
-[node name="ShutterButton" type="Button" parent="Machine/Shelf/Box/Header"]
-custom_minimum_size = Vector2(260, 56)
-text = "Kepenk   [M]"
-
-[node name="Hint" type="Label" parent="Machine/Shelf/Box"]
-theme_type_variation = &"Caption"
-autowrap_mode = 3
-
-[node name="Grid" type="GridContainer" parent="Machine/Shelf/Box"]
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 14
-columns = 3
+[node name="Jars" type="Control" parent="Machine"]
+mouse_filter = 2
+offset_right = 1140.0
+offset_bottom = 900.0
 
 [node name="Shutter" type="ColorRect" parent="Machine"]
 mouse_filter = 2
-offset_left = 14.0
-offset_top = 84.0
-offset_right = 882.0
-offset_bottom = 84.0
-color = Color(0.165, 0.122, 0.11, 1)
+offset_left = 24.0
+offset_top = 150.0
+offset_right = 1116.0
+offset_bottom = 150.0
+color = Color(0.29, 0.29, 0.32, 1)
+
+[node name="Hint" type="Label" parent="Machine"]
+offset_left = 36.0
+offset_top = 560.0
+offset_right = 330.0
+offset_bottom = 780.0
+theme_type_variation = &"HudText"
+autowrap_mode = 3
+vertical_alignment = 2
+
+[node name="ShutterButton" type="Button" parent="Machine"]
+offset_left = 36.0
+offset_top = 800.0
+offset_right = 330.0
+offset_bottom = 864.0
+text = "Kepenk   [M]"
 
 [node name="Body" type="PanelContainer" parent="Machine"]
+offset_left = 350.0
 offset_top = 450.0
-offset_right = 896.0
-offset_bottom = 1032.0
+offset_right = 1116.0
+offset_bottom = 876.0
 theme_type_variation = &"MachinePanel"
 
 [node name="Box" type="HBoxContainer" parent="Machine/Body"]
-theme_override_constants/separation = 28
+theme_override_constants/separation = 16
 
-[node name="Left" type="VBoxContainer" parent="Machine/Body/Box"]
-size_flags_horizontal = 3
-theme_override_constants/separation = 14
-
-[node name="SlotsTitle" type="Label" parent="Machine/Body/Box/Left"]
-theme_type_variation = &"MachineLabel"
-text = "MAKİNE"
-
-[node name="Slots" type="VBoxContainer" parent="Machine/Body/Box/Left"]
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="Buttons" type="HBoxContainer" parent="Machine/Body/Box/Left"]
-theme_override_constants/separation = 12
-
-[node name="ResetButton" type="Button" parent="Machine/Body/Box/Left/Buttons"]
-custom_minimum_size = Vector2(0, 64)
-size_flags_horizontal = 3
-text = "Sıfırla   [R]"
-
-[node name="BrewButton" type="Button" parent="Machine/Body/Box/Left/Buttons"]
-custom_minimum_size = Vector2(0, 64)
-size_flags_horizontal = 3
-theme_type_variation = &"PrimaryButton"
-text = "Demle   [E]"
+[node name="Readout" parent="Machine/Body/Box" instance=ExtResource("5_readout")]
 
 [node name="Right" type="VBoxContainer" parent="Machine/Body/Box"]
-custom_minimum_size = Vector2(420, 0)
-theme_override_constants/separation = 14
-
-[node name="StatsTitle" type="Label" parent="Machine/Body/Box/Right"]
-theme_type_variation = &"MachineLabel"
-text = "TAT"
-
-[node name="Stats" type="VBoxContainer" parent="Machine/Body/Box/Right"]
-theme_override_constants/separation = 12
+custom_minimum_size = Vector2(150, 0)
+theme_override_constants/separation = 10
 
 [node name="CupPreview" type="Control" parent="Machine/Body/Box/Right"]
-custom_minimum_size = Vector2(0, 170)
+custom_minimum_size = Vector2(150, 110)
 size_flags_vertical = 3
 
 [node name="Cup" type="TextureRect" parent="Machine/Body/Box/Right/CupPreview"]
-offset_left = 140.0
-offset_top = 10.0
-offset_right = 268.0
-offset_bottom = 122.0
-texture = ExtResource("2_cup")
+offset_left = 27.0
+offset_top = 12.0
+offset_right = 123.0
+offset_bottom = 96.0
+texture = ExtResource("3_cup")
 expand_mode = 1
 
 [node name="Liquid" type="TextureRect" parent="Machine/Body/Box/Right/CupPreview"]
-offset_left = 140.0
-offset_top = 10.0
-offset_right = 268.0
-offset_bottom = 122.0
-texture = ExtResource("3_liquid")
+offset_left = 27.0
+offset_top = 12.0
+offset_right = 123.0
+offset_bottom = 96.0
+texture = ExtResource("4_liquid")
 expand_mode = 1
 
-[node name="Result" type="PanelContainer" parent="Machine"]
-offset_top = 450.0
-offset_right = 896.0
-offset_bottom = 1032.0
-theme_type_variation = &"MachinePanel"
+[node name="ResetButton" type="Button" parent="Machine/Body/Box/Right"]
+custom_minimum_size = Vector2(0, 62)
+text = "Sıfırla"
 
-[node name="Box" type="VBoxContainer" parent="Machine/Result"]
-theme_override_constants/separation = 18
-alignment = 1
-
-[node name="ResultTitle" type="Label" parent="Machine/Result/Box"]
-theme_type_variation = &"MachineLabel"
-text = "HAZIR"
-horizontal_alignment = 1
-
-[node name="CupHolder" type="CenterContainer" parent="Machine/Result/Box"]
-
-[node name="CupStack" type="Control" parent="Machine/Result/Box/CupHolder"]
-custom_minimum_size = Vector2(192, 168)
-
-[node name="Cup" type="TextureRect" parent="Machine/Result/Box/CupHolder/CupStack"]
-offset_right = 192.0
-offset_bottom = 168.0
-texture = ExtResource("2_cup")
-expand_mode = 1
-
-[node name="Liquid" type="TextureRect" parent="Machine/Result/Box/CupHolder/CupStack"]
-offset_right = 192.0
-offset_bottom = 168.0
-pivot_offset = Vector2(96, 72)
-texture = ExtResource("3_liquid")
-expand_mode = 1
-
-[node name="DrinkName" type="Label" parent="Machine/Result/Box"]
-theme_override_colors/font_color = Color(0.231, 0.184, 0.173, 1)
-theme_override_font_sizes/font_size = 54
-text = "Sabah Sisi"
-horizontal_alignment = 1
-
-[node name="DrinkStats" type="Label" parent="Machine/Result/Box"]
-theme_type_variation = &"MachineLabel"
-horizontal_alignment = 1
-autowrap_mode = 3
-
-[node name="Buttons" type="HBoxContainer" parent="Machine/Result/Box"]
-theme_override_constants/separation = 16
-
-[node name="TrashButton" type="Button" parent="Machine/Result/Box/Buttons"]
-custom_minimum_size = Vector2(0, 68)
-size_flags_horizontal = 3
-text = "Çöpe at   [T]"
-
-[node name="ServeButton" type="Button" parent="Machine/Result/Box/Buttons"]
-custom_minimum_size = Vector2(0, 68)
-size_flags_horizontal = 3
+[node name="BrewButton" type="Button" parent="Machine/Body/Box/Right"]
+custom_minimum_size = Vector2(0, 62)
 theme_type_variation = &"PrimaryButton"
-text = "Servis et   [F]"
+text = "Demle"
+
+[node name="Frame" type="Panel" parent="Machine"]
+mouse_filter = 2
+offset_right = 1140.0
+offset_bottom = 900.0
+theme_type_variation = &"BrewFrame"
