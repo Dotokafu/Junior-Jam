@@ -40,6 +40,11 @@ func _ready() -> void:
 	toast.modulate.a = 0.0
 	_setup_hud()
 	_setup_ambience()
+	# Oyun fare + kısayolla oynanır. Tıklanan buton odağı tutarsa Boşluk/Enter konuşmayı
+	# ilerletmek yerine o butonu tekrar basar (AUTO kapanır, aynı kavanoz yeniden eklenir).
+	get_viewport().gui_focus_changed.connect(func(control: Control) -> void:
+		if control is BaseButton:
+			control.release_focus())
 	balloon.advance_requested.connect(func() -> void: EventBus.request("next"))
 	balloon.decision_pressed.connect(func() -> void: EventBus.request("next"))
 	balloon.line_started.connect(func() -> void: world.character.bounce())
