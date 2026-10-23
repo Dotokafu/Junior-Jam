@@ -14,6 +14,7 @@ func _initialize() -> void:
 	var varied := false
 	var humans := 0
 	var fallen := 0
+	var stat_orders := 0
 	for seed_value in range(100):
 		request.seed = seed_value
 		var shift := Director.build_shift(request, catalog)
@@ -24,14 +25,17 @@ func _initialize() -> void:
 		for visit: Dictionary in shift:
 			if visit.kind != "random":
 				continue
-			var recipe: Dictionary = content.recipes.filter(func(item: Dictionary) -> bool: return item.id == visit.order)[0]
-			check(recipe.side == visit.person.species, "Ürün doğru tür havuzundan seçilmeli")
+			var sequence := BrewingRules.find_sequence(visit.order, visit.person.species, content.ingredient_map, content.recipes)
+			check(not sequence.is_empty() and content.ingredient_map[sequence[0]].side == visit.person.species, "Sipariş doğru türün rafıyla yapılabilmeli")
+			if visit.order is Dictionary:
+				stat_orders += 1
 			check(visit.person.has("portrait_id"), "Görünüş ayrı havuzdan gelmeli")
 			if visit.person.species == "human":
 				humans += 1
 			else:
 				fallen += 1
 	check(varied and humans > 20 and fallen > 20, "Farklı seedler iki türü de üretmeli")
+	check(stat_orders > 10, "Rastgele müşteriler tat isteğiyle de sipariş vermeli")
 	var endless := Director.build_shift({"day": 23, "period": "night", "mode": "endless", "seed": 42}, catalog)
 	check(endless.size() == 4 and endless.all(func(visit: Dictionary) -> bool: return visit.kind == "random"), "Endless sınırsız gün üretmeli")
 	var daytime := Director.build_shift({"day": 8, "period": "day", "mode": "endless", "seed": 42}, catalog)

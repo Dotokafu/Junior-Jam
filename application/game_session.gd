@@ -53,6 +53,7 @@ func _on_command(action: String, payload: Dictionary) -> void:
 					state.selected = []
 					state.drink = {}
 			"brew": _brew()
+			"trash": _trash()
 			"serve": _serve()
 			"shelf": _switch_shelf()
 			"book_tab":
@@ -180,15 +181,24 @@ func _advance_customer() -> void:
 		state.visits = []
 
 func _select(id: String) -> void:
-	if state.stage != "brewing" or not state.drink.is_empty() or state.selected.size() >= 3:
+	if state.stage != "brewing" or not state.drink.is_empty():
 		return
-	for ingredient: Dictionary in content.ingredients:
-		if ingredient.id == id and ingredient.side == state.shelf:
-			if state.selected.count(id) >= int(state.stock.get(id, 0)):
-				EventBus.feedback.emit(I18n.t("feedback.no_stock"))
-				return
-			state.selected.append(id)
-			return
+	var ingredient: Dictionary = content.ingredient_map.get(id, {})
+	if ingredient.is_empty() or ingredient.side != state.shelf:
+		return
+	if state.selected.count(id) >= int(state.stock.get(id, 0)):
+		EventBus.feedback.emit(I18n.t("feedback.no_stock"))
+		return
+	var problem := Brewing.can_add(state.selected, id, content.ingredient_map)
+	if problem in ["not_base", "not_mix"]:
+		EventBus.feedback.emit(I18n.t("feedback." + problem, {"name": ingredient.name}))
+		return
+	if problem == "":
+		state.selected.append(id)
+
+func _drink_names() -> Dictionary:
+	return {"pure": I18n.t("drink.name_pure"), "double": I18n.t("drink.name_double"),
+		"strong": I18n.t("drink.name_strong"), "mix": I18n.t("drink.name_mix")}
 
 func _brew() -> void:
 	if state.stage != "brewing" or not state.drink.is_empty():
@@ -196,12 +206,21 @@ func _brew() -> void:
 	if not Brewing.can_consume(state.selected, state.stock):
 		EventBus.feedback.emit(I18n.t("feedback.choose_three"))
 		return
+	var drink := Brewing.brew(state.selected, content.ingredient_map, content.recipes, _drink_names())
+	if drink.is_empty():
+		return
 	for id: String in state.selected:
 		state.stock[id] -= 1
-	state.drink = Brewing.identify(state.selected, content.recipes)
-	if state.drink.is_empty():
-		state.drink = {"id": "unknown", "name": I18n.t("drink.unknown"), "name_key": "drink.unknown", "side": state.shelf}
+	state.drink = drink
 	EventBus.feedback.emit(I18n.t("feedback.drink_ready", {"drink": state.drink.name}))
+
+## Demlenmiş fincanı döker; harcanan stok geri gelmez.
+func _trash() -> void:
+	if state.stage != "brewing" or state.drink.is_empty():
+		return
+	state.selected = []
+	state.drink = {}
+	EventBus.feedback.emit(I18n.t("feedback.trashed"))
 
 func _serve() -> void:
 	if state.stage != "brewing" or state.drink.is_empty():
@@ -214,7 +233,7 @@ func _serve() -> void:
 		return
 	var person := _person()
 	var species_wrong: bool = state.drink.side != person.species
-	var recipe_wrong: bool = state.drink.id != _visit().order
+	var recipe_wrong: bool = not Brewing.matches_order(_visit().get("order", ""), state.drink)
 	if species_wrong or recipe_wrong:
 		state.wrong_serves += 1
 	state.served += 1
@@ -256,7 +275,7 @@ func _photograph() -> void:
 	var person := _person()
 	state.records.append({"id": _record_id(), "character": person.id, "name": person.name,
 		"day": state.day, "dossier": person.dossier, "appearance": person.appearance,
-		"portrait": {"skin": person.skin, "hair": person.hair, "coat": person.coat, "portrait_texture": person.get("portrait_texture", "")},
+		"portrait": {"portrait_id": person.get("portrait_id", person.id), "portrait_texture": person.get("portrait_texture", "")},
 		"truth": person.species, "guess": "unknown", "reported_to": ""})
 	EventBus.feedback.emit(I18n.t("feedback.photo_saved"))
 
@@ -299,8 +318,9 @@ func snapshot() -> Dictionary:
 		view.erase(key)
 	view["started"] = started
 	view["total_days"] = content.days.size()
-	if view.drink.has("name_key"):
-		view.drink.name = I18n.t(view.drink.name_key)
+	view["brew"] = {"stats": Brewing.stats(state.selected, content.ingredient_map)}
+	view.brew["tiers"] = Brewing.tiers(view.brew.stats)
+	view.brew["color"] = Brewing.color(state.selected, content.ingredient_map).to_html(false) if not state.selected.is_empty() else ""
 	view["has_save"] = Saves.exists()
 	view["content_errors"] = content.errors.duplicate()
 	view["ingredients"] = content.ingredients.duplicate(true)
@@ -316,7 +336,9 @@ func snapshot() -> Dictionary:
 	if content_ok and state.stage == "dialogue":
 		view.line = _lines()[mini(state.line_index, _lines().size() - 1)]
 	elif state.stage == "brewing":
-		view.line = I18n.t("dialogue.brewing")
+		# Coffee Talk gibi: demlerken balonda siparişin kendisi durur.
+		var lines := _lines()
+		view.line = lines[0] if not lines.is_empty() else I18n.t("dialogue.brewing")
 	elif state.stage == "tutorial":
 		view.line = I18n.t("dialogue.discovery")
 	elif state.stage == "reaction":

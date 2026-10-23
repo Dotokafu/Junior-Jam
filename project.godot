@@ -8,21 +8,16 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="CoFFallen"
 run/main_scene="res://presentation/cafe.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
-
-[display]
-
-window/size/viewport_width=1440
-window/size/viewport_height=900
-window/size/window_width_override=1280
-window/size/window_height_override=800
-window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [autoload]
 
@@ -30,9 +25,18 @@ I18n="*res://infrastructure/localization/i18n.gd"
 EventBus="*res://application/event_bus.gd"
 Session="*res://application/game_session.gd"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-textures/default_filters/use_nearest_mipmap_filter=false
 environment/defaults/default_clear_color=Color(0.055, 0.047, 0.075, 1)

@@ -1,8 +1,9 @@
-@tool
 class_name ContentRepository
 extends RefCounted
 ## İçerik sınırı. JSON dosyaları yalnızca burada okunur ve doğrulanır.
+const Brewing = preload("res://domain/brewing/brewing_rules.gd")
 var ingredients: Array = []
+var ingredient_map: Dictionary = {}
 var recipes: Array = []
 var characters: Dictionary = {}
 var days: Array = []
@@ -31,23 +32,16 @@ func load_all() -> bool:
 		if characters.has(person.id):
 			errors.append(_message("error.duplicate_character") + str(person.id))
 		characters[person.id] = person
-	var ingredient_ids: Array = ingredients.map(func(item: Dictionary) -> String: return item.id)
-	var recipe_ids: Array = []
-	for recipe: Dictionary in recipes:
-		recipe_ids.append(recipe.id)
-		if recipe.ingredients.size() != 3:
-			errors.append(_message("error.recipe_size") + str(recipe.id))
-		for ingredient: String in recipe.ingredients:
-			if ingredient not in ingredient_ids:
-				errors.append(_message("error.unknown_ingredient") + ingredient)
+	_validate_ingredients()
+	var recipe_ids := _validate_recipes()
 	for day: Dictionary in days:
 		for period: String in ["day", "night"]:
 			if day.get(period, []).is_empty():
 				errors.append(_message("error.empty_shift") + str(day.get("number", "?")))
 			for visit: Dictionary in day.get(period, []):
-				if not characters.has(visit.character) or visit.order not in recipe_ids:
+				if not characters.has(visit.character) or not _valid_order(visit.get("order"), characters[visit.character].species, recipe_ids):
 					errors.append(_message("error.invalid_visit") + str(visit))
-	if days.is_empty() or ingredients.is_empty() or recipes.is_empty() or endings.size() != 5:
+	if days.is_empty() or ingredients.is_empty() or recipes.is_empty() or endings.is_empty():
 		errors.append(_message("error.missing_content"))
 	for side: String in ["human", "fallen", "portraits"]:
 		if pools.get(side, []).is_empty():
@@ -57,10 +51,49 @@ func load_all() -> bool:
 				errors.append(_message("error.unknown_character") + id)
 			elif side != "portraits" and characters[id].species != side:
 				errors.append(_message("error.wrong_species_pool") + id)
+	for side: String in pools.get("stat_orders", {}):
+		for order: Dictionary in pools.stat_orders[side]:
+			if not _valid_order(order, side, recipe_ids):
+				errors.append(_message("error.unreachable_order") + str(order))
 	return errors.is_empty()
 
+func _validate_ingredients() -> void:
+	for item: Dictionary in ingredients:
+		ingredient_map[item.id] = item
+		var item_stats: Dictionary = item.get("stats", {})
+		for stat: String in Brewing.STATS:
+			if item_stats.get(stat, []).size() != Brewing.SLOTS:
+				errors.append(_message("error.ingredient_stats") + str(item.id))
+				break
+
+func _validate_recipes() -> Array:
+	var recipe_ids: Array = []
+	for recipe: Dictionary in recipes:
+		recipe_ids.append(recipe.id)
+		if recipe.ingredients.size() != Brewing.SLOTS:
+			errors.append(_message("error.recipe_size") + str(recipe.id))
+			continue
+		var known := true
+		for ingredient: String in recipe.ingredients:
+			if not ingredient_map.has(ingredient):
+				errors.append(_message("error.unknown_ingredient") + ingredient)
+				known = false
+		if known and not Brewing.is_valid_sequence(recipe.ingredients, ingredient_map):
+			errors.append(_message("error.recipe_order") + str(recipe.id))
+	return recipe_ids
+
+func _valid_order(order: Variant, side: String, recipe_ids: Array) -> bool:
+	if order is String:
+		return order in recipe_ids
+	if order is Dictionary and order.get("stats") is Dictionary:
+		for stat: String in order.stats:
+			if stat not in Brewing.STATS:
+				return false
+		return not Brewing.find_sequence(order, side, ingredient_map, recipes).is_empty()
+	return false
+
 func catalog() -> Dictionary:
-	return {"characters": characters, "recipes": recipes, "days": days, "pools": pools}
+	return {"characters": characters, "recipes": recipes, "days": days, "pools": pools, "ingredients": ingredient_map}
 
 func _read(file_name: String) -> Dictionary:
 	var path := "res://content/" + file_name + ".json"

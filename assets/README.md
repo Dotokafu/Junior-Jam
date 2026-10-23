@@ -1,17 +1,40 @@
-# Geçici görseller
+# Görseller: yer tutucuyu gerçek çizimle değiştirme
 
-Kafe ve karakterler şu an `presentation/art/` altında kodla çizilen yer tutuculardır. Oyun kuralları bu çizimlere bağlı değildir.
+Buradaki PNG'lerin hepsi geçici. **Gerçek çizimi aynı klasöre, aynı adla kaydet; kod değişmez.**
+Godot dosyayı yeniden içe aktarır, oyun yeni çizimi kullanır.
 
-## Kendi çizimini ekle
+Oyun 1920×1080 çalışır. Çizimler **640×360 ölçeğinde** yapılır ve oyunda **×3** büyütülür
+(piksel sanatı için keskin, `nearest` filtre açık). Yani 1 çizim pikseli = 3 ekran pikseli.
 
-Karakter kaydına isteğe bağlı alan ekle:
+| Dosya | Çizim ölçüsü | Ne |
+|---|---|---|
+| `cafe/background_day.png` | 640×360 | Gündüz kafe duvarı, raflar, pencere |
+| `cafe/background_night.png` | 640×360 | Aynı mekân, gece (The Fall) |
+| `cafe/counter.png` | 640×110 | Tezgâh; karakterin önüne çizilir. Ekranda y=750'den başlar |
+| `cafe/cup.png` | 32×28 | Servis fincanı |
+| `cafe/cup_liquid.png` | 32×28 | Fincanın sıvı kısmı, **beyaz** çiz; oyun içeceğin rengine boyar |
+| `characters/<id>.png` | 160×224 | Karakter, şeffaf arka plan. Alt kısmı tezgâhın arkasında kalır |
+| `ui/ingredients/<id>.png` | 24×24 | Demleme makinesindeki malzeme ikonu |
 
-```json
-"portrait_texture": "res://assets/characters/ada.png"
+`<id>` = `content/characters.json` ve `content/ingredients.json` içindeki `id` (ör. `ada.png`, `coffee.png`).
+Rastgele müşteriler görünüşünü `encounter_pools.json` → `portraits` listesindeki karakterlerden alır.
+
+## Arayüz stili (UI ekibi)
+
+Buton, panel, balon, defter ve telefon renkleri/yazı tipleri tek dosyada:
+`presentation/theme/cafe_theme.tres`. Godot'da çift tıkla, Theme editöründe değiştir.
+Önemli tipler: `BalloonPanel`, `NameTag`, `PrimaryButton`, `MachinePanel`, `ShelfPanel`, `BookPage`, `PhoneFrame`.
+
+Sahne düzenleri editörde açılabilir: `presentation/world/cafe_world.tscn` (mekân, karakter yeri, fincan),
+`presentation/brewing/brew_panel.tscn` (makine), `presentation/ui/recipe_book.tscn` (defter),
+`presentation/ui/phone.tscn` (GBT telefonu), `presentation/dialogue/speech_balloon.tscn` (balon).
+
+## Yer tutucuları yeniden üretmek
+
+```
+godot --headless --path . -s tools/generate_mock_assets.gd
 ```
 
-Şeffaf arka planlı karakter çizimi kafe ekranında ve GBT fotoğrafında kullanılır. Alan boşsa yer tutucu çizilir. Rastgele müşterilerde bu görsel `portraits` havuzundan gelir. Karakter çizimi için yaklaşık **107:148** oranı uygundur; kesin ölçüler çizimler geldikten sonra uyarlanabilir.
+Var olan dosyalara **dokunmaz**; yalnızca eksikleri üretir. `-- --force` hepsini (çizimlerin dahil!) ezer, dikkat.
 
-`presentation/cafe.tscn` sahnesinin kök düğümünde Inspector üzerinden `Cafe Background` ve isteğe bağlı `Cafe Counter` dokularını atayabilirsin. İkisi de **1360×380** oranında yerleştirilir; tezgâh katmanı şeffaf olabilir ve karakterin önüne çizilir. Gerçek arka plan atandığında hazır dekor çizilmez. Raf görselleri ve animasyonunun gerçek çizimlere uyarlanması çizimler geldikten sonra yapılacak.
-
-`audio/rain.wav` bu prototip için üretilen basit ortam sesi yer tutucusudur. Menüden susturulabilir. Fontlar Liberation ailesidir; dağıtım lisansı `fonts/LICENSE` içindedir.
+`audio/rain.wav` basit ortam sesi yer tutucusudur. Fontlar Liberation ailesi; lisans `fonts/LICENSE` içinde.

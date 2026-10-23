@@ -44,5 +44,83 @@
   "default_smalltalk": [
     "Yağmur bugün de dinmeyecek gibi."
   ],
-  "order_template": "Bir {drink} alabilir miyim?"
+  "order_template": "Bir {drink} alabilir miyim?",
+  "stat_order_chance": 0.4,
+  "stat_orders": {
+    "human": [
+      {
+        "stats": {
+          "warm": 2
+        }
+      },
+      {
+        "stats": {
+          "sweet": 2
+        }
+      },
+      {
+        "stats": {
+          "cool": 1
+        }
+      },
+      {
+        "stats": {
+          "warm": 1,
+          "sweet": 1
+        }
+      },
+      {
+        "stats": {
+          "bitter": 2
+        }
+      }
+    ],
+    "fallen": [
+      {
+        "stats": {
+          "warm": 2
+        }
+      },
+      {
+        "stats": {
+          "cool": 2
+        }
+      },
+      {
+        "stats": {
+          "bitter": 2
+        }
+      },
+      {
+        "stats": {
+          "warm": 1,
+          "sweet": 1
+        }
+      }
+    ]
+  },
+  "order_stat_template": "{stats} bir şey alabilir miyim?",
+  "stat_words": {
+    "warm": [
+      "biraz sıcak",
+      "sıcak",
+      "çok sıcak"
+    ],
+    "cool": [
+      "biraz serin",
+      "soğuk",
+      "buz gibi"
+    ],
+    "sweet": [
+      "biraz tatlı",
+      "tatlı",
+      "çok tatlı"
+    ],
+    "bitter": [
+      "hafif acı",
+      "acı",
+      "çok sert"
+    ]
+  },
+  "stat_join": " ve "
 }

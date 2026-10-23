@@ -47,21 +47,22 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			command("next")
 		elif state.stage == "brewing":
 			var visit: Dictionary = session._visit()
-			var wanted: String = visit.order
+			var wanted: Variant = visit.order
+			var side: String = session._person().species
 			if state.day == 1 and state.phase == "night" and state.tutorial == "locked":
 				wanted = "latte"
+				side = "human"
 			elif strategy == "mistakes":
-				wanted = "latte" if session._person().species == "fallen" else "red"
-			var recipe: Dictionary = {}
-			for item: Dictionary in session.content.recipes:
-				if item.id == wanted:
-					recipe = item
-			if recipe.side != state.shelf:
+				wanted = "latte" if side == "fallen" else "red"
+				side = "human" if side == "fallen" else "fallen"
+			var sequence: Array = BrewingRules.find_sequence(wanted, side, session.content.ingredient_map, session.content.recipes)
+			check(not sequence.is_empty(), "Sipariş yapılabilir olmalı: " + str(wanted))
+			if session.content.ingredient_map[sequence[0]].side != state.shelf:
 				command("shelf")
 			# İlk günün gündüzünde gizli menüye zorla erişilemez.
-			if recipe.side != state.shelf:
-				recipe = session.content.recipes[1]
-			for ingredient: String in recipe.ingredients:
+			if session.content.ingredient_map[sequence[0]].side != state.shelf:
+				sequence = session.content.recipes[1].ingredients
+			for ingredient: String in sequence:
 				command("select", {"id": ingredient})
 			command("brew")
 			check(not state.drink.is_empty(), "Karışım hazırlanmalı")

@@ -39,10 +39,28 @@ static func _random_visit(period: String, rng: RandomNumberGenerator, catalog: D
 	var person := Customers.draw(period, rng, catalog, excluded)
 	if person.is_empty():
 		return {}
-	var product := Products.draw(person.species, rng, catalog.recipes)
-	if product.is_empty():
-		return {}
+	var order: Variant
+	var request: String
+	var stat_orders: Array = catalog.pools.get("stat_orders", {}).get(person.species, [])
+	if not stat_orders.is_empty() and rng.randf() < float(catalog.pools.get("stat_order_chance", 0.0)):
+		order = stat_orders[rng.randi_range(0, stat_orders.size() - 1)].duplicate(true)
+		request = _describe_stats(order.stats, catalog.pools)
+	else:
+		var product := Products.draw(person.species, rng, catalog.recipes)
+		if product.is_empty():
+			return {}
+		order = product.id
+		request = catalog.pools.order_template.format({"drink": product.name})
 	var templates: Array = person.get("smalltalk", catalog.pools.default_smalltalk)
 	var line: String = templates[rng.randi_range(0, templates.size() - 1)]
-	return {"character": person.id, "person": person, "order": product.id, "kind": "random", "mandatory": false,
-		"dialogue": [catalog.pools.order_template.format({"drink": product.name}), line, person.appearance]}
+	return {"character": person.id, "person": person, "order": order, "kind": "random", "mandatory": false,
+		"dialogue": [request, line, person.appearance]}
+
+## {"warm": 2, "sweet": 1} → "sıcak ve biraz tatlı bir şey alabilir miyim?"
+static func _describe_stats(wanted: Dictionary, pools: Dictionary) -> String:
+	var words: Array[String] = []
+	for stat: String in wanted:
+		var options: Array = pools.stat_words.get(stat, [stat, stat, stat])
+		words.append(str(options[clampi(int(wanted[stat]), 1, 3) - 1]))
+	var text: String = str(pools.order_stat_template).format({"stats": str(pools.get("stat_join", ", ")).join(words)})
+	return text.substr(0, 1).to_upper() + text.substr(1)

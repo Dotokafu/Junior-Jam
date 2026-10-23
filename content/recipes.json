@@ -60,8 +60,8 @@
       "name": "Kül Yağmuru",
       "side": "fallen",
       "ingredients": [
-        "ash",
         "blood",
+        "ash",
         "salt"
       ],
       "description": "Kül, kan, tuz. Yağmurun söndüremediği açlık."
