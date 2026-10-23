@@ -72,8 +72,17 @@ func _ready() -> void:
 	screens.speed_cycled.connect(_cycle_speed)
 	screens.fullscreen_toggled.connect(func() -> void:
 		_toggle_fullscreen()
-		_open_modal("menu"))
+		_open_modal("settings"))
 	screens.window_size_cycled.connect(_cycle_window_size)
+	screens.page_requested.connect(_open_modal)
+	screens.save_requested.connect(func(slot: int) -> void: EventBus.request("save_slot", {"slot": slot}))
+	screens.load_requested.connect(func(slot: int) -> void:
+		_close_modal()
+		EventBus.request("load_slot", {"slot": slot}))
+	screens.main_menu_requested.connect(func() -> void:
+		_close_modal()
+		EventBus.request("main_menu"))
+	screens.quit_requested.connect(func() -> void: get_tree().quit())
 	EventBus.state_changed.connect(_on_state)
 	EventBus.feedback.connect(_feedback)
 	I18n.language_changed.connect(func(_locale: String) -> void: EventBus.request("refresh"))
@@ -91,7 +100,7 @@ func _setup_hud() -> void:
 	camera_button.pressed.connect(_take_photo)
 	files_button.pressed.connect(_toggle_files)
 	book_button.pressed.connect(_toggle_book)
-	menu_button.pressed.connect(func() -> void: _open_modal("menu"))
+	menu_button.pressed.connect(func() -> void: _open_modal("pause"))
 
 func _setup_ambience() -> void:
 	if not ResourceLoader.exists("res://assets/audio/rain.wav"):
@@ -109,7 +118,8 @@ func _on_state(snapshot: Dictionary) -> void:
 	var covered: bool = screens.apply(view)
 	var playing: bool = view.started and not covered
 	hud.visible = playing
-	if view.phase == "ending" or not view.started:
+	# Oyun içi pencereler (defter, dosyalar) oyun dışında kapanır; Esc menüsü açık kalabilir.
+	if (view.phase == "ending" or not view.started) and modal in ["book", "files"]:
 		_close_modal()
 	world.set_night(view.phase in ["fall", "night", "night_supplier", "ending"])
 	_update_hud()
@@ -137,6 +147,8 @@ func _on_state(snapshot: Dictionary) -> void:
 		book.refresh(view)
 	elif modal == "files" and not photo_busy:
 		case_file.refresh(view)
+	elif modal in screens.PAGES:
+		_render_modal()
 
 func _update_hud() -> void:
 	if not view.started:
@@ -191,8 +203,13 @@ func _new_game(mode: String) -> void:
 func _open_modal(kind: String) -> void:
 	_close_modal()
 	modal = kind
-	screens.open_modal(kind, {"mode": pending_mode, "muted": muted, "reduced_motion": reduced_motion, "speed": balloon.speed,
-		"fullscreen": settings.fullscreen, "window_size": settings.window_size})
+	_render_modal()
+
+func _render_modal() -> void:
+	var can_save: bool = view.get("started", false) and view.get("phase", "") != "ending"
+	screens.open_modal(modal, {"mode": pending_mode, "muted": muted, "reduced_motion": reduced_motion, "speed": balloon.speed,
+		"fullscreen": settings.fullscreen, "window_size": settings.window_size, "started": view.get("started", false),
+		"can_save": can_save, "slots": view.get("slots", [])})
 
 func _close_modal() -> void:
 	var closing_book := modal == "book"
@@ -298,7 +315,7 @@ func _cycle_window_size() -> void:
 	settings.window_size = WINDOW_SIZES[(index + 1) % WINDOW_SIZES.size()]
 	_apply_display()
 	_save_settings()
-	_open_modal("menu")
+	_open_modal("settings")
 
 func _set_reduced_motion(value: bool) -> void:
 	reduced_motion = value
@@ -311,17 +328,17 @@ func _toggle_sound() -> void:
 	if not muted and ambience.stream and not ambience.playing:
 		ambience.play()
 	_save_settings()
-	_open_modal("menu")
+	_open_modal("settings")
 
 func _toggle_motion() -> void:
 	_set_reduced_motion(not reduced_motion)
 	_save_settings()
-	_open_modal("menu")
+	_open_modal("settings")
 
 func _cycle_speed() -> void:
 	balloon.speed = SPEED_ORDER[(SPEED_ORDER.find(balloon.speed) + 1) % SPEED_ORDER.size()]
 	_save_settings()
-	_open_modal("menu")
+	_open_modal("settings")
 
 func _camera_flash() -> void:
 	if reduced_motion:
@@ -353,10 +370,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key == KEY_F11:
 		_toggle_fullscreen()
 	elif key == KEY_ESCAPE:
-		if modal != "":
+		# Alt sayfadan menü listesine, listeden oyuna döner.
+		if modal in screens.PAGES and modal != "pause" and view.get("started", false):
+			_open_modal("pause")
+		elif modal != "":
 			_close_modal()
 		else:
-			_open_modal("menu")
+			_open_modal("pause")
 	elif brew_comic.is_open:
 		# Demleme sayfası açıkken yalnızca seçim yapılır.
 		if key == KEY_F:

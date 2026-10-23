@@ -7,7 +7,8 @@ const SEGMENTS := 8
 const SEGMENT_SIZE := Vector2(15, 24)
 const SEGMENT_ON := Color("6b3f2a")
 const SEGMENT_PREVIEW := Color("c99a6b")
-const SEGMENT_OFF := Color("cbbba0")
+const SEGMENT_ON_TEXTURE := preload("res://assets/ui/segment_on.png")
+const SEGMENT_OFF_TEXTURE := preload("res://assets/ui/segment_off.png")
 const STAT_KEYS := {"warm": "brew.stat_warm", "cool": "brew.stat_cool", "sweet": "brew.stat_sweet", "bitter": "brew.stat_bitter"}
 var slot_rows: Array[Dictionary] = []
 var stat_rows: Dictionary = {}
@@ -42,8 +43,10 @@ func show_stats(base: Dictionary, preview: Dictionary) -> void:
 		var value := int(base.get(stat, 0))
 		var future := int(preview.get(stat, 0))
 		for i in range(SEGMENTS):
-			var segment: ColorRect = row.segments[i]
-			segment.color = SEGMENT_ON if i < value else (SEGMENT_PREVIEW if i < future else SEGMENT_OFF)
+			var segment: TextureRect = row.segments[i]
+			var filled := i < future
+			segment.texture = SEGMENT_ON_TEXTURE if filled else SEGMENT_OFF_TEXTURE
+			segment.modulate = (SEGMENT_ON if i < value else SEGMENT_PREVIEW) if filled else Color.WHITE
 		row.tier.text = I18n.t("brew.tier_%d" % Brewing.tier(future))
 
 static func tier_summary(tiers: Dictionary) -> String:
@@ -83,12 +86,13 @@ func _build_stats() -> void:
 		name_label.custom_minimum_size = Vector2(84, 0)
 		name_label.text = I18n.t(STAT_KEYS[stat])
 		row.add_child(name_label)
-		var segments: Array[ColorRect] = []
+		var segments: Array[TextureRect] = []
 		for i in range(SEGMENTS):
-			var segment := ColorRect.new()
+			var segment := TextureRect.new()
 			segment.custom_minimum_size = SEGMENT_SIZE
+			segment.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			segment.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			segment.color = SEGMENT_OFF
+			segment.texture = SEGMENT_OFF_TEXTURE
 			row.add_child(segment)
 			segments.append(segment)
 		var tier_label := Label.new()

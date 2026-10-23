@@ -13,7 +13,7 @@ var written: Array[String] = []
 
 func _initialize() -> void:
 	force = "--force" in OS.get_cmdline_user_args()
-	for folder: String in ["res://assets/comic", "res://assets/cafe", "res://assets/characters", "res://assets/ui/ingredients", "res://assets/ui/icons", "res://assets/ui/chrome", "res://presentation/theme"]:
+	for folder: String in ["res://assets/cutscene", "res://assets/comic", "res://assets/cafe", "res://assets/characters", "res://assets/ui/ingredients", "res://assets/ui/icons", "res://assets/ui/chrome", "res://presentation/theme"]:
 		DirAccess.make_dir_recursive_absolute(folder)
 	_save(_background(false), "res://assets/cafe/background_day.png")
 	_save(_background(true), "res://assets/cafe/background_night.png")
@@ -28,6 +28,25 @@ func _initialize() -> void:
 	_chrome()
 	_icons()
 	_comic()
+	_cutscene()
+	_save(_logo(), "res://assets/ui/logo.png")
+	var stream := _blank(6, 16)
+	stream.fill(Color.WHITE)
+	_rect(stream, 0, 0, 1, 16, Color(1, 1, 1, 0.7))
+	_save(stream, "res://assets/comic/stream.png")
+	var segment_on := _blank(5, 8)
+	segment_on.fill(Color.WHITE)
+	_save_up(segment_on, "res://assets/ui/segment_on.png")
+	var segment_off := _blank(5, 8)
+	segment_off.fill(Color("cbbba0"))
+	_rect(segment_off, 0, 0, 5, 1, Color("b9a98e"))
+	_save_up(segment_off, "res://assets/ui/segment_off.png")
+	var shutter := _blank(12, 12)
+	shutter.fill(Color("4a4a52"))
+	for y in [0, 4, 8]:
+		_rect(shutter, 0, y, 12, 1, Color("6a6a74"))
+		_rect(shutter, 0, y + 3, 12, 1, Color("2e2e34"))
+	_save_up(shutter, "res://assets/cafe/shutter.png")
 	var wants_theme := force or not FileAccess.file_exists("res://presentation/theme/cafe_theme.tres")
 	# Tema çerçeve dokularına bağlı; dokular içe aktarılmadan kurulursa çerçeveler boş kalır.
 	if wants_theme and not ResourceLoader.exists("res://assets/ui/chrome/panel.png"):
@@ -434,6 +453,181 @@ func _result_backdrop() -> Image:
 	_rect(image, 506, 266, 34, 30, Color("e3d99a"))
 	return image
 
+# --- The Fall ara sahnesi (piksel çizgi sanatı, 640×360 ölçeğinde ×3) ---------------
+## Bina ve kafe camı çizim koordinatları; ekranda ×3. fall_cutscene.gd varsayılanları bunlara göre.
+const ART_BUILDING := Rect2i(252, 100, 136, 233)
+const ART_CAFE_WINDOW := Rect2i(266, 110, 108, 30)
+const ART_GROUND := 333
+const ART_FAR_BLOCKS := [Rect2i(120, 187, 87, 146), Rect2i(187, 227, 53, 106), Rect2i(400, 173, 80, 160), Rect2i(473, 213, 100, 120)]
+
+func _cutscene() -> void:
+	var dir := "res://assets/cutscene/"
+	_save(_city_back(), dir + "city_back.png")
+	_save(_building_art(), dir + "building.png")
+	var glow := _blank(108, 30)
+	glow.fill(Color("f3c86b"))
+	_rect(glow, 0, 0, 108, 2, Color("f8dc96"))
+	_save(glow, dir + "cafe_light.png")
+	var light := _blank(8, 8)
+	light.fill(Color("e9c46a"))
+	_rect(light, 0, 0, 8, 1, Color("f3d48b"))
+	_save(light, dir + "window_light.png")
+	_save(_cafe_sign(), dir + "cafe_sign.png")
+	_save(_bat_sheet(), dir + "bat.png")
+	_save(_walker_sheet(), dir + "walker.png")
+
+func _outline(image: Image, rect: Rect2i, color: Color) -> void:
+	_rect(image, rect.position.x, rect.position.y, rect.size.x, 1, color)
+	_rect(image, rect.position.x, rect.end.y - 1, rect.size.x, 1, color)
+	_rect(image, rect.position.x, rect.position.y, 1, rect.size.y, color)
+	_rect(image, rect.end.x - 1, rect.position.y, 1, rect.size.y, color)
+
+func _city_back() -> Image:
+	var image := _blank(640, 360)
+	image.fill(Color.BLACK)
+	var dim := Color("5c5466")
+	_rect(image, 0, ART_GROUND, 640, 1, dim)
+	for block: Rect2i in ART_FAR_BLOCKS:
+		_outline(image, block, dim)
+		for y in range(block.position.y + 13, block.end.y - 10, 27):
+			for x in range(block.position.x + 10, block.end.x - 13, 23):
+				_outline(image, Rect2i(x, y, 10, 11), dim)
+	# Ay
+	for angle in range(0, 360, 4):
+		var point := Vector2(547, 57) + Vector2.from_angle(deg_to_rad(angle)) * 15.0
+		_rect(image, int(point.x), int(point.y), 1, 1, LINE_ART)
+	return image
+
+const LINE_ART := Color("f4eee4")
+
+func _building_art() -> Image:
+	var image := _blank(640, 360)
+	var body := ART_BUILDING
+	_rect(image, body.position.x, body.position.y, body.size.x, body.size.y, Color.BLACK)
+	_outline(image, body, LINE_ART)
+	# Kafe camı şeffaf: arkasındaki ışık ve silüet görünsün
+	var cafe := ART_CAFE_WINDOW
+	_rect(image, cafe.position.x, cafe.position.y, cafe.size.x, cafe.size.y, Color(0, 0, 0, 0))
+	_outline(image, cafe.grow(1), LINE_ART)
+	_rect(image, cafe.get_center().x, cafe.position.y, 1, cafe.size.y, LINE_ART)
+	# 4 kat pencere; zemin katta yalnızca kapı.
+	for i in range(4):
+		var y := cafe.end.y + 8 + i * 39
+		_rect(image, body.position.x, y, body.size.x, 1, LINE_ART)
+		for column in range(3):
+			_outline(image, Rect2i(body.position.x + 17 + column * 38, y + 9, 23, 19), LINE_ART)
+	# Çatıda tabela durur (cafe_sign.png); çatı süsü yok ki tabelayla çakışmasın.
+	# Kapı
+	_outline(image, Rect2i(body.get_center().x - 13, ART_GROUND - 37, 26, 37), LINE_ART)
+	return image
+
+## 2 kare yan yana (her biri 20×12): kanat yukarı / aşağı.
+func _bat_sheet() -> Image:
+	var image := _blank(40, 12)
+	for frame in range(2):
+		var ox := frame * 20
+		_rect(image, ox + 8, 4, 4, 6, LINE_ART)
+		_rect(image, ox + 8, 2, 1, 2, LINE_ART)
+		_rect(image, ox + 11, 2, 1, 2, LINE_ART)
+		var wing_y := 1 if frame == 0 else 7
+		for side: int in [-1, 1]:
+			var base_x := ox + (7 if side < 0 else 12)
+			for i in range(7):
+				var x := base_x + side * i
+				var y := 5 + int(round(float(wing_y - 5) * float(i) / 6.0))
+				_rect(image, x, y, 1, 2, LINE_ART)
+	return image
+
+## 2 kare yan yana (her biri 10×24): adım açık / kapalı. Koyu silüet.
+func _walker_sheet() -> Image:
+	var image := _blank(20, 24)
+	var shade := Color("2a1d22")
+	for frame in range(2):
+		var ox := frame * 10
+		_rect(image, ox + 3, 0, 4, 4, shade)
+		_rect(image, ox + 2, 4, 6, 10, shade)
+		if frame == 0:
+			_rect(image, ox + 2, 14, 2, 10, shade)
+			_rect(image, ox + 6, 14, 2, 10, shade)
+		else:
+			_rect(image, ox + 4, 14, 2, 10, shade)
+	return image
+
+## Yer tutucu logo: COFFALLEN, ikinci F tabeladan düşmüş, arkasında toz izi.
+const GLYPHS := {
+	"C": ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+	"O": ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+	"F": ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+	"A": ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+	"L": ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+	"E": ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+	"N": ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+}
+
+func _logo() -> Image:
+	var image := _blank(108, 30)
+	var word := "COFFALLEN"
+	var fallen := 3
+	for i in range(word.length()):
+		if i == fallen:
+			continue
+		_glyph(image, word[i], Vector2i(2 + i * 12, 2), false)
+	# Düşen F: yatık halde taban çizgisinin altında
+	_glyph(image, "F", Vector2i(2 + fallen * 12 + 6, 19), true)
+	# Toz izi: boş kalan yerden düşen harfe uzanan küçük bulutlar
+	var dust := Color(0.75, 0.72, 0.68, 0.7)
+	for step in range(5):
+		var x := 2 + fallen * 12 + 2 + step * 3
+		var y := 8 + step * 3
+		_rect(image, x, y, 2, 1, dust)
+		_rect(image, x + 1, y + 1, 1, 1, Color(dust, 0.4))
+	for puff: Vector2i in [Vector2i(44, 27), Vector2i(60, 27), Vector2i(64, 26)]:
+		_rect(image, puff.x, puff.y, 3, 2, dust)
+	return image
+
+## Çatıdaki kafe tabelası (124×46): pano + perçinler + iki ayak. Görselin alt kenarı = çatı çizgisi.
+## İkinci F panodan düşmüş, çatıda yatıyor; boşluktan ona toz izi.
+func _cafe_sign() -> Image:
+	var image := _blank(124, 46)
+	var roof := 45
+	# Ayaklar
+	for x in [18, 104]:
+		_rect(image, x, 22, 2, roof - 22, LINE_ART)
+		_rect(image, x - 3, roof - 1, 8, 1, LINE_ART)
+	_rect(image, 18, 32, 88, 1, Color("5c5466"))
+	# Pano
+	_rect(image, 0, 0, 124, 23, Color("1a1420"))
+	_outline(image, Rect2i(0, 0, 124, 23), LINE_ART)
+	_outline(image, Rect2i(2, 2, 120, 19), Color("5c5466"))
+	for corner: Vector2i in [Vector2i(3, 3), Vector2i(119, 3), Vector2i(3, 18), Vector2i(119, 18)]:
+		_rect(image, corner.x, corner.y, 2, 2, LINE_ART)
+	var word := "COFFALLEN"
+	var fallen := 3
+	for i in range(word.length()):
+		if i != fallen:
+			_glyph(image, word[i], Vector2i(9 + i * 12, 4), false)
+	# Düşen F çatıda, toz izi panodaki boşluktan ona
+	_glyph(image, "F", Vector2i(9 + fallen * 12 + 4, roof - 11), true)
+	var dust := Color(0.75, 0.72, 0.68, 0.7)
+	for step in range(4):
+		_rect(image, 9 + fallen * 12 + 3 + step * 2, 24 + step * 4, 2, 1, dust)
+	for puff: Vector2i in [Vector2i(44, roof - 2), Vector2i(63, roof - 2), Vector2i(66, roof - 3)]:
+		_rect(image, puff.x, puff.y, 3, 2, dust)
+	return image
+
+## 5×7 harf, 2× büyütülmüş + koyu gölge. lying: 90° yatırılmış.
+func _glyph(image: Image, letter: String, origin: Vector2i, lying: bool) -> void:
+	var rows: Array = GLYPHS[letter]
+	for r in range(7):
+		for c in range(5):
+			if rows[r][c] != "1":
+				continue
+			# Yatık: harfin gövdesi (sol sütun) yere değer, kolları yukarı bakar.
+			var cell := Vector2i(c, r) if not lying else Vector2i(r, 4 - c)
+			var at := origin + cell * 2
+			_rect(image, at.x + 1, at.y + 1, 2, 2, Color("3a2a30"))
+			_rect(image, at.x, at.y, 2, 2, LINE_ART)
+
 func _rounded_tile(fill: Color) -> Image:
 	var image := _blank(24, 24)
 	_rect(image, 2, 1, 20, 22, OUTLINE)
@@ -521,6 +715,28 @@ func _theme() -> Theme:
 	theme.set_color("font_disabled_color", "ComicChoice", Color(1, 1, 1, 0.3))
 	theme.set_color("icon_disabled_color", "ComicChoice", Color(1, 1, 1, 0.3))
 	theme.set_font_size("font_size", "ComicChoice", 36)
+	# Esc menüsü: çerçevesiz büyük satırlar ve kâğıt kayıt kartları
+	theme.set_type_variation("MenuItem", "Button")
+	for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+		theme.set_stylebox(state, "MenuItem", StyleBoxEmpty.new())
+	theme.set_color("font_color", "MenuItem", cream)
+	theme.set_color("font_hover_color", "MenuItem", Color("f0c987"))
+	theme.set_color("font_pressed_color", "MenuItem", Color("f0c987"))
+	theme.set_color("font_hover_pressed_color", "MenuItem", Color("f0c987"))
+	theme.set_color("font_disabled_color", "MenuItem", Color(1, 1, 1, 0.25))
+	theme.set_color("font_outline_color", "MenuItem", Color("0b080e"))
+	theme.set_constant("outline_size", "MenuItem", 8)
+	theme.set_font_size("font_size", "MenuItem", 46)
+	theme.set_type_variation("SlotCard", "Button")
+	theme.set_stylebox("normal", "SlotCard", _nine("paper.png", 12, 22))
+	theme.set_stylebox("hover", "SlotCard", _nine("tab_active.png", 12, 22))
+	theme.set_stylebox("pressed", "SlotCard", _nine("tab.png", 12, 22))
+	theme.set_stylebox("disabled", "SlotCard", _nine("button_disabled.png", 12, 22))
+	theme.set_stylebox("focus", "SlotCard", StyleBoxEmpty.new())
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_hover_pressed_color"]:
+		theme.set_color(state, "SlotCard", INK)
+	theme.set_color("font_disabled_color", "SlotCard", Color("4a4448"))
+	theme.set_font_size("font_size", "SlotCard", 26)
 	return theme
 
 func _nine(file: String, margin: int, content: int = -1, center: bool = true) -> StyleBoxTexture:

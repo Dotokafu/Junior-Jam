@@ -73,9 +73,13 @@ func run() -> void:
 	await settle(0.8)
 	check(session.state.stage == "reaction" and not screen.brew_comic.is_open, "Servis seçimi sayfayı kapatıp tepkiye geçmeli")
 	await capture("reaction")
-	screen._open_modal("menu")
+	screen._open_modal("pause")
 	await settle(0.3)
 	await capture("menu")
+	await click(locale.t("pause.save"))
+	await settle(0.3)
+	check(screen.modal == "save", "Esc menüsünden kaydet sayfası açılmalı")
+	await capture("menu_save")
 	screen._close_modal()
 	screen._toggle_book()
 	await settle(0.2)
@@ -108,7 +112,11 @@ func run() -> void:
 	session.state.phase = "fall"
 	session.state.stage = "transition"
 	bus.request("refresh")
-	await settle(0.4)
+	await settle(2.3)
+	await capture("fall_bat")
+	await settle(1.1)
+	await capture("fall_walk")
+	await settle(2.6)
 	await capture("fall")
 	session.state.ending = session.content.endings.fallen_world.duplicate(true)
 	session.state.ending["variant"] = "standard"

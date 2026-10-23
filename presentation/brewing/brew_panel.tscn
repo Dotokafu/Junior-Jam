@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="3_cup"]
 [ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="4_liquid"]
 [ext_resource type="PackedScene" path="res://presentation/brewing/machine_readout.tscn" id="5_readout"]
+[ext_resource type="Texture2D" path="res://assets/cafe/shutter.png" id="6_shutter"]
 
 [node name="BrewPanel" type="Control"]
 mouse_filter = 2
@@ -36,13 +37,15 @@ mouse_filter = 2
 offset_right = 1140.0
 offset_bottom = 900.0
 
-[node name="Shutter" type="ColorRect" parent="Machine"]
+[node name="Shutter" type="TextureRect" parent="Machine"]
 mouse_filter = 2
 offset_left = 24.0
 offset_top = 150.0
 offset_right = 1116.0
 offset_bottom = 150.0
-color = Color(0.29, 0.29, 0.32, 1)
+texture = ExtResource("6_shutter")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="Hint" type="Label" parent="Machine"]
 offset_left = 36.0

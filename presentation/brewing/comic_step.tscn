@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/ingredients/coffee.png" id="4_jar"]
 [ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="5_cup"]
 [ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="6_liquid"]
+[ext_resource type="Texture2D" path="res://assets/comic/stream.png" id="7_stream"]
 
 [node name="ComicStep" type="Control"]
 clip_contents = true
@@ -36,12 +37,14 @@ offset_bottom = 558.0
 mouse_filter = 2
 expand_mode = 1
 
-[node name="Stream" type="ColorRect" parent="."]
+[node name="Stream" type="TextureRect" parent="."]
 offset_left = 162.0
 offset_top = 210.0
 offset_right = 180.0
 offset_bottom = 412.0
 mouse_filter = 2
+texture = ExtResource("7_stream")
+expand_mode = 1
 
 [node name="Jar" type="TextureRect" parent="."]
 offset_left = 150.0
