@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnmsk17iwc0vs"
-path="res://.godot/imported/phone_screen.png-6add032453f048a078632620d99c112f.ctex"
+uid="uid://d0eusgytus2p"
+path="res://.godot/imported/tab.png-49ee667c12d750794a40fbc9206e3042.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/chrome/phone_screen.png"
-dest_files=["res://.godot/imported/phone_screen.png-6add032453f048a078632620d99c112f.ctex"]
+source_file="res://assets/ui/chrome/tab.png"
+dest_files=["res://.godot/imported/tab.png-49ee667c12d750794a40fbc9206e3042.ctex"]
 
 [params]
 

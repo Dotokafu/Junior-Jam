@@ -2,13 +2,19 @@ extends Control
 ## Sunum orkestrası: snapshot'ı sahnelere dağıtır, girdileri EventBus komutlarına çevirir.
 ## Domain durumu değiştirmez. Sahneler kalıcıdır; her durumda yeniden kurulmaz.
 const Balloon = preload("res://presentation/dialogue/speech_balloon.gd")
+const CaseFile = preload("res://presentation/ui/case_file.gd")
+## Polaroid makinenin üst yarığından çıkar: yarığın kamera ikonundaki yeri ve çıkış mesafesi.
+const EJECT_SLOT := Vector2(82, 24)
+const EJECT_RISE := 150.0
+const EJECT_TIME := 0.55
 const SPEED_ORDER: Array[String] = ["slow", "normal", "fast"]
 const TOAST_TIME := 4.0
 const AMBIENCE_DB := -18.0
 var view: Dictionary = {}
 var modal: String = ""
 var book_page: String = "human"
-var phone_selection: String = ""
+var files_selection: String = ""
+var photo_busy: bool = false
 var pending_mode: String = "story"
 var muted: bool = false
 var reduced_motion: bool = false
@@ -18,7 +24,7 @@ var toast_tween: Tween
 @onready var balloon: Control = $Balloon
 @onready var brew_panel: Control = $BrewPanel
 @onready var book: Control = $RecipeBook
-@onready var phone: Control = $Phone
+@onready var case_file: Control = $CaseFile
 @onready var screens: Control = $Screens
 @onready var flash: ColorRect = $Flash
 @onready var toast: Label = $Toast
@@ -27,15 +33,16 @@ var toast_tween: Tween
 @onready var top_right: Control = $Hud/TopRight
 @onready var auto_button: Button = $Hud/TopRight/AutoButton
 @onready var ffwd_button: Button = $Hud/TopRight/FfwdButton
-@onready var phone_button: Button = $Hud/BottomLeft/PhoneButton
-@onready var photo_button: Button = $Hud/BottomLeft/PhotoButton
+@onready var camera_button: Button = $Hud/BottomLeft/CameraButton
+@onready var files_button: Button = $Hud/BottomLeft/FilesButton
+@onready var eject_photo: Control = $Hud/EjectPhoto
 @onready var book_button: Button = $Hud/BottomRight/BookButton
 @onready var menu_button: Button = $Hud/BottomRight/MenuButton
 @onready var ambience: AudioStreamPlayer = $Ambience
 
 func _ready() -> void:
 	book.hide()
-	phone.hide()
+	case_file.hide()
 	flash.modulate.a = 0.0
 	toast.modulate.a = 0.0
 	_setup_hud()
@@ -49,7 +56,7 @@ func _ready() -> void:
 	balloon.decision_pressed.connect(func() -> void: EventBus.request("next"))
 	balloon.line_started.connect(func() -> void: world.character.bounce())
 	book.closed.connect(_close_modal)
-	phone.closed.connect(_close_modal)
+	case_file.closed.connect(_close_modal)
 	screens.start_requested.connect(_start)
 	screens.new_game_requested.connect(_new_game)
 	screens.next_requested.connect(func() -> void: EventBus.request("next"))
@@ -65,14 +72,14 @@ func _ready() -> void:
 func _setup_hud() -> void:
 	auto_button.text = I18n.t("hud.auto")
 	ffwd_button.text = I18n.t("hud.ffwd")
-	photo_button.text = I18n.t("hud.photo")
-	phone_button.text = I18n.t("hud.phone")
+	camera_button.text = I18n.t("hud.photo")
+	files_button.text = I18n.t("hud.files")
 	book_button.text = I18n.t("hud.book")
 	menu_button.text = I18n.t("hud.menu")
 	auto_button.toggled.connect(func(on: bool) -> void: balloon.auto = on)
 	ffwd_button.toggled.connect(func(on: bool) -> void: balloon.fast_forward = on)
-	photo_button.pressed.connect(func() -> void: EventBus.request("photo"))
-	phone_button.pressed.connect(_toggle_phone)
+	camera_button.pressed.connect(_take_photo)
+	files_button.pressed.connect(_toggle_files)
 	book_button.pressed.connect(_toggle_book)
 	menu_button.pressed.connect(func() -> void: _open_modal("menu"))
 
@@ -108,13 +115,14 @@ func _on_state(snapshot: Dictionary) -> void:
 		world.show_cup(view.drink.get("color", ""))
 	else:
 		world.hide_cup()
-	if view.records.size() > record_count:
-		_camera_flash()
+	var new_record: bool = view.records.size() > record_count
 	record_count = view.records.size()
+	if new_record and playing:
+		_photo_taken(view.records.back())
 	if modal == "book":
 		book.refresh(view)
-	elif modal == "phone":
-		phone.refresh(view)
+	elif modal == "files" and not photo_busy:
+		case_file.refresh(view)
 
 func _update_hud() -> void:
 	if not view.started:
@@ -126,9 +134,10 @@ func _update_hud() -> void:
 	var brewing: bool = view.stage in ["brewing", "tutorial"]
 	day_text.visible = not brewing
 	top_right.visible = not brewing
-	photo_button.visible = view.day >= 2 and view.phase in ["day", "night"]
-	photo_button.disabled = view.stage == "reaction"
-	phone_button.visible = view.day >= 2
+	# Makine tezgâhta durur; yalnızca müşteri karşındayken çekebilirsin.
+	camera_button.visible = view.day >= 2
+	camera_button.disabled = view.phase not in ["day", "night"] or view.stage == "reaction"
+	files_button.visible = view.day >= 2
 
 func _update_balloon(playing: bool) -> void:
 	if not playing or view.line == "":
@@ -172,13 +181,15 @@ func _open_modal(kind: String) -> void:
 
 func _close_modal() -> void:
 	var closing_book := modal == "book"
-	if modal == "phone":
-		phone_selection = phone.selected_id
+	if photo_busy:
+		return
+	if modal == "files":
+		files_selection = case_file.selected_id
+		case_file.dismiss()
 	if modal == "book":
 		book_page = book.page
 	modal = ""
 	book.hide()
-	phone.hide()
 	screens.close_modal()
 	if closing_book:
 		EventBus.request("book_closed")
@@ -194,16 +205,42 @@ func _toggle_book() -> void:
 	book.show()
 	book.open(view, book_page)
 
-func _toggle_phone() -> void:
-	if not view.get("started", false) or view.day < 2 or view.phase == "ending":
+func _toggle_files() -> void:
+	if not view.get("started", false) or view.day < 2 or view.phase == "ending" or photo_busy:
 		return
-	if modal == "phone":
+	if modal == "files":
 		_close_modal()
 		return
 	_close_modal()
-	modal = "phone"
-	phone.show()
-	phone.open(view, phone_selection)
+	modal = "files"
+	case_file.open_archive(view, files_selection)
+
+func _take_photo() -> void:
+	if photo_busy or modal != "":
+		return
+	EventBus.request("photo")
+
+## Flaş → polaroid makinenin yarığından çıkar → dava dosyası açılır ve fotoğraf yerine yapışır.
+func _photo_taken(record: Dictionary) -> void:
+	_close_modal()
+	photo_busy = true
+	modal = "files"
+	files_selection = record.id
+	_camera_flash()
+	var start := camera_button.global_position + EJECT_SLOT - Vector2(eject_photo.size.x / 2.0, 0)
+	eject_photo.get_node("Photo").texture = CaseFile.photo_texture(record)
+	eject_photo.get_node("Photo").modulate = CaseFile.UNDEVELOPED
+	eject_photo.global_position = start
+	eject_photo.show()
+	if not reduced_motion:
+		var rise := create_tween()
+		rise.tween_property(eject_photo, "global_position:y", start.y - EJECT_RISE, EJECT_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		rise.tween_interval(0.25)
+		await rise.finished
+	var from := eject_photo.get_global_rect()
+	eject_photo.hide()
+	photo_busy = false
+	case_file.present_new(view, record.id, from)
 
 func _toggle_sound() -> void:
 	muted = not muted
@@ -214,7 +251,7 @@ func _toggle_sound() -> void:
 
 func _toggle_motion() -> void:
 	reduced_motion = not reduced_motion
-	for node: Node in [world, balloon, brew_panel, screens]:
+	for node: Node in [world, balloon, brew_panel, screens, case_file]:
 		node.reduced_motion = reduced_motion
 	_open_modal("menu")
 
@@ -257,7 +294,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif key == KEY_B:
 		_toggle_book()
 	elif key == KEY_G:
-		_toggle_phone()
+		_toggle_files()
 	elif modal != "" or not view.get("started", false):
 		return
 	elif key in [KEY_SPACE, KEY_ENTER]:
@@ -278,7 +315,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif key == KEY_R:
 		EventBus.request("clear")
 	elif key == KEY_C:
-		EventBus.request("photo")
+		_take_photo()
 	elif key == KEY_M:
 		EventBus.request("shelf")
 	elif key >= KEY_1 and key <= KEY_9:

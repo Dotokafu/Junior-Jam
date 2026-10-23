@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb2uegnjjoelq"
-path="res://.godot/imported/phone_frame.png-f87c5ebfb539a624500192fa2cc792d5.ctex"
+uid="uid://br6j5vs770nut"
+path="res://.godot/imported/tape.png-f6ed4c8ca77f340537187b5b39080080.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/chrome/phone_frame.png"
-dest_files=["res://.godot/imported/phone_frame.png-f87c5ebfb539a624500192fa2cc792d5.ctex"]
+source_file="res://assets/ui/tape.png"
+dest_files=["res://.godot/imported/tape.png-f6ed4c8ca77f340537187b5b39080080.ctex"]
 
 [params]
 

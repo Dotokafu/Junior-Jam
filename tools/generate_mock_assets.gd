@@ -239,8 +239,11 @@ func _chrome() -> void:
 	_save_up(_frame(Color("9d968a"), Color("4a4448"), Color("aaa397")), dir + "button_disabled.png")
 	_save_up(_frame(CREAM, Color("3f8f3a"), Color("8fd27f"), Color("a89a7c")), dir + "button_primary.png")
 	_save_up(_frame(Color("e8dcc0"), Color("6a5440"), Color("f3ead2")), dir + "book_page.png")
-	_save_up(_frame(Color("16131c"), Color("05040a"), Color("4e4658"), Color.TRANSPARENT, 16), dir + "phone_frame.png")
-	_save_up(_frame(Color("d9e4df"), Color("0f0d12"), Color("eef5f1")), dir + "phone_screen.png")
+	# Dava dosyası: açık manila klasörün kanadı, içindeki kâğıt ve klasör sekmeleri
+	_save_up(_frame(Color("d6b277"), Color("5e4424"), Color("ecd09a"), Color("b8945c"), 16), dir + "folder_page.png")
+	_save_up(_frame(Color("f1ead8"), Color("8a7a62"), Color("fbf7ec"), Color("ddd3bc")), dir + "paper.png")
+	_save_up(_frame(Color("c9a466"), Color("5e4424"), Color("dcbd84")), dir + "tab.png")
+	_save_up(_frame(Color("ecd09a"), Color("5e4424"), Color("f6e2b8")), dir + "tab_active.png")
 	var brew_frame := _blank(12, 12)
 	_rect(brew_frame, 0, 0, 12, 12, Color("0b080e"))
 	_rect(brew_frame, 3, 3, 6, 6, Color(0, 0, 0, 0))
@@ -251,12 +254,18 @@ func _chrome() -> void:
 func _icons() -> void:
 	var dir := "res://assets/ui/icons/"
 	var white := Color("f4eee4")
-	var phone := _blank(24, 24)
-	_rect(phone, 6, 1, 12, 22, OUTLINE)
-	_rect(phone, 7, 2, 10, 20, white)
-	_rect(phone, 8, 4, 8, 14, Color("6f8f9a"))
-	_rect(phone, 11, 19, 2, 2, OUTLINE)
-	_save_up(phone, dir + "phone.png")
+	var files := _blank(24, 24)
+	_rect(files, 2, 4, 9, 4, OUTLINE)
+	_rect(files, 2, 6, 20, 16, OUTLINE)
+	_rect(files, 3, 5, 7, 3, Color("ecd09a"))
+	_rect(files, 3, 7, 18, 14, Color("d6b277"))
+	_rect(files, 5, 10, 10, 1, Color("8a6a3a"))
+	_rect(files, 5, 13, 7, 1, Color("8a6a3a"))
+	_save_up(files, dir + "files.png")
+	_save_up(_camera_device(), dir + "camera_device.png")
+	_save(_polaroid(), "res://assets/ui/polaroid.png")
+	_save(_tape(), "res://assets/ui/tape.png")
+	_save(_clip(), "res://assets/ui/clip.png")
 	var camera := _blank(24, 24)
 	_rect(camera, 2, 6, 20, 15, OUTLINE)
 	_rect(camera, 3, 7, 18, 13, white)
@@ -289,6 +298,55 @@ func _triangle(image: Image, x0: int, center_y: int, length: int) -> void:
 	for column in range(length):
 		var half := length - 1 - column
 		_rect(image, x0 + column, center_y - half / 2 - 1, 1, half + 2, OUTLINE)
+
+## Kare anlık fotoğraf makinesi (önden). Fotoğraf üstteki yarıktan çıkar.
+func _camera_device() -> Image:
+	var image := _blank(48, 48)
+	_rect(image, 3, 6, 42, 40, OUTLINE)
+	_rect(image, 4, 7, 40, 38, Color("e8e2d4"))
+	_rect(image, 4, 7, 40, 6, Color("cfc7b5"))
+	_rect(image, 9, 8, 30, 3, OUTLINE)
+	_rect(image, 4, 34, 40, 11, Color("c0412f"))
+	_rect(image, 15, 16, 18, 18, OUTLINE)
+	_rect(image, 17, 18, 14, 14, Color("3a3540"))
+	_rect(image, 20, 21, 8, 8, Color("1a1420"))
+	_rect(image, 21, 22, 3, 3, Color("8fb0c4"))
+	_rect(image, 34, 16, 7, 5, Color("f4e8a8"))
+	_rect(image, 34, 16, 7, 1, OUTLINE)
+	_rect(image, 6, 16, 5, 5, OUTLINE)
+	_rect(image, 7, 17, 3, 3, Color("6f8f9a"))
+	return image
+
+## Polaroid çerçevesi: 40×48, ortada 32×32 şeffaf pencere (fotoğraf arkasında durur).
+func _polaroid() -> Image:
+	var image := _blank(40, 48)
+	_rect(image, 0, 0, 40, 48, Color("d9d2c4"))
+	_rect(image, 1, 1, 38, 46, Color("f7f3ea"))
+	_rect(image, 4, 4, 32, 32, Color(0, 0, 0, 0))
+	_rect(image, 3, 3, 34, 1, Color("d9d2c4"))
+	_rect(image, 3, 36, 34, 1, Color("d9d2c4"))
+	_rect(image, 3, 3, 1, 34, Color("d9d2c4"))
+	_rect(image, 36, 3, 1, 34, Color("d9d2c4"))
+	return image
+
+## Kâğıdı klasörün sağ kanadına tutturan metal mandal (önden).
+func _clip() -> Image:
+	var image := _blank(32, 22)
+	_rect(image, 9, 0, 14, 10, OUTLINE)
+	_rect(image, 10, 1, 12, 8, Color("9aa3ab"))
+	_rect(image, 12, 3, 8, 4, Color(0, 0, 0, 0))
+	_rect(image, 2, 9, 28, 13, OUTLINE)
+	_rect(image, 3, 10, 26, 11, Color("3c4248"))
+	_rect(image, 3, 10, 26, 2, Color("6c757d"))
+	return image
+
+func _tape() -> Image:
+	var image := _blank(18, 7)
+	_rect(image, 0, 0, 18, 7, Color(0.93, 0.89, 0.74, 0.75))
+	for x in range(0, 18, 3):
+		_rect(image, x, 0, 1, 1, Color(0, 0, 0, 0))
+		_rect(image, x + 1, 6, 1, 1, Color(0, 0, 0, 0))
+	return image
 
 func _rounded_tile(fill: Color) -> Image:
 	var image := _blank(24, 24)
@@ -337,15 +395,26 @@ func _theme() -> Theme:
 	_label(theme, "Title", cream, 96)
 	_label(theme, "MachineLabel", INK, 26)
 	_label(theme, "BookText", Color("3d322c"), 26)
-	_label(theme, "PhoneText", Color("1f2a2a"), 24)
+	_label(theme, "FileText", INK, 28)
+	_label(theme, "FileCaption", Color("7a5a34"), 20)
+	_label(theme, "Stamp", Color("b3332b"), 44)
 	_label(theme, "HudText", cream, 26)
 	theme.set_color("font_outline_color", "HudText", Color("0b080e"))
 	theme.set_constant("outline_size", "HudText", 9)
 	_variation(theme, "MachinePanel", "PanelContainer", {"panel": _nine("machine.png", 15, 24)})
 	_variation(theme, "SlotPanel", "PanelContainer", {"panel": _nine("lcd.png", 12, 10)})
 	_variation(theme, "BookPage", "PanelContainer", {"panel": _nine("book_page.png", 12, 36)})
-	_variation(theme, "PhoneFrame", "PanelContainer", {"panel": _nine("phone_frame.png", 15, 30)})
-	_variation(theme, "PhoneScreen", "PanelContainer", {"panel": _nine("phone_screen.png", 12, 22)})
+	_variation(theme, "FolderPage", "Panel", {"panel": _nine("folder_page.png", 15)})
+	_variation(theme, "FolderTab", "PanelContainer", {"panel": _nine("tab_active.png", 12, 12)})
+	_variation(theme, "PaperPanel", "PanelContainer", {"panel": _nine("paper.png", 12, 26)})
+	theme.set_type_variation("FileTab", "Button")
+	theme.set_stylebox("normal", "FileTab", _nine("tab.png", 12, 10))
+	theme.set_stylebox("hover", "FileTab", _nine("tab_active.png", 12, 10))
+	theme.set_stylebox("pressed", "FileTab", _nine("tab_active.png", 12, 10))
+	theme.set_stylebox("focus", "FileTab", StyleBoxEmpty.new())
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		theme.set_color(state, "FileTab", INK)
+	theme.set_font_size("font_size", "FileTab", 22)
 	_variation(theme, "BrewFrame", "Panel", {"panel": _nine("brew_frame.png", 12, 0, false)})
 	return theme
 

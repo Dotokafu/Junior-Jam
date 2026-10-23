@@ -77,13 +77,23 @@ func run() -> void:
 	session.state.tutorial = "ready"
 	session.state.visit_index = 0
 	session.state.visits = session._generate_visits()
-	bus.request("photo")
+	bus.request("refresh")
 	await settle(0.6)
 	await capture("night")
-	screen._toggle_phone()
-	await settle(0.2)
-	await capture("phone")
+	# Çek: polaroid makineden çıkar, dava dosyası alttan açılır, fotoğraf yerine yapışır.
+	await click(locale.t("hud.photo"))
+	await settle(0.4)
+	await capture("photo_eject")
+	await settle(2.4)
+	check(screen.case_file.visible and session.state.records.size() == 1, "Çekince dava dosyası açılmalı")
+	await capture("case_new")
 	screen._close_modal()
+	await settle(0.5)
+	screen._toggle_files()
+	await settle(0.5)
+	await capture("files")
+	screen._close_modal()
+	await settle(0.5)
 	session.state.phase = "fall"
 	session.state.stage = "transition"
 	bus.request("refresh")

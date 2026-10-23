@@ -17,8 +17,11 @@ oyunda **×3** büyütülür (keskin `nearest` filtre). Yani 1 çizim pikseli = 
 | `characters/<id>.png` | serbest (önerilen 1080×1560) | **El çizimi**, şeffaf arka plan, piksel değil. 540×780 kutuya oranı korunarak sığar, alttan hizalanır, yumuşak filtreyle çizilir. Alt kısmı tezgâhın arkasında kalır |
 | `cafe/brew_shelf.png` | 380×300 | Demleme ekranının arka planı (yakın plan raf). Kavanozlar üst rafa (y=100) dizilir |
 | `ui/ingredients/<id>.png` | 32×40 | Raftaki kavanoz; makine slotunda da küçük ikon olarak görünür |
-| `ui/icons/*.png` | 24×24 (kayıtta ×3 = 72×72) | HUD ikonları: phone, camera, book, menu, auto, ffwd |
-| `ui/chrome/*.png` | 12×12 / 16×16 (kayıtta ×3) | 9-slice çerçeveler: balon, makine, buton, defter, telefon |
+| `ui/icons/*.png` | 24×24 (kayıtta ×3 = 72×72) | HUD ikonları: files, book, menu, auto, ffwd |
+| `ui/icons/camera_device.png` | 48×48 (kayıtta ×3) | Tezgâhtaki kare anlık fotoğraf makinesi; polaroid üst yarıktan çıkar |
+| `ui/polaroid.png` | 40×48 | Polaroid çerçevesi; ortadaki 32×32 alan **şeffaf** kalmalı (fotoğraf arkadan görünür) |
+| `ui/tape.png`, `ui/clip.png` | 18×7, 32×22 | Fotoğrafı tutan bant ve kâğıdı tutan mandal |
+| `ui/chrome/*.png` | 12×12 / 16×16 (kayıtta ×3) | 9-slice çerçeveler: balon, makine, buton, defter, klasör kanadı, kâğıt, sekme |
 
 `<id>` = `content/characters.json` ve `content/ingredients.json` içindeki `id` (ör. `ada.png`, `coffee.png`).
 Rastgele müşteriler görünüşünü `encounter_pools.json` → `portraits` listesindeki karakterlerden alır.
@@ -29,11 +32,11 @@ Yazı tipi: **Pixelify Sans** (OFL, `fonts/PixelifySans-OFL.txt`), Türkçe kara
 
 Buton, panel, balon, defter ve telefon renkleri/yazı tipleri tek dosyada:
 `presentation/theme/cafe_theme.tres`. Godot'da çift tıkla, Theme editöründe değiştir.
-Önemli tipler: `BalloonPanel`, `NameTag`, `PrimaryButton`, `MachinePanel`, `ShelfPanel`, `BookPage`, `PhoneFrame`.
+Önemli tipler: `BalloonPanel`, `NameTag`, `PrimaryButton`, `MachinePanel`, `BookPage`, `FolderPage`, `PaperPanel`, `FileTab`, `Stamp`.
 
 Sahne düzenleri editörde açılabilir: `presentation/world/cafe_world.tscn` (mekân, karakter yeri, fincan),
 `presentation/brewing/brew_panel.tscn` (makine), `presentation/ui/recipe_book.tscn` (defter),
-`presentation/ui/phone.tscn` (GBT telefonu), `presentation/dialogue/speech_balloon.tscn` (balon).
+`presentation/ui/case_file.tscn` (dava dosyası), `presentation/dialogue/speech_balloon.tscn` (balon).
 
 ## Yer tutucuları yeniden üretmek
 

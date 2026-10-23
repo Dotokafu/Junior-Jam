@@ -6,12 +6,13 @@
 [ext_resource type="PackedScene" path="res://presentation/dialogue/speech_balloon.tscn" id="4_balloon"]
 [ext_resource type="PackedScene" path="res://presentation/brewing/brew_panel.tscn" id="5_brew"]
 [ext_resource type="PackedScene" path="res://presentation/ui/recipe_book.tscn" id="6_book"]
-[ext_resource type="PackedScene" path="res://presentation/ui/phone.tscn" id="7_phone"]
+[ext_resource type="PackedScene" path="res://presentation/ui/case_file.tscn" id="7_case"]
 [ext_resource type="Script" path="res://presentation/ui/overlay_screens.gd" id="8_screens"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/auto.png" id="9_auto"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/ffwd.png" id="10_ffwd"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/phone.png" id="11_phone"]
-[ext_resource type="Texture2D" path="res://assets/ui/icons/camera.png" id="12_camera"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/files.png" id="11_files"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/camera_device.png" id="12_camera"]
+[ext_resource type="Texture2D" path="res://assets/ui/polaroid.png" id="15_polaroid"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/book.png" id="13_book"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/menu.png" id="14_menu"]
 
@@ -71,28 +72,55 @@ icon = ExtResource("10_ffwd")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
+[node name="EjectPhoto" type="Control" parent="Hud"]
+visible = false
+mouse_filter = 2
+offset_left = 52.0
+offset_top = 880.0
+offset_right = 172.0
+offset_bottom = 1024.0
+
+[node name="Photo" type="TextureRect" parent="Hud/EjectPhoto"]
+texture_filter = 2
+mouse_filter = 2
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 108.0
+offset_bottom = 108.0
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Frame" type="TextureRect" parent="Hud/EjectPhoto"]
+mouse_filter = 2
+offset_right = 120.0
+offset_bottom = 144.0
+texture = ExtResource("15_polaroid")
+expand_mode = 1
+
 [node name="BottomLeft" type="HBoxContainer" parent="Hud"]
 offset_left = 20.0
-offset_top = 946.0
-offset_right = 280.0
-offset_bottom = 1064.0
+offset_top = 880.0
+offset_right = 420.0
+offset_bottom = 1068.0
 theme_override_constants/separation = 8
+alignment = 0
 
-[node name="PhoneButton" type="Button" parent="Hud/BottomLeft"]
-custom_minimum_size = Vector2(108, 118)
-tooltip_text = "[G]"
+[node name="CameraButton" type="Button" parent="Hud/BottomLeft"]
+custom_minimum_size = Vector2(164, 188)
+tooltip_text = "[C]"
 theme_type_variation = &"IconButton"
-text = "GBT"
-icon = ExtResource("11_phone")
+text = "ÇEK"
+icon = ExtResource("12_camera")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="PhotoButton" type="Button" parent="Hud/BottomLeft"]
-custom_minimum_size = Vector2(108, 118)
-tooltip_text = "[C]"
+[node name="FilesButton" type="Button" parent="Hud/BottomLeft"]
+custom_minimum_size = Vector2(120, 118)
+size_flags_vertical = 8
+tooltip_text = "[G]"
 theme_type_variation = &"IconButton"
-text = "FOTO"
-icon = ExtResource("12_camera")
+text = "DOSYALAR"
+icon = ExtResource("11_files")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
@@ -125,7 +153,7 @@ vertical_icon_alignment = 0
 [node name="RecipeBook" parent="." instance=ExtResource("6_book")]
 visible = false
 
-[node name="Phone" parent="." instance=ExtResource("7_phone")]
+[node name="CaseFile" parent="." instance=ExtResource("7_case")]
 visible = false
 
 [node name="Screens" type="Control" parent="."]
@@ -150,10 +178,10 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 
 [node name="Toast" type="Label" parent="."]
-offset_left = 460.0
-offset_top = 900.0
-offset_right = 1460.0
-offset_bottom = 940.0
+offset_left = 560.0
+offset_top = 150.0
+offset_right = 1360.0
+offset_bottom = 190.0
 theme_type_variation = &"HudText"
 horizontal_alignment = 1
 autowrap_mode = 3
