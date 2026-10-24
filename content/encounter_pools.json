@@ -123,6 +123,7 @@
     "Yağmur bugün de dinmeyecek gibi."
   ],
   "order_template": "Bir {drink} alabilir miyim?",
+  "order_template_hint": "Bir {drink} alabilir miyim? {hint}...",
   "stat_order_chance": 0.4,
   "stat_orders": {
     "human": [

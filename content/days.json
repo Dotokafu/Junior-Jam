@@ -18,7 +18,7 @@
             "İnsanlar üzerimdeki lekelere bakıyor.",
             "Kimse ne kadar yorulduğumu sormuyor."
           ],
-          "order_line": "Bana sıradan bir sabahı hatırlatacak bir şey ver. Yumuşak olsun, sütlü.",
+          "order_line": "Bana sıradan bir sabahı hatırlatacak bir şey ver. Kahvesi hafif kalsın, sütü bol olsun… yumuşak bir tat.",
           "questions": [
             {
               "id": "where_from",
@@ -47,7 +47,7 @@
             "Postaneden çıktım, ellerim hâlâ titriyor.",
             "Fotoğraf bazen gerçeği yakalar. Bazen yalnızca birinin en kötü anını."
           ],
-          "order_line": "Titreyen ellere iyi gelecek bir şey… limonlu, naneli olsun.",
+          "order_line": "Titreyen ellere iyi gelecek bir şey… Nane ve limon ferahlığı iyi gelir derler, çayın buharı içimi ısıtsın.",
           "questions": [
             {
               "id": "work",
@@ -78,7 +78,7 @@
             "Bu saatte açık olacağını söylemişti.",
             "Kim mi? Senden önce tezgâhın arkasında duran kişi."
           ],
-          "order_line": "Eskisi gibi bir şey. Sıcak… biraz demir tadında.",
+          "order_line": "Eskisi gibi bir şey. Sıcak… demir tadı önde olsun, kemiğin içindeki o eski kıvam gibi.",
           "questions": [
             {
               "id": "where_from",
@@ -120,7 +120,7 @@
           "character": "atlas",
           "order": "espresso",
           "dialogue": [
-            "Bir Uzun Gece. Vardiya daha yeni bitti.",
+            "Bir Uzun Gece. Kahvesi uykuyu kovacak kadar sert olsun, azıcık baharat sıcaklığıyla… Vardiya daha yeni bitti.",
             "Gözüme mi bakıyorsun? Limandaki vinç beni iki parçaya ayıracaktı. Doktorlar birini kurtardı.",
             "Defne bilir. Protez için evrakları onun kamyonuyla gönderdim."
           ]
@@ -129,7 +129,7 @@
           "character": "ilya",
           "order": "red",
           "dialogue": [
-            "Tezgâhın eski sahibi bana hep Kızıl Hatıra hazırlardı.",
+            "Tezgâhın eski sahibi bana hep Kızıl Hatıra hazırlardı; kanı sıcak tutar, iliğin ağırlığıyla kıvam verirdi...",
             "Arşivde ölüm kayıtlarını düzenliyorum. Yaşayanların evrakı daha karışık.",
             "Bazen dosyanın üzerindeki tarih yanlış olur. Bazen dosyanın kendisi."
           ]
@@ -140,7 +140,7 @@
           "character": "ada",
           "order": "mocha",
           "dialogue": [
-            "Bu kez Son Işık. Kakao, tarçın, süt… eve gitmeden önce.",
+            "Bu kez Son Işık. Kakaonun acılığı önce tarçın kokusuna karışsın, üstü süt olsun… eve gitmeden önce içimi ısıtsın.",
             "Bugün Atlas diye bir işçiyi gördüm. Yeni gözüne alışamamış.",
             "Kayıp kardeşimi arıyorum. Gece dışarı çıkmamın başka bir nedeni yok."
           ]
@@ -149,7 +149,7 @@
           "character": "saye",
           "order": "hollow",
           "dialogue": [
-            "Boşluk hazırlıyor musun?",
+            "Boşluk hazırlıyor musun? Safranın buruk acılığı, dokunun o tekinsiz ağırlığı... içimdeki eksikliği ancak o hissettirmiyor.",
             "Kardeşimin fotoğrafını her yere astım. Artık onun yüzünü kendi yüzümden iyi biliyorum.",
             "Sizin insanlarınız kaybolunca isimleri duvarlarda kalıyor. Bizimkiler hiç yaşamamış sayılıyor."
           ]
@@ -174,7 +174,7 @@
           "character": "narin",
           "order": "tea",
           "dialogue": [
-            "Sığınak alabilir miyim? Dersten önce sesimi açıyor.",
+            "Sığınak alabilir miyim? Çayın içine nane ferahlığıyla biraz limon… dersten önce sesimi ancak bu açıyor.",
             "Çocuklara hâlâ sabah şarkıları öğretiyorum. Bazıları hiç gün doğumu görmemiş.",
             "İlacım ellerimi buz gibi yapıyor. İnsanlar tokalaşmayı bıraktı."
           ]
@@ -183,7 +183,7 @@
           "character": "eren",
           "order": "ashfall",
           "dialogue": [
-            "Kül Yağmuru. Bugün gün batmadan gelmek istedim.",
+            "Kül Yağmuru. Damağımda külün kuruluğu ve tuzun o yakıcı tadı kalsın... Bugün gün batmadan gelmek istedim.",
             "Dün Vey bana eski bir fotoğrafımı gösterdi. Çekildiği günü hatırlıyorum; herkesin beni gömdüğü günü.",
             "Sana da hiç hatırlamadığın bir geçmişten söz eden oldu mu?"
           ]
@@ -194,7 +194,7 @@
           "character": "mira",
           "order": "espresso",
           "dialogue": [
-            "Uzun Gece. Bu ismi kim koyduysa ileri görüşlüymüş.",
+            "Uzun Gece. Uyanık kalmak için o baharatlı, koyu kahveye ihtiyacım var... Bu ismi kim koyduysa ileri görüşlüymüş.",
             "Dün çektiğim fotoğrafta bir yüz eksik. Aynadan değil, listeden silinmiş.",
             "Bir fotoğrafı birine verdiğinde, yalnızca kâğıt vermiyorsun."
           ]
@@ -203,7 +203,7 @@
           "character": "ilya",
           "order": "red",
           "dialogue": [
-            "Kızıl Hatıra. Bugün adını daha iyi anlıyorum.",
+            "Kızıl Hatıra. Kanın ve iliğin o unutulmayan ağırlığı... Bugün adını daha iyi anlıyorum.",
             "Senden önceki barista kimseyi bildirmedi. Sonra bu sokakta sabah gelmemeye başladı.",
             "Sessizlik bazen bir taraf seçmektir. Bunu senden saklamayacağım."
           ]
@@ -228,7 +228,7 @@
           "character": "eren",
           "order": "ashfall",
           "dialogue": [
-            "Kül Yağmuru. Bugün pencereden ilk kez güneşi izledim.",
+            "Kül Yağmuru. Kül ve tuzun o bastırılamayan açlığı... Bugün pencereden ilk kez güneşi izledim.",
             "Işık sandığım kadar acıtmıyormuş. Belki hep yanlış hikâyeyi dinledim.",
             "Duvardaki fotoğrafına baktın mı? Eski sahibin fotoğrafına değil. Seninkine."
           ]
@@ -237,7 +237,7 @@
           "character": "atlas",
           "order": "latte",
           "dialogue": [
-            "Sabah Sisi. Annem sütü bol severdi.",
+            "Sabah Sisi. Annem gibi kahvesi hafif, sütü bol severim ben de.",
             "Mahalledeki kayıpların fotoğrafları hep aynı açıdan çekilmiş. Bir tezgâhın karşısından.",
             "Bana bakarken ne gördüğünü bilmiyorum. Yalnızca eve dönmek istiyorum."
           ]
@@ -248,7 +248,7 @@
           "character": "narin",
           "order": "mocha",
           "dialogue": [
-            "Son Işık. Bu gece adını değiştirmeyelim.",
+            "Son Işık. Tarçın ve kakaonun o yumuşak tesellisi... Bu gece adını değiştirmeyelim.",
             "Çocuklar yarın ders var mı diye sordu. İlk kez bir cevabım yoktu.",
             "Birini kurtarmak bazen yalnızca kapıyı açmaktır."
           ]
@@ -257,7 +257,7 @@
           "character": "saye",
           "order": "hollow",
           "dialogue": [
-            "Bir Boşluk daha. Son olsun.",
+            "Bir Boşluk daha. Dilimde safranın soğuk acısı kalsın... Son olsun.",
             "Bunca gece boyunca kendine hiç içecek hazırlamadın.",
             "Aç olmadığından mı? Yoksa ne istediğini hatırlamaktan mı korkuyorsun?"
           ]
