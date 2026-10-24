@@ -81,6 +81,28 @@ Aynı başlangıç değeri, gün, dönem ve içerik aynı listeyi üretir. Üret
 
 Rastgele ürün havuzu tariflerin `side` alanından otomatik oluşturulur. Ek kod yazılmaz. Üç ölçü zorunludur, tekrar serbesttir, sıralama önemsizdir. Aynı üç malzemeye ikinci bir tarif tanımlama. İnsan rafını Defne sabah, Fallen rafını Vey gece sonunda yeniler. İlk gecenin gizli rafında önceki baristadan kalan başlangıç stoğu vardır.
 
+## Sorgu (sorular ve dolaylı sipariş)
+
+Hikâye ziyaretine iki isteğe bağlı alan eklenebilir:
+
+```json
+{
+  "character": "eren",
+  "order": "red",
+  "dialogue": ["Bu saatte açık olacağını söylemişti."],
+  "order_line": "Eskisi gibi bir şey. Sıcak… biraz demir tadında.",
+  "questions": [
+    {"id": "where_from", "answer": ["Yürüyordum. Güneş tam tepedeydi."]},
+    {"id": "cold", "answer": ["Soğuk mu? Hiç fark etmedim."]}
+  ]
+}
+```
+
+- `order_line`: müşterinin siparişi. Tarif adını söylemesin; oyuncu tarif defterinden çıkarsın. Demlerken ve soru listesinde balonda bu cümle durur.
+- `questions`: en fazla 4 soru; oyuncu yalnızca 2'sini sorabilir. `id`, `encounter_pools.json` → `questions` havuzundaki bir sorudur; yeni soru metni oraya eklenir. Cevaplar müşterinin ağzından yazılır. İpucunu açıkça söyletme (gece güneş görmek, soğuğu hissetmemek gibi); oyuncu kendisi fark etsin.
+- Oyuncu balonda görünen cümleyi **İşaretle [N]** ile not eder; işaretler fotoğrafı çekilmiş kişinin dava dosyasında listelenir. Oyun işaretlerin istihbaratla eşleşip eşleşmediğini söylemez.
+- `questions` olmayan ziyaret eskisi gibi konuşmadan sonra doğrudan demlemeye geçer.
+
 ## Malzeme ve raf yeri
 
 `ingredients.json`'daki `base` / `mix` bayrakları malzemenin hem kuralını hem raftaki yerini belirler:
