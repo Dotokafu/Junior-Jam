@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byhg13lgaw2f7"
-path="res://.godot/imported/Cay.jpg-56d2dcaab9a7617c6068a0105a4bef1e.ctex"
+uid="uid://jlp41426ruij"
+path="res://.godot/imported/Cay.png-91ae4cef7ab0c3181fe732a785f144fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/custom/Cay.jpg"
-dest_files=["res://.godot/imported/Cay.jpg-56d2dcaab9a7617c6068a0105a4bef1e.ctex"]
+source_file="res://assets/custom/Cay.png"
+dest_files=["res://.godot/imported/Cay.png-91ae4cef7ab0c3181fe732a785f144fd.ctex"]
 
 [params]
 
