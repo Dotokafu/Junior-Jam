@@ -1,5 +1,8 @@
 # Elle tetiklenir: Actions → "Windows exe" → Run workflow. Godot ile tek parça (oyun verisi gömülü)
-# CoFFallen.exe üretir ve çalıştırmanın Artifacts bölümüne yükler.
+# CoFFallen.exe üretir ve çalıştırmanın Artifacts bölümüne yükler. "itch" işaretlenirse butler ile
+# itch.io sayfasının "windows" kanalına güncelleme olarak da yükler. Bunun için repo ayarlarında:
+#   Secrets → BUTLER_API_KEY  (itch.io → Settings → API keys)
+#   Variables → ITCH_GAME     (kullanici/oyun-adi, ör. dotokafu/coffallen)
 name: Windows exe
 
 on:
@@ -9,6 +12,10 @@ on:
         description: "Dosya adına eklenecek etiket (isteğe bağlı, ör. jam-teslim)"
         required: false
         default: ""
+      itch:
+        description: "itch.io'ya güncelleme olarak da yükle"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -68,3 +75,21 @@ jobs:
           path: build/windows/CoFFallen.exe
           if-no-files-found: error
           retention-days: 14
+
+      - name: itch.io'ya yükle
+        if: inputs.itch
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          ITCH_GAME: ${{ vars.ITCH_GAME }}
+          # Etiket boşsa çalıştırma numarası sürüm olur (itch sayfasında görünür).
+          VERSION: ${{ inputs.label != '' && inputs.label || format('build-{0}', github.run_number) }}
+        run: |
+          set -euo pipefail
+          if [ -z "$BUTLER_API_KEY" ] || [ -z "$ITCH_GAME" ]; then
+            echo "::error::Repo ayarlarında BUTLER_API_KEY sırrı ve ITCH_GAME değişkeni (kullanici/oyun-adi) tanımlı olmalı."
+            exit 1
+          fi
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/butler.zip" https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q "$RUNNER_TEMP/butler.zip" -d "$RUNNER_TEMP/butler"
+          chmod +x "$RUNNER_TEMP/butler/butler"
+          "$RUNNER_TEMP/butler/butler" push build/windows "$ITCH_GAME:windows" --userversion "$VERSION"

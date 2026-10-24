@@ -86,6 +86,11 @@ GitHub'da **Actions → Windows exe → Run workflow**. İstersen dosya adına b
 Birkaç dakika sonra çalıştırmanın sayfasındaki **Artifacts** bölümünden `CoFFallen-windows` indirilir;
 içinde tek parça `CoFFallen.exe` var (oyun verisi gömülü, kurulum gerekmez). Dosya 14 gün saklanır.
 
+**itch.io'ya güncelleme:** aynı ekranda **itch** kutusunu işaretle; exe, butler ile oyun sayfasının
+`windows` kanalına yüklenir (etiket sürüm adı olur). Bir kez ayarlanması gerekenler (repo → Settings →
+Secrets and variables → Actions): sır `BUTLER_API_KEY` (itch.io → Settings → API keys) ve değişken
+`ITCH_GAME` (`kullanici/oyun-adi`, itch sayfa adresindeki gibi).
+
 Ayar `export_presets.cfg` dosyasında: testler, belgeler, araçlar ve `.zip` dosyaları oyuna girmez.
 Yerelde aynı çıktı için Godot 4.7.2 Windows şablonu kuruluyken:
 `godot --headless --path . --export-release "Windows Desktop" build/windows/CoFFallen.exe`
