@@ -9,6 +9,7 @@ const CaseFile = preload("res://presentation/ui/case_file.gd")
 const HOLE_MARGIN := 18.0
 ## Onay, Vey'in/Defne'nin sözünün devamı gibi konuşma kutusunun hemen altında durur.
 const CONFIRM_GAP := 14.0
+const CARD_GAP := 24.0
 var is_active: bool = false
 var view: Dictionary = {}
 var pending: String = ""
@@ -66,6 +67,7 @@ func apply(snapshot: Dictionary) -> void:
 	if pending != "" and not eligible.any(func(record: Dictionary) -> bool: return record.id == pending):
 		pending = ""
 	confirm.visible = pending != ""
+	hint.visible = pending == ""
 
 ## 1–9 polaroid seçer, Enter verir, Esc onayı kapatır, Boşluk bitirir. Ele alındıysa true.
 func handle_key(key: int) -> bool:
@@ -85,7 +87,8 @@ func handle_key(key: int) -> bool:
 	if key == KEY_SPACE:
 		finish_requested.emit()
 		return true
-	return false
+	# Seçim yokken Enter yutulur: genel dala düşüp teslimatı dosyasız bitirmesin.
+	return key in [KEY_ENTER, KEY_KP_ENTER]
 
 func _process(_delta: float) -> void:
 	if world == null or balloon_panel == null:
@@ -119,6 +122,9 @@ func _render_cards(records: Array) -> void:
 	for child: Node in tray.get_children():
 		tray.remove_child(child)
 		child.queue_free()
+	# Kart sığmazsa aralık eksiye düşer, polaroidler yelpaze gibi üst üste biner.
+	var spare: float = tray.size.x - records.size() * Card.SIZE.x
+	tray.add_theme_constant_override("separation", int(minf(CARD_GAP, spare / maxi(records.size() - 1, 1))))
 	for i in range(records.size()):
 		var card := Card.new()
 		tray.add_child(card)

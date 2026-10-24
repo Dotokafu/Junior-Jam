@@ -391,6 +391,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if modal == "" and balloon.try_advance():
 			get_viewport().set_input_as_handled()
 
+## Teslim ekranında Boşluk/Enter önce teslimatçının süren cümlesini tamamlar (aşağıdaki genel dal), bitirmez.
+func _skips_typing(key: int) -> bool:
+	return key in [KEY_SPACE, KEY_ENTER] and balloon.is_typing() and not delivery.confirm.visible
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo:
 		return
@@ -401,7 +405,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		# Latte art açıkken tuşlar önce ona gider (Esc = geri, Enter = servis).
 		if not brew_comic.latte.handle_key(key):
 			return
-	elif modal == "" and delivery.is_active and delivery.handle_key(key):
+	elif modal == "" and delivery.is_active and not _skips_typing(key) and delivery.handle_key(key):
 		pass
 	elif key == KEY_ESCAPE:
 		# Alt sayfadan menü listesine, listeden oyuna döner.

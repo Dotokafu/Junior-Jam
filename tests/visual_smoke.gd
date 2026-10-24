@@ -196,6 +196,12 @@ func run() -> void:
 	# Teslim ekranı: gölge + polaroid tepsisi; polaroid teslimatçıya gerçek fareyle sürüklenir, onaylanır.
 	check(screen.delivery.is_active and screen.delivery.tray.get_child_count() >= 1, "Teslimatta polaroid tepsisi açılmalı")
 	await capture("delivery")
+	# Polaroid seçilmeden basılan Enter teslimatı bitirmemeli (eskiden "next" yolluyordu).
+	# İlk basış süren yazıyı tamamlar; ikincisi eskiden teslimatı bitiriyordu.
+	for i in range(2):
+		await press(KEY_ENTER)
+		await settle(0.2)
+	check(session.state.stage == "decision" and screen.delivery.is_active, "Seçim yokken Enter teslimatı bitirmemeli")
 	if screen.delivery.tray.get_child_count() >= 1:
 		var card: Control = screen.delivery.tray.get_child(0)
 		var given_id: String = card.record_id
