@@ -20,8 +20,7 @@
         "milk",
         "milk"
       ],
-      "description": "Bir kahve, iki süt. Eskiden sıradan bir sabah vardı.",
-      "latte_art": true
+      "description": "Bir kahve, iki süt. Eskiden sıradan bir sabah vardı."
     },
     {
       "id": "mocha",
@@ -29,11 +28,10 @@
       "side": "human",
       "ingredients": [
         "cocoa",
-        "milk",
-        "cinnamon"
+        "cinnamon",
+        "milk"
       ],
-      "description": "Kakao, süt, tarçın. Biraz sıcaklık hâlâ mümkün.",
-      "latte_art": true
+      "description": "Kakao, tarçın, süt. Biraz sıcaklık hâlâ mümkün."
     },
     {
       "id": "tea",
@@ -55,8 +53,7 @@
         "milk",
         "milk"
       ],
-      "description": "Bir matcha, iki süt. Bahçeleri hatırlayanlara.",
-      "latte_art": true
+      "description": "Bir matcha, iki süt. Bahçeleri hatırlayanlara."
     },
     {
       "id": "matcha_garden",
@@ -75,11 +72,10 @@
       "side": "human",
       "ingredients": [
         "cocoa",
-        "milk",
-        "honey"
+        "honey",
+        "milk"
       ],
-      "description": "Kakao, süt, bal. Çocukluktan kalma bir sıcaklık.",
-      "latte_art": true
+      "description": "Kakao, bal, süt. Çocukluktan kalma bir sıcaklık."
     },
     {
       "id": "ember",
@@ -109,11 +105,10 @@
       "side": "human",
       "ingredients": [
         "coffee",
-        "milk",
-        "mint"
+        "mint",
+        "milk"
       ],
-      "description": "Kahve, süt, nane. Sıcak günün serin sonu.",
-      "latte_art": true
+      "description": "Kahve, nane, süt. Sıcak günün serin sonu."
     },
     {
       "id": "caravan",
@@ -121,11 +116,10 @@
       "side": "human",
       "ingredients": [
         "tea",
-        "milk",
-        "spice"
+        "spice",
+        "milk"
       ],
-      "description": "Çay, süt, baharat. Uzak yollardan gelenlere.",
-      "latte_art": true
+      "description": "Çay, baharat, süt. Uzak yollardan gelenlere."
     },
     {
       "id": "milk_tea",
@@ -136,8 +130,7 @@
         "milk",
         "milk"
       ],
-      "description": "Bir çay, iki süt. Dışarısı ne olursa olsun, mutfak hâlâ sıcak.",
-      "latte_art": true
+      "description": "Bir çay, iki süt. Dışarısı ne olursa olsun, mutfak hâlâ sıcak."
     },
     {
       "id": "lullaby",
@@ -181,8 +174,7 @@
         "blood",
         "marrow"
       ],
-      "description": "İki kan, bir ilik. Bir zamanlar sana da tanıdık gelirdi.",
-      "latte_art": true
+      "description": "İki kan, bir ilik. Bir zamanlar sana da tanıdık gelirdi."
     },
     {
       "id": "ashfall",
@@ -193,7 +185,7 @@
         "ash",
         "salt"
       ],
-      "description": "Kül, kan, tuz. Yağmurun söndüremediği açlık."
+      "description": "Kan, kül, tuz. Yağmurun söndüremediği açlık."
     },
     {
       "id": "hollow",
@@ -201,10 +193,10 @@
       "side": "fallen",
       "ingredients": [
         "tissue",
-        "marrow",
-        "bile"
+        "bile",
+        "marrow"
       ],
-      "description": "Doku, ilik, safra. Adı konulamayan bir eksiklik."
+      "description": "Doku, safra, ilik. Adı konulamayan bir eksiklik."
     },
     {
       "id": "rust_bell",

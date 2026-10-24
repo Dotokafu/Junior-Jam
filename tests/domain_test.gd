@@ -2,8 +2,11 @@ extends SceneTree
 var failures: int = 0
 
 func _initialize() -> void:
-	var recipes: Array = [{"id": "latte", "ingredients": ["coffee", "milk", "milk"]}]
+	var recipes: Array = [{"id": "latte", "ingredients": ["coffee", "milk", "milk"]}, {"id": "mocha", "ingredients": ["cocoa", "cinnamon", "milk"]}]
 	check(BrewingRules.identify(["coffee", "milk", "milk"], recipes).get("id") == "latte", "Tarif eşleşmesi")
+	# Coffee Talk ve barista mantığı: koyma sırası tarifin parçası.
+	check(BrewingRules.identify(["cocoa", "cinnamon", "milk"], recipes).get("id") == "mocha", "Doğru sırayla tarif bulunur")
+	check(BrewingRules.identify(["cocoa", "milk", "cinnamon"], recipes).is_empty(), "Sıra değişirse tarif değişir")
 	check(BrewingRules.identify(["milk", "coffee", "milk"], recipes).is_empty(), "Baz değişirse tarif değişir")
 	check(BrewingRules.identify(["coffee", "coffee", "milk"], recipes).is_empty(), "Tekrarlı malzeme adedi")
 	check(not BrewingRules.can_consume(["milk", "milk", "coffee"], {"milk": 1, "coffee": 9}), "Stok kontrolü")
@@ -34,11 +37,12 @@ func _initialize() -> void:
 	check(not BrewingRules.matches_order("latte", drink), "Tarif siparişi kimlik ister")
 	# Latte art (Coffee Talk): süt ilk kez 2. ya da 3. yuvada geçmeli; tarifli içecekte tarifin bayrağı geçerli.
 	items.milk["latte"] = true
-	check(BrewingRules.latte_art_allowed(["coffee", "honey", "milk"], items, {}), "Karışımdaki süt latte art açar")
-	check(not BrewingRules.latte_art_allowed(["milk", "honey", "honey"], items, {}), "Baz süt latte art açmaz")
-	check(not BrewingRules.latte_art_allowed(["milk", "milk", "honey"], items, {}), "Süt ilk yuvadaysa sonrakiler sayılmaz")
-	check(BrewingRules.latte_art_allowed(["coffee", "milk", "milk"], items, {"id": "latte", "latte_art": true}), "Tarif bayrağı latte art açar")
-	check(not BrewingRules.latte_art_allowed(["coffee", "milk", "honey"], items, {"id": "mocha"}), "Bayraksız tarif sütü yok sayar")
+	# Latte art için son koyulan malzeme süt (ya da ilik) olmalı: köpük en üstte kalır. Tarif fark etmez.
+	check(BrewingRules.latte_art_allowed(["coffee", "honey", "milk"], items), "Son koyulan süt latte art açar")
+	check(BrewingRules.latte_art_allowed(["coffee", "milk", "milk"], items), "İki sütün sonuncusu üstte kalır")
+	check(not BrewingRules.latte_art_allowed(["coffee", "milk", "honey"], items), "Süt son sırada değilse latte art yok")
+	check(not BrewingRules.latte_art_allowed(["milk", "honey", "honey"], items), "Baz süt üstte kalmaz")
+	check(not BrewingRules.latte_art_allowed(["coffee", "honey", "honey"], items), "Sütsüz içecek latte art açmaz")
 	var milky := BrewingRules.brew(["coffee", "honey", "milk"], items, [], names)
 	check(milky.latte_art_allowed and not milky.latte_art, "Demlenen içecek latte art iznini taşır, çizim servis anında eklenir")
 	# Latte art'ta dökülen renk: içecekteki latte malzemesinin art_color'ı (ilik), yoksa beyaz süt.
@@ -46,6 +50,8 @@ func _initialize() -> void:
 	check(BrewingRules.art_color(["coffee", "milk", "milk"], art_items) == "ffffff", "Süt beyaz döker")
 	check(BrewingRules.art_color(["blood", "blood", "marrow"], art_items) == "e8d6bc", "İlik kendi renginde döker")
 	check(BrewingRules.art_color(["blood", "blood", "blood"], art_items) == "ffffff", "Latte malzemesi yoksa varsayılan beyaz")
+	check(BrewingRules.latte_art_allowed(["blood", "blood", "marrow"], art_items), "Son koyulan ilik de latte art açar")
+	check(not BrewingRules.latte_art_allowed(["blood", "marrow", "blood"], art_items), "İlik son sırada değilse latte art yok")
 	check(milky.art_color == "ffffff", "Demlenen içecek çizim rengini taşır")
 	check(not BrewingRules.matches_order({"stats": {"sweet": 1}, "latte_art": true}, milky), "Latte art isteyen sipariş çizimsiz reddedilir")
 	milky["latte_art"] = true

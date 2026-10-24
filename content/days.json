@@ -5,7 +5,7 @@
       "headline": "SOKAĞA ÇIKMA SAATİ YİNE ÖNE ALINDI",
       "morning": [
         "Yeni anahtar sana yakışmış. Burası eskiden de sabaha kadar açık kalırdı.",
-        "Üst rafta ana malzemeler, altta eklemeler, süt her şeye gider… rafları doldurdum. Üç ölçü seç, demle, sonra servis et.",
+        "Üst rafta ana malzemeler, altta eklemeler, süt her şeye gider… rafları doldurdum. Üç ölçüyü tarifteki sırayla koy; sütü en sona bırakırsan köpüğüne çizebilirsin. Demle, sonra servis et.",
         "Akşam haberlerini dinle. Soluk bir yüz, birini suçlamaya yetmez. Ada hastaneden gelecek; ellerindeki kan kendi işi."
       ],
       "day": [
@@ -140,7 +140,7 @@
           "character": "ada",
           "order": "mocha",
           "dialogue": [
-            "Bu kez Son Işık. Kakao, süt, tarçın… eve gitmeden önce.",
+            "Bu kez Son Işık. Kakao, tarçın, süt… eve gitmeden önce.",
             "Bugün Atlas diye bir işçiyi gördüm. Yeni gözüne alışamamış.",
             "Kayıp kardeşimi arıyorum. Gece dışarı çıkmamın başka bir nedeni yok."
           ]

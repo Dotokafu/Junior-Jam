@@ -79,7 +79,7 @@ Aynı başlangıç değeri, gün, dönem ve içerik aynı listeyi üretir. Üret
 }
 ```
 
-Rastgele ürün havuzu tariflerin `side` alanından otomatik oluşturulur. Ek kod yazılmaz. Üç ölçü zorunludur, tekrar serbesttir, sıralama önemsizdir. Aynı üç malzemeye ikinci bir tarif tanımlama. İnsan rafını Defne sabah, Fallen rafını Vey gece sonunda yeniler. İlk gecenin gizli rafında önceki baristadan kalan başlangıç stoğu vardır.
+Rastgele ürün havuzu tariflerin `side` alanından otomatik oluşturulur. Ek kod yazılmaz. Üç ölçü zorunludur, tekrar serbesttir ve **sıralama tarifin parçasıdır** (Coffee Talk gibi): `ingredients` listesi oyuncunun koyacağı sırayı verir. Barista mantığıyla yaz: önce baz, sonra şurup/baharat, köpüklü süt ya da ilik en son (latte art yalnızca son ölçü süt/ilikse açılır). Aynı üç malzemeye ikinci bir tarif tanımlama. İnsan rafını Defne sabah, Fallen rafını Vey gece sonunda yeniler. İlk gecenin gizli rafında önceki baristadan kalan başlangıç stoğu vardır.
 
 ## Sorgu (sorular ve dolaylı sipariş)
 
@@ -136,7 +136,7 @@ Metinler `encounter_pools.json` içindedir:
 | true | true | Sağda (serbest: süt) | Her ölçüye girer |
 | false | true | Alt raf (ek malzeme: tarçın, nane, baharat, limon) | Ana malzeme olmadan konamaz |
 
-`"latte": true` olan malzeme (süt) 2. ya da 3. ölçüdeyse içecek latte art'a açılır; tarifli içecekte tarifin `"latte_art"` bayrağı geçerlidir.
+`"latte": true` olan bir malzeme (süt, ilik) içecekte herhangi bir ölçüde varsa latte art yapılabilir; tarifte ayrıca bayrak gerekmez. Dökülen köpüğün rengi o malzemenin `"art_color"` alanıdır (yoksa beyaz).
 
 ## Metin / i18n
 

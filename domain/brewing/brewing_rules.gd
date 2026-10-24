@@ -66,39 +66,26 @@ static func color(selected: Array, ingredients: Dictionary) -> Color:
 	mixed.a = 1.0
 	return mixed
 
-## Baz aynı olmalı; karışım malzemelerinin sırası önemsiz, tekrarları önemli.
+## Coffee Talk'taki gibi koyma sırası tarifin parçası: üç malzeme aynı sırayla konmalı
+## (barista mantığı: önce baz, sonra şurup/baharat, köpüklü süt en son).
 static func identify(selected: Array, recipes: Array) -> Dictionary:
 	if selected.size() != SLOTS:
 		return {}
-	var mix := selected.slice(1)
-	mix.sort()
 	for recipe: Dictionary in recipes:
-		var expected: Array = recipe.ingredients
-		if expected.size() != SLOTS or expected[0] != selected[0]:
-			continue
-		var expected_mix := expected.slice(1)
-		expected_mix.sort()
-		if expected_mix == mix:
+		if recipe.ingredients == selected:
 			return recipe.duplicate(true)
 	return {}
 
-## Coffee Talk kuralı: tarifli içecekte tarifin "latte_art" bayrağı belirler; tarifsizde "latte" malzemesi
-## (süt) dizide ilk kez 2. ya da 3. yuvada geçmelidir. Süt bazdaysa sonraki sütler sayılmaz.
-static func latte_art_allowed(selected: Array, ingredients: Dictionary, recipe: Dictionary) -> bool:
-	if not recipe.is_empty():
-		return bool(recipe.get("latte_art", false))
-	for slot in range(selected.size()):
-		if ingredients.get(selected[slot], {}).get("latte", false):
-			return slot > 0
-	return false
+## Latte art için son koyulan malzeme "latte" malzemesi (süt, ilik) olmalı: köpük en üstte kalır.
+## Taban dahil başka yuvadaki süt sayılmaz; tarif fark etmez.
+static func latte_art_allowed(selected: Array, ingredients: Dictionary) -> bool:
+	return not selected.is_empty() and bool(ingredients.get(selected[-1], {}).get("latte", false))
 
-## Latte art'ta dökülen köpüğün rengi: içecekteki ilk "latte" malzemesinin art_color'ı (ör. ilik),
+## Latte art'ta dökülen köpüğün rengi: son koyulan "latte" malzemesinin art_color'ı (ör. ilik),
 ## yoksa beyaz süt köpüğü.
 static func art_color(selected: Array, ingredients: Dictionary) -> String:
-	for id: String in selected:
-		var item: Dictionary = ingredients.get(id, {})
-		if item.get("latte", false):
-			return str(item.get("art_color", DEFAULT_ART_COLOR))
+	if latte_art_allowed(selected, ingredients):
+		return str(ingredients[selected[-1]].get("art_color", DEFAULT_ART_COLOR))
 	return DEFAULT_ART_COLOR
 
 ## names: drink.name_* şablonları (çeviri katmanından gelir, domain metin bilmez).
@@ -122,7 +109,7 @@ static func brew(selected: Array, ingredients: Dictionary, recipes: Array, names
 	var totals := stats(selected, ingredients)
 	var recipe := identify(selected, recipes)
 	var drink := recipe.duplicate() if not recipe.is_empty() else {"id": "custom", "name": generated_name(selected, ingredients, names)}
-	drink["latte_art_allowed"] = latte_art_allowed(selected, ingredients, recipe)
+	drink["latte_art_allowed"] = latte_art_allowed(selected, ingredients)
 	drink["latte_art"] = false
 	drink["art_color"] = art_color(selected, ingredients)
 	drink["side"] = ingredients[selected[0]].side
@@ -174,7 +161,7 @@ static func find_sequence(order: Variant, side: String, ingredients: Dictionary,
 				var sequence := [a, b, c]
 				if not is_valid_sequence(sequence, ingredients):
 					continue
-				var art := wants_art and latte_art_allowed(sequence, ingredients, identify(sequence, recipes))
+				var art := wants_art and latte_art_allowed(sequence, ingredients)
 				if matches_order(order, {"tiers": tiers(stats(sequence, ingredients)), "latte_art": art}):
 					return sequence
 	return []
