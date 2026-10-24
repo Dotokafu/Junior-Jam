@@ -7,9 +7,9 @@
 	  "ingredients": [
 		"coffee",
 		"coffee",
-        "spice"
+		"spice"
 	  ],
-	  "description": "Çift kahve, bir tutam baharat. Uyanık kalmak zorunda olanlara."
+	  "description": "Çift ölçü kavrulmuş kahve ve keskin baharat. Göz kapakları kurşun gibi ağırlaşan gece vardiyacılarına."
 	},
 	{
 	  "id": "latte",
@@ -18,9 +18,9 @@
 	  "ingredients": [
 		"coffee",
 		"milk",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Bir kahve, iki süt. Eskiden sıradan bir sabah vardı."
+	  "description": "Bir ölçü kahve, bol sıcak süt. Sirenlerin sustuğu sıradan bir sabahı özleyenlere."
 	},
 	{
 	  "id": "mocha",
@@ -29,9 +29,9 @@
 	  "ingredients": [
 		"cocoa",
 		"cinnamon",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Kakao, tarçın, süt. Biraz sıcaklık hâlâ mümkün."
+	  "description": "Sıcak kakao, tarçın ve süt. Kepenkler kapanmadan önce içilen son yumuşak teselli."
 	},
 	{
 	  "id": "tea",
@@ -40,9 +40,9 @@
 	  "ingredients": [
 		"tea",
 		"lemon",
-        "mint"
+		"mint"
 	  ],
-	  "description": "Çay, limon, nane. Titreyen eller için."
+	  "description": "Demli çay, taze nane ve limon. Soğuktan ve korkudan titreyen elleri yatıştırır."
 	},
 	{
 	  "id": "matcha_latte",
@@ -51,9 +51,9 @@
 	  "ingredients": [
 		"matcha",
 		"milk",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Bir matcha, iki süt. Bahçeleri hatırlayanlara."
+	  "description": "Çırpılmış matcha ve çifte süt. Beton şehrin ortasında eski bahçeleri hatırlatan yumuşak içim."
 	},
 	{
 	  "id": "matcha_garden",
@@ -62,9 +62,9 @@
 	  "ingredients": [
 		"matcha",
 		"honey",
-        "mint"
+		"mint"
 	  ],
-	  "description": "Matcha, bal, nane. Yağmurdan sonraki serinlik."
+	  "description": "Matcha, süzme bal ve nane. Yağmur dindikten sonra toprağın bıraktığı o tatlı serinlik."
 	},
 	{
 	  "id": "hot_cocoa",
@@ -73,9 +73,9 @@
 	  "ingredients": [
 		"cocoa",
 		"honey",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Kakao, bal, süt. Çocukluktan kalma bir sıcaklık."
+	  "description": "Yoğun kakao, bal ve süt. Buğulu bir pencerenin arkasındaki çocukluk sıcaklığı."
 	},
 	{
 	  "id": "ember",
@@ -84,9 +84,9 @@
 	  "ingredients": [
 		"cocoa",
 		"spice",
-        "cinnamon"
+		"cinnamon"
 	  ],
-	  "description": "Kakao, baharat, tarçın. Sönmeyen bir şömine gibi."
+	  "description": "Kakao, yakıcı baharat ve tarçın. Boğazdan aşağı sönmeyen bir şömine ateşi gibi iner."
 	},
 	{
 	  "id": "night_watch",
@@ -95,9 +95,9 @@
 	  "ingredients": [
 		"coffee",
 		"cinnamon",
-        "honey"
+		"honey"
 	  ],
-	  "description": "Kahve, tarçın, bal. Uyanık ama yumuşak."
+	  "description": "Kahve, tarçın ve bal. Sabaha kadar nöbet tutanların hem zihnini açar hem boğazını yumuşatır."
 	},
 	{
 	  "id": "cold_street",
@@ -106,9 +106,9 @@
 	  "ingredients": [
 		"coffee",
 		"mint",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Kahve, nane, süt. Sıcak günün serin sonu."
+	  "description": "Kahve, nane ve süt. Havasız ve gergin bir günün sonunda zihni ferahlatan dokunuş."
 	},
 	{
 	  "id": "caravan",
@@ -117,9 +117,9 @@
 	  "ingredients": [
 		"tea",
 		"spice",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Çay, baharat, süt. Uzak yollardan gelenlere."
+	  "description": "Siyah çay, kırık baharat ve süt. Uzak yollardan ve kontrol noktalarından geçenlerin içeceği."
 	},
 	{
 	  "id": "milk_tea",
@@ -128,9 +128,9 @@
 	  "ingredients": [
 		"tea",
 		"milk",
-        "milk"
+		"milk"
 	  ],
-	  "description": "Bir çay, iki süt. Dışarısı ne olursa olsun, mutfak hâlâ sıcak."
+	  "description": "Demli çay ve bol süt. Dışarıda sokağa çıkma yasağı varken mutfağın güvende hissettiren kokusu."
 	},
 	{
 	  "id": "lullaby",
@@ -139,9 +139,9 @@
 	  "ingredients": [
 		"tea",
 		"honey",
-        "lemon"
+		"lemon"
 	  ],
-	  "description": "Çay, bal, limon. Uyumadan önce."
+	  "description": "Sıcak çay, bal ve limon. Kâbus görmeden uyumak isteyenlerin gece yarısı sığınağı."
 	},
 	{
 	  "id": "black_news",
@@ -150,9 +150,9 @@
 	  "ingredients": [
 		"coffee",
 		"coffee",
-        "coffee"
+		"coffee"
 	  ],
-	  "description": "Üç ölçü kahve. Haberleri sonuna kadar izleyenlere."
+	  "description": "Üç ölçü saf, zifiri kahve. Şekersiz, sütsüz; yalnızca gerçeğin acısına katlananlara."
 	},
 	{
 	  "id": "white_dream",
@@ -161,9 +161,9 @@
 	  "ingredients": [
 		"milk",
 		"honey",
-        "cinnamon"
+		"cinnamon"
 	  ],
-	  "description": "Süt, bal, tarçın. Kahveye dayanamayanlara."
+	  "description": "Sıcak süt, bal ve tarçın. Kafeinin çarpıntısına dayanamayan yorgun kalpler için."
 	},
 	{
 	  "id": "red",
@@ -172,9 +172,9 @@
 	  "ingredients": [
 		"blood",
 		"blood",
-        "marrow"
+		"marrow"
 	  ],
-	  "description": "İki kan, bir ilik. Bir zamanlar sana da tanıdık gelirdi."
+	  "description": "İki ölçü sıcak kanın üzerine çekilmiş yoğun ilik köpüğü. Damarlarda dolaşan o eski sıcaklığı arayanlara."
 	},
 	{
 	  "id": "ashfall",
@@ -183,9 +183,9 @@
 	  "ingredients": [
 		"blood",
 		"ash",
-        "salt"
+		"salt"
 	  ],
-	  "description": "Kan, kül, tuz. Yağmurun söndüremediği açlık."
+	  "description": "Sıcak kan, isli kül ve kaya tuzu. Yağmurun bile söndüremediği o derin gece açlığına."
 	},
 	{
 	  "id": "hollow",
@@ -194,9 +194,9 @@
 	  "ingredients": [
 		"tissue",
 		"bile",
-        "marrow"
+		"marrow"
 	  ],
-	  "description": "Doku, safra, ilik. Adı konulamayan bir eksiklik."
+	  "description": "Lifli doku özü, yakıcı safra ve ilik. Uzun süren açlık nöbetlerini bastıran ağır bir Fallen harmanı."
 	},
 	{
 	  "id": "rust_bell",
@@ -205,9 +205,9 @@
 	  "ingredients": [
 		"blood",
 		"salt",
-        "bile"
+		"bile"
 	  ],
-	  "description": "Kan, tuz, safra. Dilin ucunda metal."
+	  "description": "Tuzlu kan ve keskin safra. Dilin ucunda paslı demir tadı bırakan, duyuları bıçak gibi açan iksir."
 	},
 	{
 	  "id": "quiet_bone",
@@ -216,9 +216,9 @@
 	  "ingredients": [
 		"marrow",
 		"ash",
-        "ash"
+		"ash"
 	  ],
-	  "description": "İlik ve iki ölçü kül. Sesini kaybedenlere."
+	  "description": "Sıcak ilik ve çifte kavrulmuş ince kül. Boğazı uyuşturup zihni dinginleştiren dumanlı içim."
 	},
 	{
 	  "id": "cold_skin",
@@ -227,42 +227,75 @@
 	  "ingredients": [
 		"tissue",
 		"tissue",
-        "salt"
+		"salt"
 	  ],
-	  "description": "İki doku, bir tuz. Hiçbir şey hissetmeyenlere."
+	  "description": "Kaya tuzuyla dinlendirilmiş yoğun doku özü. Soğuktan hissizleşmiş bedenleri tok tutan harman."
+	},
+	{
+	  "id": "ember_vein",
+	  "name": "Kor Damar",
+	  "side": "fallen",
+	  "ingredients": [
+		"blood",
+		"marrow",
+		"salt"
+	  ],
+	  "description": "Sıcak kan, erimiş ilik ve bir tutam tuz. Durmuş bir kalbe yeniden nabız pompalayan zengin karışım."
+	},
+	{
+	  "id": "night_bile",
+	  "name": "Gece Safrası",
+	  "side": "fallen",
+	  "ingredients": [
+		"tissue",
+		"bile",
+		"ash"
+	  ],
+	  "description": "Doku özü, yakıcı safra ve soğuk kül. Av öncesi duyuları keskinleştiren ve boğazı uyuşturan saf iksir."
 	},
 	{
 	  "id": "bloody_coffee",
-	  "name": "Kanlı Kahve",
+	  "name": "Alacakaranlık",
 	  "side": "fallen",
 	  "ingredients": [
 		"coffee",
 		"blood",
 		"cinnamon"
 	  ],
-	  "description": "Kavrulmuş kahve, taze kan ve bir tutam tarçın. İki dünyanın sınırında bir lezzet."
+	  "description": "Kavrulmuş kahve, sıcak kan ve tarçın. İnsanlığın sabah kokusuyla gecenin demir sıcaklığını buluşturan klasik."
 	},
 	{
 	  "id": "iron_tea",
-	  "name": "Demir Çay",
+	  "name": "Demir Dem",
 	  "side": "fallen",
 	  "ingredients": [
 		"tea",
 		"blood",
 		"lemon"
 	  ],
-	  "description": "Çay, kan ve limon. Metalik ve keskin bir sığınak."
+	  "description": "Demli siyah çay, taze kan ve birkaç damla limon. Çayın burukluğunu kanla koyulaştırıp limonla parlatan sığınak."
 	},
 	{
 	  "id": "sweet_sin",
-	  "name": "Tatlı Günah",
+	  "name": "Kızıl Nektar",
 	  "side": "fallen",
 	  "ingredients": [
 		"blood",
 		"honey",
 		"cinnamon"
 	  ],
-	  "description": "Kan, bal ve tarçın. İnsanların unuttuğu tatlılığı arayanlara."
+	  "description": "Sıcak kan, süzme bal ve tarçın. Kanın metalik sertliğini şerbet gibi yumuşatan tatlı bir günah."
+	},
+	{
+	  "id": "velvet_vein",
+	  "name": "Kızıl Kadife",
+	  "side": "fallen",
+	  "ingredients": [
+		"cocoa",
+		"blood",
+		"milk"
+	  ],
+	  "description": "Yoğun kakao, sıcak kan ve süt. Sıcak çikolatanın koyuluğunda kanın tadını gizleyen kadifemsi karışım."
 	},
 	{
 	  "id": "bone_latte",
@@ -273,128 +306,128 @@
 		"marrow",
 		"milk"
 	  ],
-	  "description": "Kahve, ilik ve süt. İlik köpüğüyle yumuşayan koyu bir uyanış."
+	  "description": "Sert kahve, sıcak süt ve yoğun ilik köpüğü. Sütün yumuşaklığını iliğin doyurucu kıvamıyla birleştiren uyanış."
 	},
 	{
 	  "id": "dark_velvet",
-	  "name": "Karanlık Kadife",
+	  "name": "Gece Kadifesi",
 	  "side": "fallen",
 	  "ingredients": [
 		"cocoa",
 		"marrow",
 		"spice"
 	  ],
-	  "description": "Yoğun kakao, ilik ve baharat. Soğuk bedenleri içeriden ısıtan koyu bir tatlılık."
+	  "description": "Yoğun kakao, erimiş ilik ve baharat. Soğuktan kaskatı kesilmiş bedenleri içeriden ısıtan koyu tatlılık."
 	},
 	{
 	  "id": "marrow_tea",
-	  "name": "Kemik Çayı",
+	  "name": "Kehribar Özü",
 	  "side": "fallen",
 	  "ingredients": [
 		"tea",
 		"marrow",
 		"honey"
 	  ],
-	  "description": "Çay, ilik ve bal. Boğazı saran yumuşak ve ağır bir şifa."
+	  "description": "Sıcak çay, ilik ve bal. Kemik suyunun şifalı ağırlığını ballı çayla buluşturan yumuşak içim."
 	},
 	{
 	  "id": "ash_coffee",
-	  "name": "Küllü Kahve",
+	  "name": "Ocak Közü",
 	  "side": "fallen",
 	  "ingredients": [
 		"coffee",
 		"ash",
 		"spice"
 	  ],
-	  "description": "Kahve, kül ve baharat. Köz kokulu, uyuşturan bir sertlik."
+	  "description": "Kahve, isli kül ve baharat. Sönmüş bir ocağın köz kokusunu taşıyan, dumanlı ve sert gece kahvesi."
 	},
 	{
 	  "id": "grey_matcha",
-	  "name": "Küllü Bahçe",
+	  "name": "Solgun Bahçe",
 	  "side": "fallen",
 	  "ingredients": [
 		"matcha",
 		"ash",
 		"milk"
 	  ],
-	  "description": "Matcha, kül ve süt. Sisli sabahların küllü yeşili."
+	  "description": "Matcha, ince kül ve süt. Toprak ve duman kokusunu sütle yumuşatan, sisli sabahları andıran karışım."
 	},
 	{
 	  "id": "ash_cocoa",
-	  "name": "Kül Çikolatası",
+	  "name": "Yanık Hatıra",
 	  "side": "fallen",
 	  "ingredients": [
 		"cocoa",
 		"ash",
 		"cinnamon"
 	  ],
-	  "description": "Kakao, kül ve tarçın. Yangından geriye kalan tatlı bir hatıra."
+	  "description": "Kakao, kül ve tarçın. Ateşte kavrulmuş bitter kakao ve şömine dumanı tadında nostaljik bir içim."
 	},
 	{
 	  "id": "tissue_coffee",
-	  "name": "Derin Doku",
+	  "name": "Avcı Kahvesi",
 	  "side": "fallen",
 	  "ingredients": [
 		"coffee",
 		"tissue",
-		"honey"
+		"spice"
 	  ],
-	  "description": "Kahve, doku ve bal. Tezgâhın altında saklanan tatlı ve ağır bir harman."
+	  "description": "Koyu kahve, doku özü ve keskin baharat. Dokunun ağır tadını kavruk kahve ve baharatla terbiye eden harman."
 	},
 	{
 	  "id": "flesh_tea",
-	  "name": "Kırmızı Kök",
+	  "name": "Karanlık Konsome",
 	  "side": "fallen",
 	  "ingredients": [
 		"tea",
 		"tissue",
-		"mint"
+		"salt"
 	  ],
-	  "description": "Çay, doku ve nane. Sıcak çayın içinde eriyen tekinsiz bir ferahlık."
+	  "description": "Sıcak çay deminde kaya tuzu ve doku özü. Kemikleri ısıtan, koyu bir et suyu kıvamında besleyici gece çayı."
 	},
 	{
-	  "id": "tissue_feast",
-	  "name": "Avcı Harmanı",
+	  "id": "glazed_tissue",
+	  "name": "Sırlı Kadeh",
 	  "side": "fallen",
 	  "ingredients": [
 		"tissue",
-		"spice",
-		"lemon"
+		"honey",
+		"cinnamon"
 	  ],
-	  "description": "Doku, baharat ve limon. Yaşayanların tadını özleyen gecelere."
+	  "description": "Doku özünün süzme bal ve tarçınla sırlanarak yumuşatıldığı, yaşayanların tatlılığını özleyenlere özel karışım."
 	},
 	{
 	  "id": "bile_coffee",
-	  "name": "Acı Safra",
+	  "name": "Kara Tonik",
 	  "side": "fallen",
 	  "ingredients": [
 		"coffee",
 		"bile",
-		"lemon"
+		"mint"
 	  ],
-	  "description": "Kahve, safra ve limon. Çift kat acı ve asit, zihni buz gibi açar."
+	  "description": "Sert kahve, safra ve taze nane. Çift kat acılık ve nane serinliğiyle uyuşmuş zihni bıçak gibi açar."
 	},
 	{
 	  "id": "yellow_tea",
-	  "name": "Zehirli Bal",
+	  "name": "Zehirli Şerbet",
 	  "side": "fallen",
 	  "ingredients": [
 		"tea",
 		"bile",
 		"honey"
 	  ],
-	  "description": "Çay, safra ve bal. Safranın keskinliğini örten sahte bir tatlılık."
+	  "description": "Sıcak çay, keskin safra ve bol bal. Safranın yakıcı zehrini balla kıran, boğazı temizleyen acı-tatlı iksir."
 	},
 	{
-	  "id": "bile_matcha",
-	  "name": "Zümrüt Safra",
+	  "id": "citrus_bile",
+	  "name": "Asit Kesik",
 	  "side": "fallen",
 	  "ingredients": [
-		"matcha",
+		"blood",
 		"bile",
-		"mint"
+		"lemon"
 	  ],
-	  "description": "Matcha, safra ve nane. Boğazı yakan buz gibi bir burukluk."
+	  "description": "Sıcak kan, safra ve limon. Ağırlaşmış kanı limon ve safranın asidiyle incelten keskin gece iksiri."
 	},
 	{
 	  "id": "salted_coffee",
@@ -405,7 +438,7 @@
 		"salt",
 		"cinnamon"
 	  ],
-	  "description": "Kahve, tuz ve tarçın. Soğuk nöbetlerde damarları tutuşturan tuzlu kahve."
+	  "description": "Kahve, kaya tuzu ve tarçın. Soğuk nöbetlerde donuk damarları tutuşturan tuzlu-tarçınlı kahve."
 	},
 	{
 	  "id": "salted_mocha",
@@ -416,7 +449,7 @@
 		"salt",
 		"milk"
 	  ],
-	  "description": "Kakao, tuz ve süt. Tuz kristalleriyle zenginleşen sıcak çikolata."
+	  "description": "Kakao, tuz ve süt. Tuz kristalleriyle derinleşen, hem insan hem Fallen damağına tanıdık sıcak çikolata."
 	},
 	{
 	  "id": "salted_tea",
@@ -427,7 +460,7 @@
 		"salt",
 		"spice"
 	  ],
-	  "description": "Çay, tuz ve baharat. Kar fırtınasında kaybolanlara."
+	  "description": "Çay, tuz ve baharat. Kar fırtınasında ve uzun gece yürüyüşlerinde bedeni diri tutan eski usul dem."
 	}
   ]
 }

@@ -308,7 +308,9 @@ func _serve(latte_art: bool = false) -> void:
 		return
 	var person := _person()
 	var species_wrong: bool = state.drink.side != person.species
-	var recipe_wrong: bool = not Brewing.matches_order(_visit().get("order", ""), state.drink)
+	var visit := _visit()
+	var order_matched := Brewing.matches_order(visit.get("order", ""), state.drink) or (visit.has("flexible_order") and Brewing.matches_order(visit.get("flexible_order", {}), state.drink))
+	var recipe_wrong: bool = not order_matched
 	state.suspicion = Suspicion.after_serve(state.suspicion, state.drink.side, person.species, not recipe_wrong, _suspicion_rules())
 	if species_wrong or recipe_wrong:
 		state.wrong_serves += 1
@@ -340,10 +342,16 @@ func _ask(index: int) -> void:
 
 ## Balonda o an görünen cümleyi bu ziyaretin notlarına ekler ya da notlardan çıkarır.
 func _mark() -> void:
-	if state.phase not in ["day", "night"] or state.stage not in ["dialogue", "answer", "interview"]:
+	if state.day < 2 or state.phase not in ["day", "night"] or state.stage not in ["dialogue", "answer", "interview"]:
 		return
 	var id := _record_id()
-	state.marks[id] = Interrogation.toggle_mark(state.marks.get(id, []), _current_line())
+	var line := _current_line()
+	var was_marked: bool = line in state.marks.get(id, [])
+	state.marks[id] = Interrogation.toggle_mark(state.marks.get(id, []), line)
+	if was_marked:
+		EventBus.feedback.emit(I18n.t("feedback.unmarked"))
+	else:
+		EventBus.feedback.emit(I18n.t("feedback.marked"))
 
 ## Sipariş cümlesi: ziyaretin order_line alanı; yoksa (eski içerik) ilk konuşma satırı.
 func _order_line() -> String:

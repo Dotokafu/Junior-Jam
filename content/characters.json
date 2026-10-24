@@ -111,7 +111,11 @@
 	  "appearance": "Parmaklarında mürekkep lekesi var. Yüzü uykusuzluktan solgun.",
 	  "smalltalk": [
 		"İsimleri yanlış adrese gönderdiğimizde bazen insanlar da kayboluyor.",
-        "Bugün bütün zarflar aynı adrese gidiyordu. Açmadım."
+		"Bugün bütün zarflar aynı adrese gidiyordu. Merak ettim ama hiçbirini açmadım.",
+		"Sabahtan beri yüzlerce mektup mühürledim, başparmağım artık uyuştu.",
+		"İade edilen mektupların odasına girmek istemiyorum; hepsi artık yerinde olmayan insanlara yazılmış.",
+		"Postanenin kaloriferi yine bozuldu, paltomla çalışmak zorunda kaldım.",
+		"Birileri hâlâ el yazısıyla mektup gönderiyor. Belki de yaşadıklarını kanıtlamak için."
 	  ]
 	},
 	{
@@ -126,7 +130,11 @@
 	  "appearance": "Maskesini indirmiyor. Boynunda küçük bir aile fotoğrafı taşıyor.",
 	  "smalltalk": [
 		"Maskenin altında ne olduğumu soran çok. Nasıl olduğumu soran yok.",
-        "Sabaha kadar bir kapıya bakıyorum. Bazen arkasında ben varmışım gibi geliyor."
+		"Sabaha kadar kilitli bir depo kapısına bakıyorum. Bazen arkasında ben varmışım gibi geliyor.",
+		"Fenerimin pili zayıfladığında gölgeler olduğundan daha uzun görünüyor.",
+		"Gece devriyesinde ayak seslerimin yankısı bile bana yabancı geliyor artık.",
+		"Kızım bu fotoğrafı çizdiğinde vardiyalarım gündüzdü. Şimdi sadece uyurken yüzünü görebiliyorum.",
+		"Rüzgâr tel örgülere çarptığında birisi fısıldıyormuş gibi ses çıkarıyor."
 	  ]
 	},
 	{
@@ -141,7 +149,11 @@
 	  "appearance": "Ellerini cebinden çıkarmıyor. Yakası makine yağı kokuyor.",
 	  "smalltalk": [
 		"Bir şeyin kırık olduğunu anlamak kolay. Kimin kırdığını anlamak zor.",
-        "Metro kapalı ama raylardan ses geliyor. Müdür bakım çalışması diyor."
+		"Metro kapalı ama raylardan hâlâ titreşim geliyor. Müdür bakım çalışması diyor.",
+		"Tünellerde rutubet o kadar yoğun ki İngiliz anahtarı elimden kayıp duruyor.",
+		"Eski jeneratörleri tamir etmek insanlarla uğraşmaktan daha dürüst; en azından neden bozuldukları belli.",
+		"Üstüm başım gres yağı içinde, kusura bakma; tabureyi kirletmemeye çalışırım.",
+		"Aşağıda elektrik kesildiğinde karanlığın ağırlığını omuzlarında hissediyorsun."
 	  ]
 	},
 	{
@@ -155,8 +167,12 @@
 	  "dossier": "İlaç teslimatı izinli. Gece sokağa çıkma belgesi geçerli.",
 	  "appearance": "Gözbebekleri farklı büyüklükte. Cebindeki ilaç kutusu titriyor.",
 	  "smalltalk": [
-		"Damlalardan. Gözlerimi soracaktın, değil mi?",
-        "Eczanede her şeyin bir etiketi var. İnsanların olması o kadar kolay değil."
+		"Damlalardan. Gözlerimi soracaktın, değil mi? Yan etkisi sadece.",
+		"Eczanede her şişenin bir etiketi var. İnsanların ne olduğunu anlamak o kadar kolay değil.",
+		"Bu gece nöbetçi eczane bizdik; camın arkasından uzanan ellerin yarısı buz gibiydi.",
+		"Ağrı kesici isteyenlerin çoğu aslında sadece birinin kendileriyle konuşmasını istiyor.",
+		"Reçetesiz hiçbir şey vermemem lazım ama bazen insanların gözündeki çaresizliğe dayanamıyorum.",
+		"Kimyasal kokusundan burnum köreldi, senin dükkânın kokusu cennet gibi geliyor."
 	  ]
 	},
 	{
@@ -170,8 +186,12 @@
 	  "dossier": "Hayatı istediği gibi gitmiyor. Sabıka kaydı yok.",
 	  "appearance": "Renkli toka ve koyu renk bir ceketin daha fazla yakışacağı başka biri yok.",
 	  "smalltalk": [
-		"Öyle bakma, göründüğümden daha zekiyim",
-        "Vanitas'a yemin olsun patronum molalarıma bir kez daha karışırsa evine zor dönecek."
+		"Öyle bakma, göründüğümden daha zekiyim; sadece bu üniforma insanın ruhunu emiyor.",
+		"Yemin olsun patronum molalarıma bir kez daha karışırsa fritözü açık bırakıp çıkacağım.",
+		"Bütün gün kızartma yağı koklamaktan kendi parfümümün kokusunu unuttum.",
+		"Gece vardiyasında gelen müşteriler menüye bakmıyor bile, sadece boş boş tezgâhı izliyorlar.",
+		"Ayaklarım şişti, şurada beş dakika sessizce oturmak dünyalara bedel.",
+		"Maaş yatar yatmaz bu mahalleden taşınacağım… yani her ay kendime aynı yalanı söylüyorum."
 	  ]
 	},
 	{
@@ -185,8 +205,12 @@
 	  "dossier": "İkameti fakir bir mahallede gözüküyor.",
 	  "appearance": "Ters takılmış şapkası ve kafasını saran bir kulaklık, zamane genci işte.",
 	  "smalltalk": [
-		"Bu sabah rüyamda öyle güzel bir melodi duydum ki bu suratı reklam panolarında görmen an meselesi.",
-        "Akustik dersinin hocası bana fena taktı ya."
+		"Bu sabah rüyamda öyle güzel bir melodi duydum ki, notaya dökebilirsem bu suratı afişlerde görmen an meselesi.",
+		"Akustik dersinin hocası bana fena taktı ya, neymiş efendim ritmi fazla karanlık tutuyormuşum.",
+		"Sokağa çıkma sirenlerinin ses aralığını inceledim, tam insanların sinir uçlarına dokunacak frekansta.",
+		"Kulaklığı çıkarmıyorum çünkü dışarıdaki sessizlik müziğin yokluğundan daha gürültülü.",
+		"Stüdyo kiraları uçmuş, ben de apartman boşluğunda prova yapıyorum; komşular pek bayılmıyor tabii.",
+		"Parmak uçlarım tel basmaktan nasır tuttu ama çalmayı bırakırsam kafayı yerim."
 	  ]
 	},
 	{
@@ -200,8 +224,12 @@
 	  "dossier": "Dükkanının izinleri tam ve bütün sertifikalara sahip.",
 	  "appearance": "Kanlı bir önlüğe ve güçlü ön kollara sahip.",
 	  "smalltalk": [
-		"Kasaplık tam bir sanat işi, eti nasıl keseceğin, nasıl yüzeceğin, bıçak tutuşun. Ben bu eğitimleri büyüklerimden aldım.",
-        "Kötü koktuğumu yüzünden okuyabiliyorum ama benim burnum artık hiç farketmiyor."
+		"Kasaplık tam bir zanaat işi; eti nasıl keseceğin, bıçak tutuşun… Ben bu işi ustalarımdan öğrendim.",
+		"Üzerimin ağır koktuğunu yüzünden okuyabiliyorum ama benim burnum yıllardır hiçbir şey fark etmiyor.",
+		"Soğuk hava deposunun fanı bozulmasın diye sabaha kadar başında nöbet tuttum.",
+		"Millet önlüğümdeki lekelere bakıp ürküyor, hâlbuki akşam sofralarına koydukları eti kim hazırlıyor sanıyorlar?",
+		"Kemik testeresini temizlemekten bileklerim koptu, bir fincan sıcak bir şey iyi gelecek.",
+		"Son günlerde gece vakti kapıyı tıklatıp kemik iliği soran garip tipler türedi, anlam veremiyorum."
 	  ]
 	},
 	{
@@ -215,8 +243,12 @@
 	  "dossier": "Dükkân ruhsatı 46 yıldır aynı isimde. Doğum tarihi uyuşmuyor.",
 	  "appearance": "Eski bir kitabı göğsüne bastırıyor. Cilt kaplaması sıcak görünüyor.",
 	  "smalltalk": [
-		"Bazı kitaplar okurunu bekler. Bazı okurlar hiç yaşlanmaz.",
-        "Dükkânın ilk açıldığı kışı hatırlıyorum. Yok, babam anlatmıştı demek istedim."
+		"Bazı kitaplar okurunu bekler. Bazı okurlar ise sayfalar arasında hiç yaşlanmaz.",
+		"Dükkânın ilk açıldığı o büyük kışı hatırlıyorum… Yok, yani dedem anlatmıştı demek istedim.",
+		"Eski kâğıtların kokusu zamanla değişmez, sadece içine sinen hatıralar ağırlaşır.",
+		"Gündüzleri kepengi yarım açıyorum; güneş ışığı el yazmalarının mürekkebini solduruyor.",
+		"İnsanlar kendi tarihlerini ne çabuk unutuyor, oysa ben her baskıyı ezbere biliyorum.",
+		"Bu cildi tamir ederken parmağımı kestim ama tek damla bile akmadı… kâğıt emdi herhalde."
 	  ]
 	},
 	{
@@ -231,7 +263,11 @@
 	  "appearance": "Sıcak bir gülümsemesi var. Parmak izi okuyucuya elini sürmemiş.",
 	  "smalltalk": [
 		"Eve dönmek için önce bir yerin seni hatırlaması gerekiyor.",
-        "Son otobüsü kaçırdım. Bu şehirde hâlâ otobüs var mıydı?"
+		"Son otobüsü kaçırdım galiba. Gerçi bu mahallede otobüs hattı kaldırılalı yıllar olmuştu, değil mi?",
+		"Yürümek beni hiç yormuyor; sadece aynı sokakların her on yılda bir isim değiştirmesi kafamı karıştırıyor.",
+		"Kontrol noktalarındaki kameraların kör noktalarını ezbere bilirim, insan gece yürüyünce öğreniyor.",
+		"Cebimde eski madeni paralar kalmış, geçen gün fırıncıya uzattığımda bana tuhaf tuhaf baktı.",
+		"Senin tezgâhın ışığı uzaktan deniz feneri gibi görünüyor, bizim gibiler için nadir bir durak."
 	  ]
 	},
 	{
@@ -245,8 +281,12 @@
 	  "dossier": "Esnaf sicili geçerli. Son sağlık kontrolünde nabız alanı boş.",
 	  "appearance": "Özenle ütülenmiş bir palto. Eldivenlerinden ince kırmızı ipler sarkıyor.",
 	  "smalltalk": [
-		"Ölçü almak insanı tanımaya benzemez. Her dikiş iz bırakır.",
-        "Bazı lekeleri çıkarmak için kumaşı kesmek gerekir."
+		"Ölçü almak insanı tanımaya benzemez. Her dikiş deride bir iz bırakır.",
+		"Bazı lekeleri çıkarmak için kumaşı yıkamak yetmez, kesip atmak gerekir.",
+		"İğne parmağıma batsa bile artık canım yanmıyor; yılların alışkanlığı diyelim.",
+		"Gece diktiğim paltoların ceplerine bazen küçük taşlar koyuyorum, sahipleri rüzgârda savrulmasın diye.",
+		"İnsanların omuzları korktuklarında daralır, son aylarda herkese bir beden küçük kıyafet dikiyorum.",
+		"Kırmızı ipliğim hiç bitmez, makarası göründüğünden çok daha derindir."
 	  ]
 	},
 	{
@@ -260,8 +300,12 @@
 	  "dossier": "Adres mevcut değil. İkamet binası 18 yıl önce yıkılmış.",
 	  "appearance": "Saatine hiç bakmıyor. Bütün saatleri durmuş gibi dinliyor.",
 	  "smalltalk": [
-		"Gündüz saatlerini düzeltmiyorum artık. Kimse doğru zamanı sormuyor.",
-        "Aynı saatin içinde yıllarca kalabilirsin. Dışarıdan beş dakika geçmiş olur."
+		"Gündüz saatlerini düzeltmiyorum artık. Kimse doğru zamanı duymak istemiyor.",
+		"Aynı saatin içinde yıllarca kalabilirsin; dışarıdan bakan biri sadece beş dakika geçti sanır.",
+		"Zembereği kırılmış bir saatin tik takları durur ama içindeki gerilim olduğu gibi kalır; tıpkı bizim gibi.",
+		"Büyüteci gözüme taktığımda insanların nabzını da dişliler gibi sayabiliyorum.",
+		"Atölyemin olduğu sokak yıkılalı çok oldu ama ben hâlâ her gece aynı kaldırımdan geçiyorum.",
+		"Zaman sadece sonu olanlar için hızla akar, benim içinse hep aynı gece yarısı."
 	  ]
 	},
 	{
@@ -275,8 +319,12 @@
 	  "dossier": "Adresin yerinde evsizler kol geziyor, çiçeklerinden geriye kalan ise sadece toz.",
 	  "appearance": "Çiçekli bir elbise ve saçında çiçeklerden bir taç ama içine işleyen bir gülüşü var.",
 	  "smalltalk": [
-		"Hayat da çiçekler gibidir bir gün en güzel hallerine ulaşırlar ve ondan sonra ölümün kollarına doğru DÜŞÜŞE geçmeye başlarlar.",
-        "Bütün gün boyunca insanlara ölüm döşeğindeki çiçekleri taze gibi satıyorum. Müşteri mutlu mesut kapıdan çıkarken elinde aslında bir cenaze çiçeği taşıdığının kaçı farkında acaba?."
+		"Hayat da çiçekler gibidir; en güzel hallerine ulaştıkları an aslında solmaya başladıkları andır.",
+		"Bütün gün insanlara ölüm döşeğindeki çiçekleri taze gibi satıyorum, kaçı elinde cenaze çiçeği taşıdığının farkında?",
+		"Kurutulmuş yapraklar suya konduğunda canlanmaz ama kokuları çok daha keskinleşir.",
+		"Güllerin dikenleri ellerimi çiziyor, oysa damarlarımdaki soğukluk çiçekleri bile üşütmeye yeter.",
+		"Mezarlık duvarının dibinde yetişen gece sefaları benim tek gerçek dostlarım.",
+		"Toprak kokusunu seviyorum, bana en sonunda hepimizin nereye ait olduğunu hatırlatıyor."
 	  ]
 	}
   ]

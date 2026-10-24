@@ -39,31 +39,70 @@ static func _random_visit(period: String, rng: RandomNumberGenerator, catalog: D
 	var person := Customers.draw(period, rng, catalog, excluded)
 	if person.is_empty():
 		return {}
+	var pools: Dictionary = catalog.pools
 	var order: Variant
-	var request: String
-	var stat_orders: Array = catalog.pools.get("stat_orders", {}).get(person.species, [])
-	if not stat_orders.is_empty() and rng.randf() < float(catalog.pools.get("stat_order_chance", 0.0)):
-		order = stat_orders[rng.randi_range(0, stat_orders.size() - 1)].duplicate(true)
-		request = _describe_stats(order.stats, catalog.pools)
-	else:
-		var product := Products.draw(person.species, rng, catalog.recipes)
-		if product.is_empty():
-			return {}
-		order = product.id
-		var hint_phrase: String = ""
-		if product.has("description"):
-			var desc: String = product.description
-			var dot_idx := desc.find(". ")
-			if dot_idx != -1:
-				hint_phrase = desc.substr(dot_idx + 2).strip_edges().trim_suffix(".")
-		if not hint_phrase.is_empty() and catalog.pools.has("order_template_hint"):
-			request = catalog.pools.order_template_hint.format({"drink": product.name, "hint": hint_phrase})
+	var request: String = ""
+	var db: Dictionary = pools.get("order_database", {})
+	if not db.is_empty():
+		var built := _compose_dynamic_order(period, person.species, rng, pools, db)
+		if not built.is_empty():
+			order = built.order
+			request = built.request
+	if request == "":
+		var stat_orders: Array = pools.get("stat_orders", {}).get(person.species, [])
+		if not stat_orders.is_empty() and rng.randf() < float(pools.get("stat_order_chance", 0.0)):
+			order = stat_orders[rng.randi_range(0, stat_orders.size() - 1)].duplicate(true)
+			request = _describe_stats(order.stats, pools)
 		else:
-			request = catalog.pools.order_template.format({"drink": product.name})
-	var templates: Array = person.get("smalltalk", catalog.pools.default_smalltalk)
+			var product := Products.draw(person.species, rng, catalog.recipes)
+			if product.is_empty():
+				return {}
+			order = product.id
+			request = pools.get("order_template", "Bir {drink} alabilir miyim?").format({"drink": product.name})
+	var templates: Array = person.get("smalltalk", pools.get("default_smalltalk", ["..."]))
 	var line: String = templates[rng.randi_range(0, templates.size() - 1)]
+	var arrival := _pick_arrival(period, person.species, rng, pools)
+	var dialogue: Array = []
+	if arrival != "":
+		dialogue.append(arrival)
+	dialogue.append(line)
+	dialogue.append(person.appearance)
+	dialogue.append(request)
 	return {"character": person.id, "person": person, "order": order, "kind": "random", "mandatory": false,
-		"dialogue": [request, line, person.appearance]}
+		"dialogue": dialogue, "order_line": request}
+
+static func _pick_arrival(period: String, species: String, rng: RandomNumberGenerator, pools: Dictionary) -> String:
+	var arrivals: Dictionary = pools.get("arrival_lines", {})
+	var key := "night_fallen" if species == "fallen" else ("night_human" if period == "night" else "day_human")
+	var list: Array = arrivals.get(key, [])
+	if list.is_empty():
+		return ""
+	return str(list[rng.randi_range(0, list.size() - 1)])
+
+static func _compose_dynamic_order(period: String, species: String, rng: RandomNumberGenerator, pools: Dictionary, db: Dictionary) -> Dictionary:
+	var pool_key := "human"
+	var hook_key := "human_night" if period == "night" else "human_day"
+	if species == "fallen":
+		var use_hybrid := rng.randf() < 0.60
+		pool_key = "fallen_hybrid" if use_hybrid else "fallen_pure"
+		hook_key = pool_key
+	var entries: Array = db.get(pool_key, [])
+	if entries.is_empty():
+		return {}
+	var entry: Dictionary = entries[rng.randi_range(0, entries.size() - 1)]
+	var lines: Array = entry.get("lines", [])
+	if lines.is_empty():
+		return {}
+	var craving: String = str(lines[rng.randi_range(0, lines.size() - 1)])
+	var hooks: Array = pools.get("order_hooks", {}).get(hook_key, [])
+	var closers: Array = pools.get("order_closers", {}).get(species, [])
+	var parts: Array[String] = []
+	if not hooks.is_empty():
+		parts.append(str(hooks[rng.randi_range(0, hooks.size() - 1)]))
+	parts.append(craving)
+	if not closers.is_empty():
+		parts.append(str(closers[rng.randi_range(0, closers.size() - 1)]))
+	return {"order": entry.get("order", {}).duplicate(true), "request": " ".join(parts)}
 
 ## {"warm": 2, "sweet": 1} → "sıcak ve biraz tatlı bir şey alabilir miyim?"
 static func _describe_stats(wanted: Dictionary, pools: Dictionary) -> String:

@@ -1,5 +1,5 @@
 {
-  "fallen_chance_at_night": 0.5,
+  "fallen_chance_at_night": 0.75,
   "human": [
 	"guest_h01",
 	"guest_h02",
@@ -7,14 +7,14 @@
 	"guest_h04",
 	"guest_h05",
 	"guest_h06",
-    "guest_h07"
+	"guest_h07"
   ],
   "fallen": [
 	"guest_f01",
 	"guest_f02",
 	"guest_f03",
 	"guest_f04",
-    "guest_f05"
+	"guest_f05"
   ],
   "portraits": [
 	"defne",
@@ -25,7 +25,7 @@
 	"ilya",
 	"atlas",
 	"saye",
-    "narin"
+	"narin"
   ],
   "story_random_visits": {
 	"day": 1,
@@ -42,18 +42,18 @@
   "suspicion_lines": {
 	"state": {
 	  "wary": [
-        "Komşular gece ışıklarının yandığını söylüyor. Ben söylemedim; onlar söylüyor."
+		"Komşular gece ışıklarının yandığını söylüyor. Ben söylemedim; onlar söylüyor."
 	  ],
 	  "threat": [
-        "Senin hakkında bir dosya açıldı. Benim elimden geçerse kapanır. Geçmezse… geçmezse bilmiyorum."
+		"Senin hakkında bir dosya açıldı. Benim elimden geçerse kapanır. Geçmezse… geçmezse bilmiyorum."
 	  ]
 	},
 	"order": {
 	  "wary": [
-        "Sabahçı arkadaşınla çok konuşuyorsun. Ne konuştuğunuzu merak ediyoruz."
+		"Sabahçı arkadaşınla çok konuşuyorsun. Ne konuştuğunuzu merak ediyoruz."
 	  ],
 	  "threat": [
-        "Bazıları senin kapına bir daha gelmememizi istiyor. Ben henüz onlardan biri değilim."
+		"Bazıları senin kapına bir daha gelmememizi istiyor. Ben henüz onlardan biri değilim."
 	  ]
 	}
   },
@@ -116,19 +116,21 @@
   "endless_morning": [
 	"Yeni bir gün. Rafları yeniden doldurdum.",
 	"Dosyalar dün gecenin fotoğraflarını saklıyor. Sicil, birinin kim olduğunu tek başına söylemez.",
-    "Şüphelendiğin Fallen kayıtlarını verebilir veya kendine saklayabilirsin."
+	"Şüphelendiğin Fallen kayıtlarını verebilir veya kendine saklayabilirsin."
   ],
   "endless_evening": [
 	"Gece teslimatı geldi. Yarın da açık kalabilecek misin?",
 	"Elindeki insan kayıtları işime yarar. Bana verirsen onları bulabilirim.",
-    "Dosya vermemek de bir seçim. Her iki taraf ne yaptığını izliyor."
+	"Dosya vermemek de bir seçim. Her iki taraf ne yaptığını izliyor."
   ],
   "default_smalltalk": [
-    "Yağmur bugün de dinmeyecek gibi."
+	"Yağmur bugün de dinmeyecek gibi.",
+	"Dışarıda herkes birbirinin yüzüne bakmaktan kaçınıyor.",
+	"Bu mahallede sıcak kalmış tek yer senin tezgâhın."
   ],
   "order_template": "Bir {drink} alabilir miyim?",
   "order_template_hint": "Bir {drink} alabilir miyim? {hint}...",
-  "stat_order_chance": 0.4,
+  "stat_order_chance": 0.2,
   "stat_orders": {
 	"human": [
 	  {
@@ -186,24 +188,731 @@
   "stat_words": {
 	"warm": [
 	  "biraz sıcak",
-	  "sıcak",
-      "çok sıcak"
+	  "içimi ısıtacak sıcak",
+	  "kaynar gibi çok sıcak"
 	],
 	"cool": [
-	  "biraz serin",
-	  "soğuk",
-      "buz gibi"
+	  "hafif serinletici",
+	  "soğuk ve ferah",
+	  "buz gibi keskin"
 	],
 	"sweet": [
-	  "biraz tatlı",
-	  "tatlı",
-      "çok tatlı"
+	  "hafif tatlı",
+	  "tatlı ve yumuşak",
+	  "bol tatlı"
 	],
 	"bitter": [
-	  "hafif acı",
-	  "acı",
-      "çok sert"
+	  "hafif buruk",
+	  "sert ve acı",
+	  "zehir gibi acı"
 	]
   },
-  "stat_join": " ve "
+  "stat_join": " ve ",
+  "arrival_lines": {
+	"day_human": [
+	  "Şemsiyem rüzgârda ters döndü, sırılsıklam oldum… Kapının açık olduğunu görmek ne büyük şans.",
+	  "Köşedeki kimlik kontrol noktasında yarım saat bekletildim, ayaklarım buz kesti.",
+	  "Sabah vardiyasına yetişmeden önce şurada beş dakika nefes almam lazım.",
+	  "Dışarıda öyle bir sis var ki karşı kaldırımdaki binalar bile görünmüyor.",
+	  "Gece boyu çalan sirenlerden gözüme bir damla uyku girmedi, kafam kazan gibi.",
+	  "Tramvay yine arıza yaptı, üç durak boyunca yağmurun altında yürüdüm.",
+	  "Buharlı camını uzaktan görünce adımlarımı hızlandırdım; dışarısı insanın içini karartıyor.",
+	  "Sokağın başındaki afişleri yenilemişler, herkes fısıltıyla konuşuyor bugün.",
+	  "Sabah ayazı kemiklerime kadar işledi, eldivenlerim bile kâr etmiyor.",
+	  "İşe gitmeden önce gerçek bir kokuya ihtiyacım vardı, burası hâlâ eski günler gibi kokuyor.",
+	  "Merhabalar… Kusura bakma, kapıyı biraz sert açtım, rüzgâr arkadan itti.",
+	  "Bugün mahallede tuhaf bir telaş var, dükkânların yarısı kepenk açmamış bile."
+	],
+	"night_human": [
+	  "Sokağa çıkma saatine çok az kaldı, devriyeler geçmeden bir uğrayayım dedim.",
+	  "Gece vardiyasından yeni çıktım, sokak lambalarının yarısı sönük, gölgelerden ürke ürke geldim.",
+	  "Nöbet izin kâğıdımı üç kere kontrol ettiler, sinirlerim yay gibi gerildi.",
+	  "Bu saatte açık bir yer bulmak mucize… Eve tek başıma dönmek istemedim.",
+	  "Karanlık çöktükten sonra bu şehir bambaşka bir yere dönüşüyor, insan kendi ayak sesinden korkuyor.",
+	  "Uykusuzluktan gözlerim yanıyor ama eve gidersem sabaha kadar tavanı izleyeceğimi biliyorum.",
+	  "Az önce arka sokakta bir karaltı gördüm, kalbim hâlâ ağzımda atıyor.",
+	  "Mesai uzadıkça uzadı, ellerim soğuktan ve yorgunluktan titriyor.",
+	  "Kepenginin altından sızan ışığı görünce derin bir oh çektim.",
+	  "Gece rüzgârı jilet gibi kesiyor, paltomun yakasını iliklemek bile yetmedi."
+	],
+	"night_fallen": [
+	  "Gece sonunda sessizleşti… Gündüzün o boğucu gürültüsü çekilince nefes almak kolaylaşıyor.",
+	  "Devriyelerin projektörleri sokağın başını tarıyor ama karanlıkta nasıl yürüyeceğimi iyi bilirim.",
+	  "Yağmurun sesi bana çok eski bir kışı hatırlattı, ayaklarım kendiliğinden buraya getirdi.",
+	  "İnsanlar evlerine çekildiğinde bu kaldırımlar gerçek sahiplerine kalıyor.",
+	  "Camın buğusundan içeriyi izliyordum, yalnız olmadığını görünce içeri girdim.",
+	  "Saatlerdir yürüyordum; zamanın nasıl geçtiğini unutmak bizim gibiler için alışkanlık oldu.",
+	  "Sokak lambalarının titreyen ışığı gözlerimi yoruyor, senin loş tezgâhın çok daha huzurlu.",
+	  "Eski baristanın zamanından beri bu köşedeki tabureyi severim, hiçbir şey değişmemiş.",
+	  "Dışarıdaki soğuk derime işlemiyor belki ama içimdeki o tanıdık boşluk yine uyandı.",
+	  "Merak etme, peşimde kimse yok. Geceyi dinleye dinleye geldim.",
+	  "İnsanların telaşla kapılarını kilitlemesini izlemek garip bir his… Sanki duvarlar onları koruyabilirmiş gibi.",
+	  "Bu saatte demlenen kokular sokağın ucuna kadar yayılıyor, kayıtsız kalamadım."
+	]
+  },
+  "order_hooks": {
+	"human_day": [
+	  "Sabahtan beri ağzıma tek lokma koymadım, midem kazınıyor.",
+	  "Dün gece hiç uyuyamadım, başım zonkluyor.",
+	  "Soğuktan parmak uçlarımı hissetmiyorum, şöyle içimi açacak bir şeye ihtiyacım var.",
+	  "Vardiya başlamadan önce kendime gelmem lazım.",
+	  "Boğazım biraz düğümleniyor, konuşmakta bile zorlanıyorum.",
+	  "Bugün çok uzun ve stresli geçecek gibi duruyor.",
+	  "Yağmur bütün enerjimi alıp götürdü, üzerimde bir ağırlık var.",
+	  "Kafamı toplamam lazım, elimdeki işler birikti."
+	],
+	"human_night": [
+	  "Göz kapaklarım kurşun gibi ağır ama daha yapılacak tonla işim var.",
+	  "Sinirlerim çok yıprandı bu gece, ellerimin titremesi hâlâ geçmedi.",
+	  "Eve gitmeden önce içimi ısıtacak, bana her şeyin yolunda olduğunu hissettirecek bir şey arıyorum.",
+	  "Gece ayazı ciğerlerime işledi, sesim bile kısıldı.",
+	  "Karanlıkta yürüdükten sonra insan sıcak bir yuduma muhtaç kalıyor.",
+	  "Nöbetin son saatleri hiç geçmek bilmiyor, zihnimi açık tutmam gerek.",
+	  "Kâbus görmeden birkaç saat uyuyabilmek istiyorum artık.",
+	  "Bütün günün yorgunluğu omuzlarıma çöktü."
+	],
+	"fallen_hybrid": [
+	  "İnsanların arasında yaşarken onların kokularına alışıyorsun ama kendi doğan da peşini bırakmıyor.",
+	  "Eskiden sabahları içtiğim o sıcak tatları özlüyorum, fakat sade bir insan içeceği artık açlığımı bastırmıyor.",
+	  "İki dünyanın arasında sıkışıp kaldık; damağım hem yaşayanların kokusunu hem de arka rafın özünü arıyor.",
+	  "Bedenim buz gibi ama burnumda hâlâ eski hayatımdan kalan o tanıdık aromalar tütüyor.",
+	  "Sıradan bir müşteri gibi görünmek istiyorum ama fincanın dibinde bizi hayatta tutan o gizli dokunuş olmalı.",
+	  "Uzun zamandır hem ruhumu avutacak bir insan tadı hem de damarlarımı doyuracak bir karışım içmedim.",
+	  "Yaşayanların baharatları ve demleri, bizim karanlık malzemelerimizle birleştiğinde çok daha anlamlı oluyor.",
+	  "Bu gece eski alışkanlıklarımla yeni açlığımı aynı fincanda buluşturmak istiyorum."
+	],
+	"fallen_pure": [
+	  "Bu gece insanların şekerine, sütüne ya da kahvesine hiç tahammülüm yok; midem kaldırmıyor.",
+	  "İçimdeki o kadim açlık çok keskinleşti, insanlara ait hiçbir tat bunu yatıştıramaz.",
+	  "Maske takmaktan ve insan gibi davranmaktan yoruldum, bana sadece bizim doğamıza ait saf bir karışım ver.",
+	  "Damarlarımdaki kuruluk hat safhada, üst raftaki insan malzemelerini hiç karıştırma.",
+	  "Gece bu kadar karanlıkken insan tatlarıyla vakit kaybetmeyelim, doğrudan kepengin arkasına geç.",
+	  "Yalnızca bizimkilerin anlayabileceği o ağır, saf ve ham tadı arıyorum bu gece.",
+	  "İnsanların aromaları bana sadece kaybettiklerimi hatırlatıyor, bu gece saf bir Fallen iksiri istiyorum.",
+	  "Kemiklerime kadar donmuş durumdayım, sadece arka raftaki gizli malzemeler beni kendime getirebilir."
+	]
+  },
+  "order_closers": {
+	"human": [
+	  "Gerisini tamamen senin el lezzetine bırakıyorum, ne yakıştırırsan öyle demle.",
+	  "Üçüncü malzemeyi ya da nasıl dengeleyeceğini sen seç usta, sana güveniyorum.",
+	  "Tam tarifini sen daha iyi bilirsin, kafana göre güzel bir şey çıkar işte.",
+	  "Yanına ne katacağına sen karar ver, senin elinden ne olsa içilir.",
+	  "Nasıl harmanlayacağını sana bırakıyorum, sürpriz olsun.",
+	  "Kararı sen ver barista, şu halime ne iyi giderse onu hazırla.",
+	  "Reçetesini sana bırakıyorum, beni tanıdın artık.",
+	  "Orasını senin ustalığına havale ediyorum, nasıl uygun görürsen öyle yap."
+	],
+	"fallen": [
+	  "Karışımın geri kalanını senin sezgilerine bırakıyorum, tezgâhın sırrını biliyorsun.",
+	  "Yanına ne ekleyeceğine sen karar ver, iki raf da senin elinin altında.",
+	  "Nasıl dengeleyeceğini sana bırakıyorum barista, damak tadıma güveniyorum.",
+	  "Geri kalan dokunuşu sen seç; bizim gibilere neyin iyi geldiğini öğrenmişsindir.",
+	  "Orasını senin ustalığına bırakıyorum, fincanı nasıl tamamlarsan kabulüm.",
+	  "Kararı sen ver, yeter ki içimdeki bu gece açlığını dindirsin.",
+	  "Üçüncü dokunuşu sen belirle, elinin ayarına güvenim tam.",
+	  "Gerisini nasıl harmanlayacağın sana kalmış, seçimi sana bırakıyorum."
+	]
+  },
+  "order_database": {
+	"human": [
+	  {
+		"order": {
+		  "recipe": "latte",
+		  "must_have": [
+			"coffee",
+			"milk"
+		  ]
+		},
+		"lines": [
+		  "Ben kahve kokusunu çok severim ama çok sert olunca çarpıntı yapıyor; içine bolca sıcak süt kattığın yumuşak bir şey hazırlarsan harika olur.",
+		  "Canım sütlü, yumuşak içimli bir kahve çekiyor; kahvenin acılığını sütün o kremsi sıcaklığı kırsın istiyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "espresso",
+		  "must_have": [
+			"coffee",
+			"spice"
+		  ]
+		},
+		"lines": [
+		  "Bana öyle sıradan bir şey yetmez, içinde kavruk kahve ve genzimi yakacak biraz baharat olan sert bir karışım lazım.",
+		  "Kahveye bayılırım, hele içine biraz da ısıtıcı baharat eklendi mi uykuyu anında açıyor; öyle bir şey düşünüyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "night_watch",
+		  "must_have": [
+			"coffee",
+			"cinnamon"
+		  ]
+		},
+		"lines": [
+		  "Kahvenin içine tarçın kokusu karıştığında insanın ruhu dinleniyor; bana tarçınlı bir kahve yapsana.",
+		  "Sıcak bir kahve istiyorum ama içinde mutlaka tarçın olsun, o kokuyu duyunca çocukluğumdaki fırınları hatırlıyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "cold_street",
+		  "must_have": [
+			"coffee",
+			"mint"
+		  ]
+		},
+		"lines": [
+		  "Kafam çok sıcak ve bulanık; kahveyi çok severim ama içine nane gibi ferahlatıcı bir dokunuş katarsan nefes alacağım.",
+		  "Kahveden vazgeçemiyorum ama bu sefer içinde taze nane esintisi olan, zihnimi serinletecek bir şey denemek istiyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "mocha",
+		  "must_have": [
+			"cocoa",
+			"cinnamon"
+		  ]
+		},
+		"lines": [
+		  "Kakao ve tarçın ikilisine zaafım var; o tatlı ve sıcak kokuyu duyunca bütün stresim uçup gidiyor.",
+		  "Bugün kahve yerine yoğun kakaolu ve tarçınlı bir şey çekti canım, içimi yumuşatsın yeter."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "hot_cocoa",
+		  "must_have": [
+			"cocoa",
+			"honey"
+		  ]
+		},
+		"lines": [
+		  "Tatlı krizim tuttu galiba; kakaonun içine süzme bal karıştırdığın, çocukluğumu hatırlatacak sıcacık bir şey istiyorum.",
+		  "Boğazımı yumuşatacak ballı ve kakaolu bir içeceğe hayır diyemem şu an."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "ember",
+		  "must_have": [
+			"cocoa",
+			"spice"
+		  ]
+		},
+		"lines": [
+		  "Üşümekten dişlerim birbirine vuruyor; kakaonun içine yakıcı baharatlar katarak şömine ateşi gibi ısıtan bir şey yapsana.",
+		  "Kakaoyu tatlı değil de baharatlı ve yakıcı severim ben, boğazımdan aşağı kor gibi insin."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "tea",
+		  "must_have": [
+			"tea",
+			"mint"
+		  ]
+		},
+		"lines": [
+		  "Midem biraz bulanıyor ve ellerim titriyor; sıcak bir çayın içine taze nane atarsan çok iyi gelecek.",
+		  "Demli bir çay gibisi yok ama içinde mutlaka nane ferahlığı olsun istiyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "lullaby",
+		  "must_have": [
+			"tea",
+			"honey"
+		  ]
+		},
+		"lines": [
+		  "Sesim kısılmak üzere, boğazım yanıyor; sıcak bir çayın içine bolca bal katsan bana dünyaları verirsin.",
+		  "Gerginliğimi alacak, ballı ve yumuşak içimli bir çay arıyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "lullaby",
+		  "must_have": [
+			"tea",
+			"lemon"
+		  ]
+		},
+		"lines": [
+		  "Soğuk algınlığı başlayacak gibi hissediyorum; bol limonlu sıcak bir çay demleyebilir misin bana?",
+		  "Çayı limonun o ekşi ferahlığı olmadan içemem ben, içine biraz limon sıkman şart."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "caravan",
+		  "must_have": [
+			"tea",
+			"spice"
+		  ]
+		},
+		"lines": [
+		  "Sıradan çay kesmiyor artık; içine güzelce baharat kattığın, kokusuyla insanı uzak diyarlara götüren bir çay lazım.",
+		  "Baharatlı çaya bayılırım, hem içimi ısıtıyor hem de yorgunluğumu alıyor."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "milk_tea",
+		  "must_have": [
+			"tea",
+			"milk"
+		  ]
+		},
+		"lines": [
+		  "Annem yağmurlu günlerde çayın içine bolca sıcak süt katardı; bana o ev sıcaklığını hatırlatacak sütlü bir çay yapar mısın?",
+		  "Buruk çay yerine sütle yumuşatılmış, kadife gibi akan bir çay çekti canım."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "matcha_latte",
+		  "must_have": [
+			"matcha",
+			"milk"
+		  ]
+		},
+		"lines": [
+		  "Bu beton yığınlarının arasında yeşil yaprak kokusuna hasret kaldım; matcha ve sıcak sütle yumuşak bir şey hazırlarsan çok sevinirim.",
+		  "Matcha tozunun o kendine has tadını sütle birleştirdiğinde harika oluyor, öyle bir şey istiyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "matcha_garden",
+		  "must_have": [
+			"matcha",
+			"honey"
+		  ]
+		},
+		"lines": [
+		  "Matcha'yı çok severim ama acılığını süzme balla kırdığın, yağmur sonrası bahçe gibi kokan bir karışım olsun.",
+		  "İçinde matcha ve bal olan, hem tatlı hem ferah bir şeyler denemek istiyorum bugün."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "white_dream",
+		  "must_have": [
+			"milk",
+			"honey"
+		  ]
+		},
+		"lines": [
+		  "Kalbim bu aralar kafeine hiç dayanamıyor; kahve veya çay koymadan, sıcak süt ve balla içimi ısıtacak bir şey hazırlar mısın?",
+		  "Uyumadan önce içebileceğim, süt bazlı ve ballı yumuşacık bir karışım arıyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "black_news",
+		  "must_have": [
+			"coffee"
+		  ],
+		  "stats": {
+			"bitter": 2
+		  }
+		},
+		"lines": [
+		  "Şekerden de sütten de nefret ederim; bana kahvenin en koyu, en acı halinden bir fincan doldur, gözlerim fal taşı gibi açılsın.",
+		  "Hiçbir tatlandırıcı istemiyorum, zehir gibi acı ve sert bir kahve olsun ki bu geceyi atlatabileyim."
+		]
+	  },
+	  {
+		"order": {
+		  "stats": {
+			"warm": 2
+		  }
+		},
+		"lines": [
+		  "Özel bir malzeme takıntım yok, sadece iliklerime kadar üşüdüm; içimi cayır cayır ısıtacak sıcak bir şey yap bana.",
+		  "Ellerim buz tuttu, ne malzeme kullanırsan kullan ama olabildiğince sıcak bir içecek olsun lütfen."
+		]
+	  },
+	  {
+		"order": {
+		  "stats": {
+			"sweet": 2
+		  }
+		},
+		"lines": [
+		  "Bugün o kadar acı haberler duydum ki ağzımın tadı yerine gelsin istiyorum; bol tatlı, yüzümü güldürecek bir şey hazırla.",
+		  "Kan şekerim düştü galiba, başım dönüyor; bana en tatlısından ne yapabiliyorsan onu yap."
+		]
+	  },
+	  {
+		"order": {
+		  "stats": {
+			"cool": 1
+		  }
+		},
+		"lines": [
+		  "İçerisi de dışarısı kadar basık geldi, daraldım… Boğazımı ferahlatacak serin bir dokunuşa ihtiyacım var.",
+		  "Ateşim var gibi hissediyorum, hararetimi alacak serinletici bir şeyler uydurabilir misin?"
+		]
+	  }
+	],
+	"fallen_hybrid": [
+	  {
+		"order": {
+		  "recipe": "bloody_coffee",
+		  "must_have": [
+			"coffee",
+			"blood"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Kavrulmuş kahve kokusunu hâlâ unutamıyorum ama sade kahve damarlarımdaki soğukluğu kesmiyor; içine arka raftan taze kan katarak hazırla.",
+		  "Hem insanların kahvesini hem de bizim kızıl sıcaklığımızı aynı fincanda istiyorum; kahve ve kan mutlaka olsun."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "iron_tea",
+		  "must_have": [
+			"tea",
+			"blood"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Demli bir çayın buharını izlemeyi seviyorum ama içine biraz kan karıştırmazsan boğazımdan su gibi boş geçiyor.",
+		  "Bana sıcak çay bazlı ama içinde kanın o metalik ağırlığını taşıyan bir karışım demle."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "sweet_sin",
+		  "must_have": [
+			"blood",
+			"honey"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Kanın o paslı sertliği bazen beni bile yoruyor; sıcak kanı insanların süzme balıyla tatlandırdığın bir iksir yapsana.",
+		  "İçinde hem sıcak kan hem de tatlı bal olan, şerbet gibi akacak bir karışım çekti canım."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "velvet_vein",
+		  "must_have": [
+			"cocoa",
+			"blood"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Kakaonun koyu rengi kanı gizlemek için birebirdir; bana kakaolu ve kanlı, kadife gibi bir sıcak çikolata hazırla.",
+		  "İnsanların sıcak çikolatasını özledim ama içine arka raftan kan da ekle ki açlığım dinsin."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "bone_latte",
+		  "must_have": [
+			"coffee",
+			"marrow"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Sert bir kahvenin üzerine insanların sütüyle birlikte bizim yoğun ilik köpüğümüzü çekersen harika bir kıvam oluyor.",
+		  "Kahve istiyorum ama sıradan bir krema yerine içine erimiş ilik katarak o doyurucu ağırlığı ver."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "dark_velvet",
+		  "must_have": [
+			"cocoa",
+			"marrow"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Kaskatı kesilmiş kemiklerimi ancak yoğun kakao ve erimiş ilik ısıtabilir; ikisini birleştiren koyu bir şey yap.",
+		  "Kakao ve iliğin o ağır, kremsi uyumuna bayılıyorum; içine biraz da baharat veya ne yakıştırırsan ekle."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "marrow_tea",
+		  "must_have": [
+			"tea",
+			"marrow"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Boğazım kurudu; sıcak çayın içine kemik iliği katarak şifalı bir et suyu gibi yumuşak akan bir dem hazırla.",
+		  "Çay ve iliği birlikte demlediğinde ortaya çıkan o kehribar rengi karışımı arıyorum bu gece."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "ash_coffee",
+		  "must_have": [
+			"coffee",
+			"ash"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Kahvenin kavruk tadını arka raftaki isli külle buluşturmanı istiyorum; damağımda sönmüş bir ocağın köz kokusu kalsın.",
+		  "Sert bir gece kahvesi yap bana ama içine mutlaka ince kül serpiştir, o dumanlı uyuşukluğa ihtiyacım var."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "grey_matcha",
+		  "must_have": [
+			"matcha",
+			"ash"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "İnsanların yeşil matcha'sına biraz mezarlık külü karıştırdığında tıpkı sisli bir sabah gibi kokuyor; öyle bir şey hazırla.",
+		  "Matcha ve külün o toprağımsı, dumanlı uyumunu çok seviyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "ash_cocoa",
+		  "must_have": [
+			"cocoa",
+			"ash"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Bitter kakaonun içine biraz kül kattığında yanık bir hatıra gibi hem tatlı hem dumanlı oluyor; bana ondan yap.",
+		  "Kakao ve isli kül… Şömine başında geçen eski insan yıllarımı hatırlatıyor."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "tissue_coffee",
+		  "must_have": [
+			"coffee",
+			"tissue"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Açlığım çok derin; koyu kahvenin içine mühürlü kavanozdaki dokudan katıp baharatla terbiye ettiğin tok tutucu bir harman ver.",
+		  "Sıradan sıvılar yetmiyor, kahvenin içinde doku özü de olsun ki sabaha kadar dayanabileyim."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "flesh_tea",
+		  "must_have": [
+			"tea",
+			"tissue"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Sıcak çay suyunda doku özünü demleyip sıcak bir konsome gibi hazırlarsan kemiklerim ısınacak.",
+		  "Çay ve doku özüyle yapılan o ağır, besleyici gece deminden istiyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "glazed_tissue",
+		  "must_have": [
+			"tissue",
+			"honey"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Dokunun o çiğ ağırlığını insanların süzme balıyla sırladığında tadı bambaşka oluyor; içinde doku ve bal olan bir kadeh hazırla.",
+		  "Arka raftaki dokuyu baz alıp süzme balla tatlandırarak bana sırlı bir karışım hazırlar mısın?"
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "bile_coffee",
+		  "must_have": [
+			"coffee",
+			"bile"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Zihnim çok bulanık; sert kahvenin içine birkaç damla yakıcı safra damlat ki uyuşukluğum bıçak gibi kesilsin.",
+		  "Kahvenin acılığı yetmez, içine arka raftan safra da kat; zihnimi zıpkın gibi açacak bir tonik olsun."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "yellow_tea",
+		  "must_have": [
+			"tea",
+			"bile"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Safranın o keskin zehrini sıcak çay ve tatlı bir dokunuşla kırdığında boğazı tertemiz yapıyor; öyle bir iksir demle.",
+		  "Çay ve safrayı harmanla bana, o acı-tatlı dengeyi çok seviyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "salted_coffee",
+		  "must_have": [
+			"coffee",
+			"salt"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Soğuk gecelerde donuk damarlarımı ancak kaya tuzlu bir kahve harekete geçiriyor; kahve ve tuzu eksik etme.",
+		  "Kahvemi şekerli değil, gizli raftaki koruyucu tuz kristalleriyle severim."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "salted_mocha",
+		  "must_have": [
+			"cocoa",
+			"salt"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Kakaonun içine arka raftaki tuz kristallerinden kattığında harika bir tuzlu çikolata oluyor; bana ondan hazırla.",
+		  "Hem kakao hem de bizim tuzumuz olsun içinde, tatlıyla tuzlunun o karanlık dengesini seviyorum."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "salted_tea",
+		  "must_have": [
+			"tea",
+			"salt"
+		  ],
+		  "hybrid": true
+		},
+		"lines": [
+		  "Eski kervanların yaptığı gibi sıcak çayın içine kaya tuzu katarak demle; uzun gece yürüyüşüne çıkacağım.",
+		  "Tuzlu ve sıcak bir çay istiyorum, arka raftaki tuzdan atmayı unutma."
+		]
+	  }
+	],
+	"fallen_pure": [
+	  {
+		"order": {
+		  "recipe": "red",
+		  "must_have": [
+			"blood",
+			"marrow"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Bana sadece sıcak kan ve üzerine çekilmiş yoğun ilik köpüğü ver; içine insan rafından tek bir damla bile karıştırma.",
+		  "Damarlarımdaki kuruluğu ancak saf kan ve ilik geçirir, eski usul katıksız bir kadeh olsun."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "ashfall",
+		  "must_have": [
+			"blood",
+			"ash"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Sıcak kanın içine isli kül katmanı istiyorum, insan malzemesi hiç olmasın; yağmurun söndüremediği açlığımı ancak bu keser.",
+		  "Yalnızca arka raftan çalış: kan ve kül mutlaka olsun, üçüncü malzemeyi de yine gizli raftan seç."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "hollow",
+		  "must_have": [
+			"tissue",
+			"marrow"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Günlerdir beslenemedim, içimde derin bir boşluk var; sadece gizli raftaki doku ve ilikle ağır bir karışım hazırla.",
+		  "İnsan içecekleri midemi bulandırıyor; doku özü ve ilik içeren saf bir Fallen harmanı ver bana."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "rust_bell",
+		  "must_have": [
+			"blood",
+			"bile"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Dilimin ucunda paslı demir ve zehir tadı olsun istiyorum; kan ve safrayı saf bir gece karışımında birleştir.",
+		  "İnsanlara ait hiçbir şey katmadan, içinde kan ve yakıcı safra olan keskin bir iksir hazırla."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "quiet_bone",
+		  "must_have": [
+			"marrow",
+			"ash"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Boğazımı uyuşturup kafamdaki sesleri susturacak saf bir ilik ve kül karışımı istiyorum, insan rafına hiç dokunma.",
+		  "Sıcak ilik ve bolca soğuk kül… Sadece bizim malzemelerimizle dumanlı bir fincan hazırla."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "cold_skin",
+		  "must_have": [
+			"tissue",
+			"salt"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Derim buz kesti, hiçbir şey hissetmiyorum; sadece doku özü ve koruyucu tuz kullanarak saf bir karışım yap.",
+		  "Üst raftan hiçbir şey istemiyorum; mühürlü kavanozdaki dokuyu tuzla terbiye edip servis et."
+		]
+	  },
+	  {
+		"order": {
+		  "recipe": "ember_vein",
+		  "must_have": [
+			"blood",
+			"salt"
+		  ],
+		  "pure_fallen": true
+		},
+		"lines": [
+		  "Durmuş kalbime yeniden nabız pompalayacak tuzlu ve sıcak bir kan karışımı lazım; yalnızca gizli rafı kullan.",
+		  "Kan ve kaya tuzu merkezde olsun, yanına katacağın üçüncü şeyi de arka raftan seç."
+		]
+	  }
+	]
+  }
 }

@@ -104,9 +104,10 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			check(snapshot.questions.size() == questions.size(), "Sorgu sırasında sorular görünmeli")
 			check(not str(snapshot.questions).contains("answer") and not snapshot.visit.has("questions"), "Cevaplar sorulmadan görünmemeli")
 			if state.asked.size() < InterrogationRules.QUESTION_LIMIT and state.asked.size() < questions.size():
-				var was_marked: bool = snapshot.marked
-				command("mark")
-				check(session.state.marks.get(session._record_id(), []).has(snapshot.line) != was_marked, "İşaretle görünen cümleyi açıp kapamalı")
+				if state.day >= 2:
+					var was_marked: bool = snapshot.marked
+					command("mark")
+					check(session.state.marks.get(session._record_id(), []).has(snapshot.line) != was_marked, "İşaretle görünen cümleyi açıp kapamalı")
 				command("ask", {"index": state.asked.size()})
 				check(state.stage == "answer", "Soru sorunca cevap gelmeli")
 				interviewed = true

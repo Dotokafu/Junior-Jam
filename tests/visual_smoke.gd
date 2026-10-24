@@ -72,8 +72,9 @@ func run() -> void:
 	await settle(0.3)
 	check(absf(screen.balloon.panel.global_position.y - interview_top) < 2.0, "Balon sorudan cevaba geçerken zıplamamalı: %.0f → %.0f" % [interview_top, screen.balloon.panel.global_position.y])
 	check(session.state.stage == "answer" and session.state.asked == [0], "Soru düğmesine tıklamak soruyu sormalı")
-	await press(KEY_N)
-	check(session.state.marks.get(session._record_id(), []).size() == 1, "N cevabı işaretlemeli")
+	if session.state.day >= 2:
+		await press(KEY_N)
+		check(session.state.marks.get(session._record_id(), []).size() == 1, "N cevabı işaretlemeli")
 	await capture("answer")
 	for i in range(8):
 		if session.state.stage == "brewing":

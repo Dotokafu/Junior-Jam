@@ -5,20 +5,27 @@
       "headline": "SOKAĞA ÇIKMA SAATİ YİNE ÖNE ALINDI",
       "morning": [
         "Yeni anahtar sana yakışmış. Burası eskiden de sabaha kadar açık kalırdı.",
-        "Üst rafta ana malzemeler, altta eklemeler, süt her şeye gider… rafları doldurdum. Üç ölçüyü tarifteki sırayla koy; sütü en sona bırakırsan köpüğüne çizebilirsin. Demle, sonra servis et.",
+        "Üst rafta ana malzemeler, altta eklemeler, süt her şeye gider… rafları doldurdum. Önce bir baz seçip toplam üç malzemeyi fincana ekle; sütü en sona bırakırsan köpüğüne çizebilirsin. Demle, sonra servis et.",
         "Akşam haberlerini dinle. Soluk bir yüz, birini suçlamaya yetmez. Ada hastaneden gelecek; ellerindeki kan kendi işi."
       ],
       "day": [
         {
           "character": "ada",
           "order": "latte",
+          "flexible_order": {
+            "recipe": "latte",
+            "must_have": [
+              "coffee",
+              "milk"
+            ]
+          },
           "dialogue": [
-            "Bütün gece ayaktaydım.",
-            "Hastanede yine elektrik kesildi. Kan bankasını elle soğuttuk.",
-            "İnsanlar üzerimdeki lekelere bakıyor.",
-            "Kimse ne kadar yorulduğumu sormuyor."
+            "Bütün gece acil serviste ayaktaydım, dizlerimin bağı çözülüyor.",
+            "Hastanede yine elektrik kesildi. Kan bankasının dolaplarını sabaha kadar buz kalıplarıyla soğuttuk.",
+            "Otobüste herkes gömleğimdeki lekelere baktı; kimse ne kadar yorulduğumu sormuyor.",
+            "Bana sıradan, huzurlu bir sabahı hatırlatacak bir şey yapar mısın? Kahve kokusunu seviyorum ama sert olmasın, içine bolca sıcak süt kat… gerisini senin el lezzetine bırakıyorum."
           ],
-          "order_line": "Bana sıradan bir sabahı hatırlatacak bir şey ver. Kahvesi hafif kalsın, sütü bol olsun… yumuşak bir tat.",
+          "order_line": "Bana sıradan bir sabahı hatırlatacak bir şey yapar mısın? Kahvesi hafif kalsın, sütü bol olsun… gerisini senin el lezzetine bırakıyorum.",
           "questions": [
             {
               "id": "where_from",
@@ -43,11 +50,19 @@
         {
           "character": "mira",
           "order": "tea",
+          "flexible_order": {
+            "recipe": "tea",
+            "must_have": [
+              "tea",
+              "mint"
+            ]
+          },
           "dialogue": [
-            "Postaneden çıktım, ellerim hâlâ titriyor.",
-            "Fotoğraf bazen gerçeği yakalar. Bazen yalnızca birinin en kötü anını."
+            "Karakolun önünden geçtim, soğuktan ve gerginlikten ellerim hâlâ titriyor.",
+            "Fotoğraf makinesi bazen gerçeği yakalar, bazen de yalnızca bir insanın en çaresiz anını.",
+            "Kafein çarpıntı yapıyor bende; sıcak bir çayın içine taze nane ve belki biraz limon atarsan çok iyi gelir, nasıl demleyeceğine sen karar ver."
           ],
-          "order_line": "Titreyen ellere iyi gelecek bir şey… Nane ve limon ferahlığı iyi gelir derler, çayın buharı içimi ısıtsın.",
+          "order_line": "Titreyen ellerime iyi gelecek sıcak bir çay… İçinde nane ferahlığı olsun, yanına limon mu katarsın başka bir şey mi, sana bırakıyorum.",
           "questions": [
             {
               "id": "work",
@@ -74,11 +89,20 @@
         {
           "character": "eren",
           "order": "red",
+          "flexible_order": {
+            "recipe": "red",
+            "must_have": [
+              "blood",
+              "marrow"
+            ],
+            "pure_fallen": true
+          },
           "dialogue": [
             "Bu saatte açık olacağını söylemişti.",
-            "Kim mi? Senden önce tezgâhın arkasında duran kişi."
+            "Kim mi? Senden önce tezgâhın arkasında duran kişi.",
+            "İnsanların içecekleri boğazımdan geçmiyor… Bana arka raftan sıcak kan ve kemiğin içindeki o yoğun ilik kıvamıyla saf bir şey hazırla, gerisini sen bilirsin."
           ],
-          "order_line": "Eskisi gibi bir şey. Sıcak… demir tadı önde olsun, kemiğin içindeki o eski kıvam gibi.",
+          "order_line": "İnsan tatları bana göre değil… Sıcak kan ve yoğun ilik kıvamıyla arka raftan saf bir şey hazırla, seçimi sana bırakıyorum.",
           "questions": [
             {
               "id": "where_from",
@@ -119,40 +143,74 @@
         {
           "character": "atlas",
           "order": "espresso",
+          "flexible_order": {
+            "recipe": "espresso",
+            "must_have": [
+              "coffee",
+              "spice"
+            ]
+          },
           "dialogue": [
-            "Bir Uzun Gece. Kahvesi uykuyu kovacak kadar sert olsun, azıcık baharat sıcaklığıyla… Vardiya daha yeni bitti.",
-            "Gözüme mi bakıyorsun? Limandaki vinç beni iki parçaya ayıracaktı. Doktorlar birini kurtardı.",
-            "Defne bilir. Protez için evrakları onun kamyonuyla gönderdim."
-          ]
+            "Liman vardiyası daha yeni bitti, göz kapaklarım düşüyor ama eve yürüyecek dermanım yok.",
+            "Gözüme mi bakıyorsun? Limandaki vinç halatı koptuğunda doktorlar sadece tek gözümü kurtarabildi. Defne bilir, protez evraklarını onun kamyonuyla gönderdim.",
+            "Bana uykumu zıpkın gibi açacak sert, kavruk bir kahve lazım; içine biraz da yakıcı baharat atarsan harika olur, gerisini senin ustalığına bırakıyorum."
+          ],
+          "order_line": "Vardiya yeni bitti; uykumu kovacak kadar sert bir kahve ve biraz baharat sıcaklığı lazım, nasıl harmanlayacağına sen karar ver."
         },
         {
           "character": "ilya",
-          "order": "red",
+          "order": "bloody_coffee",
+          "flexible_order": {
+            "recipe": "bloody_coffee",
+            "must_have": [
+              "coffee",
+              "blood"
+            ],
+            "hybrid": true
+          },
           "dialogue": [
-            "Tezgâhın eski sahibi bana hep Kızıl Hatıra hazırlardı; kanı sıcak tutar, iliğin ağırlığıyla kıvam verirdi...",
-            "Arşivde ölüm kayıtlarını düzenliyorum. Yaşayanların evrakı daha karışık.",
-            "Bazen dosyanın üzerindeki tarih yanlış olur. Bazen dosyanın kendisi."
-          ]
+            "Belediye arşivinde bütün gün ölüm kayıtlarını düzenledim; inan bana, yaşayanların evrakı çok daha karışık.",
+            "Bazen dosyanın üzerindeki tarih yanlış olur, bazen de dosyanın kendisi.",
+            "Yıllar geçse de kavrulmuş kahve kokusundan vazgeçemedim ama sade kahve damarlarımı ısıtmıyor… Kahvenin içine arka raftan taze kan kat, üçüncü dokunuşu kendi zevkine göre seç."
+          ],
+          "order_line": "Kahve kokusunu seviyorum ama damarlarımı ısıtması için içine arka raftan taze kan da katmalısın; geri kalanını senin seçimine bırakıyorum."
         }
       ],
       "night": [
         {
           "character": "ada",
           "order": "mocha",
+          "flexible_order": {
+            "recipe": "mocha",
+            "must_have": [
+              "cocoa",
+              "cinnamon"
+            ]
+          },
           "dialogue": [
-            "Bu kez Son Işık. Kakaonun acılığı önce tarçın kokusuna karışsın, üstü süt olsun… eve gitmeden önce içimi ısıtsın.",
-            "Bugün Atlas diye bir işçiyi gördüm. Yeni gözüne alışamamış.",
-            "Kayıp kardeşimi arıyorum. Gece dışarı çıkmamın başka bir nedeni yok."
-          ]
+            "Bugün hastanede Atlas diye bir liman işçisini gördüm, yeni protez gözüne hâlâ alışamamış.",
+            "Vardiyadan sonra kayıp kardeşimi aramak için sokakları dolaştım; gece dışarı çıkmamın başka bir nedeni yok.",
+            "Çok üşüdüm… Bu gece kahve istemiyorum; içinde yoğun kakao ve tarçın kokusu olan, içimi ısıtacak yumuşak bir şey hazırla bana, gerisine sen karar ver."
+          ],
+          "order_line": "Eve gitmeden önce içimi ısıtacak kakaolu ve tarçın kokulu yumuşak bir şey arıyorum, nasıl tamamlayacağını sana bırakıyorum."
         },
         {
           "character": "saye",
-          "order": "hollow",
+          "order": "iron_tea",
+          "flexible_order": {
+            "recipe": "iron_tea",
+            "must_have": [
+              "tea",
+              "blood"
+            ],
+            "hybrid": true
+          },
           "dialogue": [
-            "Boşluk hazırlıyor musun? Safranın buruk acılığı, dokunun o tekinsiz ağırlığı... içimdeki eksikliği ancak o hissettirmiyor.",
-            "Kardeşimin fotoğrafını her yere astım. Artık onun yüzünü kendi yüzümden iyi biliyorum.",
-            "Sizin insanlarınız kaybolunca isimleri duvarlarda kalıyor. Bizimkiler hiç yaşamamış sayılıyor."
-          ]
+            "Kardeşimin fotoğrafını her köşe başına astım. Artık onun yüzünü kendi yüzümden daha iyi biliyorum.",
+            "Sizin insanlarınız kaybolunca isimleri duvarlarda kalıyor; bizimkiler kaybolduğunda hiç yaşamamış sayılıyor.",
+            "Ellerim buz gibi… Sıcak bir çayın buharına ihtiyacım var ama içine arka raftan biraz kan da karıştır, yanına limon mu atarsın başka bir şey mi, sen seç."
+          ],
+          "order_line": "Sıcak bir çayın içine arka raftan biraz kan karıştırabilir misin? Yanına ne yakıştırırsan onu ekle, ellerimi ancak bu ısıtıyor."
         }
       ],
       "evening": [
@@ -173,40 +231,76 @@
         {
           "character": "narin",
           "order": "tea",
+          "flexible_order": {
+            "recipe": "tea",
+            "must_have": [
+              "tea",
+              "mint"
+            ]
+          },
           "dialogue": [
-            "Sığınak alabilir miyim? Çayın içine nane ferahlığıyla biraz limon… dersten önce sesimi ancak bu açıyor.",
-            "Çocuklara hâlâ sabah şarkıları öğretiyorum. Bazıları hiç gün doğumu görmemiş.",
-            "İlacım ellerimi buz gibi yapıyor. İnsanlar tokalaşmayı bıraktı."
-          ]
+            "Çocuklara hâlâ sabah şarkıları öğretiyorum; halbuki bazıları sokağa çıkma yasaklarından beri hiç gün doğumu görmemiş.",
+            "Aldığım akciğer ilaçları parmaklarımı buz gibi yapıyor, insanlar artık benimle tokalaşmaktan çekiniyor.",
+            "Dersten önce sesimi açacak sıcak bir çaya ihtiyacım var; içine nane ferahlığı ve biraz limon çok iyi gider ama kararı sana bırakıyorum."
+          ],
+          "order_line": "Dersten önce sesimi açacak, nane ferahlığı olan sıcak bir çay rica edeceğim; geri kalanını nasıl demleyeceğin sana kalmış."
         },
         {
           "character": "eren",
-          "order": "ashfall",
+          "order": "ash_coffee",
+          "flexible_order": {
+            "recipe": "ash_coffee",
+            "must_have": [
+              "coffee",
+              "ash"
+            ],
+            "hybrid": true
+          },
           "dialogue": [
-            "Kül Yağmuru. Damağımda külün kuruluğu ve tuzun o yakıcı tadı kalsın... Bugün gün batmadan gelmek istedim.",
-            "Dün Vey bana eski bir fotoğrafımı gösterdi. Çekildiği günü hatırlıyorum; herkesin beni gömdüğü günü.",
-            "Sana da hiç hatırlamadığın bir geçmişten söz eden oldu mu?"
-          ]
+            "Dün gece Vey bana eski bir fotoğrafımı gösterdi. Çekildiği günü hatırlıyorum; herkesin beni toprağa verdiği günü.",
+            "Sana da hiç hatırlamadığın bir geçmişten söz eden oldu mu?",
+            "Bugün gün batmadan gelmek istedim. Bana sert bir kahve demle ama içine arka raftaki o soğuk külden de kat; damağımda köz kokusu kalsın, gerisini sen tamamla."
+          ],
+          "order_line": "Sert kahvenin içine arka raftan biraz kül katarak dumanlı bir şey hazırla; üçüncü malzemeyi senin seçimine bırakıyorum."
         }
       ],
       "night": [
         {
           "character": "mira",
           "order": "espresso",
+          "flexible_order": {
+            "recipe": "espresso",
+            "must_have": [
+              "coffee"
+            ],
+            "stats": {
+              "bitter": 2
+            }
+          },
           "dialogue": [
-            "Uzun Gece. Uyanık kalmak için o baharatlı, koyu kahveye ihtiyacım var... Bu ismi kim koyduysa ileri görüşlüymüş.",
-            "Dün çektiğim fotoğrafta bir yüz eksik. Aynadan değil, listeden silinmiş.",
-            "Bir fotoğrafı birine verdiğinde, yalnızca kâğıt vermiyorsun."
-          ]
+            "Dün çektiğim kalabalık fotoğrafında bir yüz eksik. Aynadan değil, doğrudan belediyenin listesinden silinmiş.",
+            "Bir fotoğrafı birine verdiğinde, yalnızca kâğıt vermiyorsun; birinin hayatını veriyorsun.",
+            "Bu gece karanlık odada sabahlama sırası bende. Bana zehir gibi koyu, baharatlı veya sert bir kahve yap, ne katacağına sen karar ver."
+          ],
+          "order_line": "Sabaha kadar karanlık odada çalışacağım; uyanık kalmam için çok koyu ve sert bir kahve lazım, karışımı sana bırakıyorum."
         },
         {
           "character": "ilya",
-          "order": "red",
+          "order": "bone_latte",
+          "flexible_order": {
+            "recipe": "bone_latte",
+            "must_have": [
+              "coffee",
+              "marrow"
+            ],
+            "hybrid": true
+          },
           "dialogue": [
-            "Kızıl Hatıra. Kanın ve iliğin o unutulmayan ağırlığı... Bugün adını daha iyi anlıyorum.",
-            "Senden önceki barista kimseyi bildirmedi. Sonra bu sokakta sabah gelmemeye başladı.",
-            "Sessizlik bazen bir taraf seçmektir. Bunu senden saklamayacağım."
-          ]
+            "Senden önceki barista kimseyi bildirmedi. Sonra bu sokakta sabahlar eskisi gibi gelmemeye başladı.",
+            "Sessizlik bazen başlı başına bir taraf seçmektir. Bunu senden saklamayacağım.",
+            "Kahvenin acılığını seviyorum ama bu gece üzerine arka raftan yoğun bir ilik köpüğü ve biraz süt eklersen çok makbule geçer; nasıl dengeleyeceğini sen bilirsin."
+          ],
+          "order_line": "Kahvenin acılığını ilik köpüğüyle yumuşattığın doyurucu bir karışım istiyorum; yanına ne ekleyeceğine sen karar ver."
         }
       ],
       "evening": [
@@ -226,41 +320,75 @@
       "day": [
         {
           "character": "eren",
-          "order": "ashfall",
+          "order": "salted_coffee",
+          "flexible_order": {
+            "recipe": "salted_coffee",
+            "must_have": [
+              "coffee",
+              "salt"
+            ],
+            "hybrid": true
+          },
           "dialogue": [
-            "Kül Yağmuru. Kül ve tuzun o bastırılamayan açlığı... Bugün pencereden ilk kez güneşi izledim.",
-            "Işık sandığım kadar acıtmıyormuş. Belki hep yanlış hikâyeyi dinledim.",
-            "Duvardaki fotoğrafına baktın mı? Eski sahibin fotoğrafına değil. Seninkine."
-          ]
+            "Bugün pencerenin kenarında durup ilk kez güneşi izledim. Işık sandığım kadar acıtmıyormuş; belki de hep yanlış hikâyeyi dinledim.",
+            "Duvardaki çerçeveye dikkatli baktın mı? Eski sahibin fotoğrafına değil… seninkine.",
+            "Damarlarımı yeniden hissetmek istiyorum. Bana sıcak bir kahvenin içine arka raftaki tuz kristallerinden ve biraz tarçın katarak bir şey hazırla, gerisi sende."
+          ],
+          "order_line": "Kahvenin içine arka raftan kaya tuzu katarak damarlarımı canlandıracak bir şey hazırla; üçüncü malzemeyi sana bırakıyorum."
         },
         {
           "character": "atlas",
           "order": "latte",
+          "flexible_order": {
+            "recipe": "latte",
+            "must_have": [
+              "coffee",
+              "milk"
+            ]
+          },
           "dialogue": [
-            "Sabah Sisi. Annem gibi kahvesi hafif, sütü bol severim ben de.",
-            "Mahalledeki kayıpların fotoğrafları hep aynı açıdan çekilmiş. Bir tezgâhın karşısından.",
-            "Bana bakarken ne gördüğünü bilmiyorum. Yalnızca eve dönmek istiyorum."
-          ]
+            "Mahalledeki kayıpların fotoğraflarına baktım, hepsi aynı açıdan çekilmiş. Tam bir tezgâhın karşısından.",
+            "Bana bakarken ne gördüğünü bilmiyorum usta. Ben yalnızca tek parça halinde evime dönmek istiyorum.",
+            "Annem de kahvesini hep hafif ve bol sütlü içerdi… Bana öyle anne eli değmiş gibi sütlü, yumuşak bir kahve yap, gerisini sen seç."
+          ],
+          "order_line": "Annem gibi ben de kahvesi hafif, sütü bol bir şey seviyorum; içimi yumuşatacak bir fincan hazırla, karar senin."
         }
       ],
       "night": [
         {
           "character": "narin",
           "order": "mocha",
+          "flexible_order": {
+            "recipe": "mocha",
+            "must_have": [
+              "cocoa",
+              "cinnamon"
+            ]
+          },
           "dialogue": [
-            "Son Işık. Tarçın ve kakaonun o yumuşak tesellisi... Bu gece adını değiştirmeyelim.",
-            "Çocuklar yarın ders var mı diye sordu. İlk kez bir cevabım yoktu.",
-            "Birini kurtarmak bazen yalnızca kapıyı açmaktır."
-          ]
+            "Çocuklar bugün okuldan çıkarken yarın ders var mı diye sordu. Hayatımın ilk cevapsız sorusuydu.",
+            "Birini kurtarmak bazen yalnızca kapıyı zamanında açmaktır.",
+            "Bu gece son kez sıcak bir kakao ve tarçın kokusu duymak istiyorum… İçini sütle mi yoksa balla mı yumuşatırsın, senin gönlüne bırakıyorum."
+          ],
+          "order_line": "Tarçın ve kakaonun o yumuşak tesellisine ihtiyacım var bu gece; yanına ne katacağına sen karar ver."
         },
         {
           "character": "saye",
-          "order": "hollow",
+          "order": "dark_velvet",
+          "flexible_order": {
+            "recipe": "dark_velvet",
+            "must_have": [
+              "cocoa",
+              "marrow"
+            ],
+            "hybrid": true
+          },
           "dialogue": [
-            "Bir Boşluk daha. Dilimde safranın soğuk acısı kalsın... Son olsun.",
-            "Bunca gece boyunca kendine hiç içecek hazırlamadın.",
-            "Aç olmadığından mı? Yoksa ne istediğini hatırlamaktan mı korkuyorsun?"
-          ]
+            "Bunca gece boyunca herkesi dinledin ama kendine tek bir fincan bile hazırlamadın.",
+            "Aç olmadığından mı? Yoksa ne istediğini hatırlamaktan mı korkuyorsun?",
+            "Yolun sonuna geldik. Bana yoğun kakaonun içine erimiş ilik katarak o en koyu, en sıcak karışımından hazırla; son dokunuşu sen seç."
+          ],
+          "order_line": "Yoğun kakao ve iliğin o koyu sıcaklığıyla son bir fincan hazırlar mısın? Yanına ne katacağını senin seçimine bırakıyorum."
         }
       ],
       "evening": [

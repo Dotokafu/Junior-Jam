@@ -23,6 +23,7 @@ var muted: bool = false
 var reduced_motion: bool = false
 var settings: Dictionary = Settings.DEFAULTS.duplicate()
 var record_count: int = 0
+var camera_introduced: bool = false
 ## Demleme ekranı (raf ya da çizgi roman sayfası) bir önceki güncellemede açık mıydı.
 var was_brewing_ui: bool = false
 var toast_tween: Tween
@@ -103,6 +104,8 @@ func _setup_hud() -> void:
 	ffwd_button.text = I18n.t("hud.ffwd")
 	camera_button.text = I18n.t("hud.photo")
 	files_button.text = I18n.t("hud.files")
+	camera_button.tooltip_text = I18n.t("tooltip.camera")
+	files_button.tooltip_text = I18n.t("tooltip.files")
 	book_button.text = I18n.t("hud.book")
 	menu_button.text = I18n.t("hud.menu")
 	auto_button.toggled.connect(func(on: bool) -> void: balloon.auto = on)
@@ -179,6 +182,9 @@ func _update_hud() -> void:
 	camera_button.visible = view.day >= 2
 	camera_button.disabled = view.phase not in ["day", "night"] or view.stage == "reaction"
 	files_button.visible = view.day >= 2
+	if view.day >= 2 and not camera_introduced and view.phase in ["day", "night"] and view.stage in ["dialogue", "interview"]:
+		camera_introduced = true
+		_introduce_investigation_features()
 
 func _update_balloon(playing: bool) -> void:
 	if not playing or view.line == "":
@@ -208,7 +214,7 @@ func _update_balloon(playing: bool) -> void:
 		"interview": decision_text = I18n.t("button.to_order")
 		"decision": decision_text = "" if delivery.wants(view) else I18n.t("button.finish_delivery")
 	balloon.say(speaker, view.line, mode, key, hint, decision_text)
-	var can_mark: bool = view.phase in ["day", "night"] and view.stage in ["dialogue", "answer", "interview"]
+	var can_mark: bool = view.day >= 2 and view.phase in ["day", "night"] and view.stage in ["dialogue", "answer", "interview"]
 	balloon.set_interview(view.get("questions", []), int(view.get("questions_left", 0)), view.get("marked", false), can_mark)
 
 # --- Komutlar ve pencereler -------------------------------------------------
@@ -375,14 +381,24 @@ func _camera_flash() -> void:
 	flash.modulate.a = 0.85
 	create_tween().tween_property(flash, "modulate:a", 0.0, 0.3)
 
-func _feedback(message: String) -> void:
+func _feedback(message: String, duration: float = TOAST_TIME) -> void:
 	toast.text = message
 	if toast_tween:
 		toast_tween.kill()
 	toast.modulate.a = 1.0
 	toast_tween = create_tween()
-	toast_tween.tween_interval(TOAST_TIME)
+	toast_tween.tween_interval(duration)
 	toast_tween.tween_property(toast, "modulate:a", 0.0, 0.25)
+
+func _introduce_investigation_features() -> void:
+	_feedback(I18n.t("tutorial.investigation_unlocked"), 4.5)
+	if reduced_motion:
+		return
+	for btn: Button in [camera_button, files_button]:
+		var orig_scale := btn.scale
+		var tween := create_tween()
+		tween.tween_property(btn, "scale", orig_scale * 1.15, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(btn, "scale", orig_scale, 0.2)
 
 # --- Girdi -----------------------------------------------------------------
 
@@ -444,11 +460,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif key == KEY_R:
 		EventBus.request("clear")
 	elif key == KEY_C:
-		_take_photo()
+		if view.day >= 2:
+			_take_photo()
 	elif key == KEY_M:
 		EventBus.request("shelf")
 	elif key == KEY_N:
-		EventBus.request("mark")
+		if view.day >= 2:
+			EventBus.request("mark")
 	elif key >= KEY_1 and key <= KEY_9:
 		if view.stage == "interview":
 			EventBus.request("ask", {"index": key - KEY_1})

@@ -93,6 +93,7 @@ func say(speaker: String, line: String, new_mode: Mode, key: String, hint_text: 
 func set_interview(questions: Array, left: int, marked: bool, can_mark: bool) -> void:
 	mark_button.visible = can_mark
 	mark_button.text = I18n.t("balloon.marked" if marked else "balloon.mark")
+	mark_button.tooltip_text = I18n.t("tooltip.mark")
 	var key := "%s|%d" % [str(questions), left]
 	if key == interview_key:
 		return

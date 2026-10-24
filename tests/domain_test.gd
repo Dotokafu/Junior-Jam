@@ -4,11 +4,11 @@ var failures: int = 0
 func _initialize() -> void:
 	var recipes: Array = [{"id": "latte", "ingredients": ["coffee", "milk", "milk"]}, {"id": "mocha", "ingredients": ["cocoa", "cinnamon", "milk"]}]
 	check(BrewingRules.identify(["coffee", "milk", "milk"], recipes).get("id") == "latte", "Tarif eşleşmesi")
-	# Coffee Talk ve barista mantığı: koyma sırası tarifin parçası.
-	check(BrewingRules.identify(["cocoa", "cinnamon", "milk"], recipes).get("id") == "mocha", "Doğru sırayla tarif bulunur")
-	check(BrewingRules.identify(["cocoa", "milk", "cinnamon"], recipes).is_empty(), "Sıra değişirse tarif değişir")
-	check(BrewingRules.identify(["milk", "coffee", "milk"], recipes).is_empty(), "Baz değişirse tarif değişir")
-	check(BrewingRules.identify(["coffee", "coffee", "milk"], recipes).is_empty(), "Tekrarlı malzeme adedi")
+	# Malzeme sırası fark etmeksizin aynı malzemelerle tarif bulunur.
+	check(BrewingRules.identify(["cocoa", "cinnamon", "milk"], recipes).get("id") == "mocha", "Tarif bulunur")
+	check(BrewingRules.identify(["cocoa", "milk", "cinnamon"], recipes).get("id") == "mocha", "Sıra değişse de tarif eşleşir")
+	check(BrewingRules.identify(["tea", "coffee", "milk"], recipes).is_empty(), "Farklı malzeme eşleşmez")
+	check(BrewingRules.identify(["coffee", "coffee", "milk"], recipes).is_empty(), "Tekrarlı malzeme adedi uyuşmazsa eşleşmez")
 	check(not BrewingRules.can_consume(["milk", "milk", "coffee"], {"milk": 1, "coffee": 9}), "Stok kontrolü")
 	var items := {
 		"coffee": {"name": "Kahve", "adjective": "Kahveli", "side": "human", "base": true, "mix": false, "color": "000000",
@@ -28,12 +28,17 @@ func _initialize() -> void:
 	check(BrewingRules.generated_name(["coffee", "honey", "honey"], items, names) == "Bol Ballı Kahve", "Üretilen isim")
 	check(BrewingRules.generated_name(["coffee", "coffee", "honey"], items, names) == "Koyu Ballı Kahve", "Koyu isim")
 	check(BrewingRules.generated_name(["coffee", "honey", "milk"], items, names) == "Ballı Sütlü Kahve", "Karışım isim")
+	check(BrewingRules.generated_name(["coffee", "milk", "honey"], items, names) == "Ballı Sütlü Kahve", "Sıra değişse de aynı karışım isim")
 	var mixed := BrewingRules.color(["coffee", "milk", "milk"], items)
 	check(is_equal_approx(mixed.r, 0.4 / 2.4), "Renk ağırlıkları baz baskın")
 	var drink := BrewingRules.brew(["coffee", "honey", "honey"], items, [], names)
 	check(drink.id == "custom" and drink.side == "human", "Tarifsiz içecek de servis edilebilir")
-	items["blood"] = {"name": "Kan", "adjective": "Kanlı", "side": "fallen", "base": true, "mix": true, "color": "974356",
+	items["blood"] = {"name": "Kan", "adjective": "Kanlı", "side": "fallen", "base": true, "mix": false, "color": "974356",
 		"stats": {"warm": [3, 2, 1], "cool": [0, 0, 0], "sweet": [1, 1, 1], "bitter": [0, 0, 0]}}
+	items["tissue"] = {"name": "Doku", "adjective": "Dokulu", "side": "fallen", "base": true, "mix": false, "color": "b57b7b",
+		"stats": {"warm": [0, 0, 0], "cool": [2, 1, 1], "sweet": [0, 0, 0], "bitter": [1, 1, 0]}}
+	check(BrewingRules.can_add(["blood"], "tissue", items) == "not_mix", "Kan ve doku aynı anda kullanılamaz")
+	check(BrewingRules.can_add(["coffee"], "blood", items) == "", "İnsan bazı ile fallen bazı melez içecek için birleşebilir")
 	var hybrid := BrewingRules.brew(["coffee", "blood", "honey"], items, [], names)
 	check(hybrid.id == "custom" and hybrid.side == "fallen", "Fallen içeren melez içecek fallen tarafına aittir")
 	var bloody_recipe := [{"id": "bloody_coffee", "side": "fallen", "ingredients": ["coffee", "blood", "honey"]}]
@@ -42,6 +47,9 @@ func _initialize() -> void:
 	check(BrewingRules.matches_order({"stats": {"sweet": 2}}, drink), "Tat siparişi tier ile karşılanır")
 	check(not BrewingRules.matches_order({"stats": {"sweet": 3}}, drink), "Yetersiz tier reddedilir")
 	check(not BrewingRules.matches_order("latte", drink), "Tarif siparişi kimlik ister")
+	check(BrewingRules.matches_order({"must_have": ["coffee", "honey"]}, drink), "Malzeme tercihli esnek sipariş karşılanır")
+	check(BrewingRules.matches_order({"must_have": ["coffee", "blood"], "hybrid": true}, hybrid), "Melez Fallen siparişi karşılanır")
+	check(not BrewingRules.matches_order({"must_have": ["blood"], "pure_fallen": true}, hybrid), "Saf Fallen siparişi insan malzemesi içerirse reddedilir")
 	# Latte art (Coffee Talk): süt ilk kez 2. ya da 3. yuvada geçmeli; tarifli içecekte tarifin bayrağı geçerli.
 	items.milk["latte"] = true
 	# Latte art için son koyulan malzeme süt (ya da ilik) olmalı: köpük en üstte kalır. Tarif fark etmez.

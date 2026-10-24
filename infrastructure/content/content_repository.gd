@@ -127,10 +127,25 @@ func _validate_recipes() -> Array:
 func _valid_order(order: Variant, side: String, recipe_ids: Array) -> bool:
 	if order is String:
 		return order in recipe_ids
-	if order is Dictionary and order.get("stats") is Dictionary:
-		for stat: String in order.stats:
-			if stat not in Brewing.STATS:
+	if order is Dictionary:
+		if order.has("stats"):
+			if not order.stats is Dictionary:
 				return false
+			for stat: String in order.stats:
+				if stat not in Brewing.STATS:
+					return false
+		if order.has("must_have"):
+			if not order.must_have is Array:
+				return false
+			for req_id: String in order.must_have:
+				if not ingredient_map.has(req_id):
+					return false
+		if order.has("any_of"):
+			if not order.any_of is Array:
+				return false
+			for req_id: String in order.any_of:
+				if not ingredient_map.has(req_id):
+					return false
 		return not Brewing.find_sequence(order, side, ingredient_map, recipes).is_empty()
 	return false
 
