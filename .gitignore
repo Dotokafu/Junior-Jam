@@ -7,3 +7,6 @@
 .codex/
 .agents/
 .aws/
+
+# Export çıktısı
+build/

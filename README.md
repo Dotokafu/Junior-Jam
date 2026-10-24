@@ -80,6 +80,16 @@ Terminal kullanıyorsan proje klasöründen `godot --path .` oyunu, `godot --edi
 | Fotoğraf çek / Dava dosyaları | C / G |
 | Menü / pencereyi kapat | Esc |
 
+## Windows exe oluşturma
+
+GitHub'da **Actions → Windows exe → Run workflow**. İstersen dosya adına bir etiket yaz (ör. `jam-teslim`).
+Birkaç dakika sonra çalıştırmanın sayfasındaki **Artifacts** bölümünden `CoFFallen-windows` indirilir;
+içinde tek parça `CoFFallen.exe` var (oyun verisi gömülü, kurulum gerekmez). Dosya 14 gün saklanır.
+
+Ayar `export_presets.cfg` dosyasında: testler, belgeler, araçlar ve `.zip` dosyaları oyuna girmez.
+Yerelde aynı çıktı için Godot 4.7.2 Windows şablonu kuruluyken:
+`godot --headless --path . --export-release "Windows Desktop" build/windows/CoFFallen.exe`
+
 ## Mimariyi basitçe anlamak
 
 Bir müşteri geldiğini düşün: **`content` kimin ne söyleyeceğini anlatır; `domain` hangi fincanın doğru olduğunu bilir; `application` sıradaki işi yürütür; `presentation` gördüğün ekranı çizer; `infrastructure` dosyaları okur ve kaydeder.** Bu görevler ayrı tutulduğu için yeni çizim veya konuşma eklerken kahve kurallarını değiştirmek gerekmez.
