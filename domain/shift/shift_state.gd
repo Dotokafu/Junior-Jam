@@ -36,6 +36,8 @@ var delivery_reported: bool = false
 var interrogated: Array = []
 var interrogation: String = ""
 var verdict: String = ""
+## Tarif defteri: demlenerek bulunan tariflerin kimlikleri (boş başlar).
+var discovered: Array = []
 
 func serialize() -> Dictionary:
 	return {
@@ -49,7 +51,7 @@ func serialize() -> Dictionary:
 		"asked": asked.duplicate(), "answering": answering, "marks": marks.duplicate(true),
 		"suspicion": suspicion.duplicate(), "last_given": last_given, "give_streak": give_streak,
 		"delivery_reported": delivery_reported, "interrogated": interrogated.duplicate(),
-		"interrogation": interrogation, "verdict": verdict
+		"interrogation": interrogation, "verdict": verdict, "discovered": discovered.duplicate()
 	}
 
 static func restore(data: Dictionary) -> ShiftState:

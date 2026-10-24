@@ -55,6 +55,8 @@ func _render() -> void:
 	var names := {}
 	for item: Dictionary in view.get("ingredients", []):
 		names[item.id] = item.name
+	if not view.get("recipes", []).any(func(recipe: Dictionary) -> bool: return recipe.side == page):
+		_text(right_page, I18n.t("book.no_recipes"), 22, true)
 	for recipe: Dictionary in view.get("recipes", []):
 		if recipe.side != page:
 			continue

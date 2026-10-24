@@ -186,6 +186,8 @@
   "book.recipes_title": "TARİFLER",
   "book.base_tag": "baz",
   "book.mix_tag": "karışım",
+  "book.no_recipes": "Henüz tarif yok. Denedikçe, tuttuğun karışımlar burada belirecek.",
+  "feedback.recipe_found": "Deftere yeni tarif: {drink}",
   "brew.role_main": "ana malzeme",
   "brew.role_free": "serbest, her ölçüye girer",
   "brew.role_extra": "ek malzeme, ana malzemeden sonra",

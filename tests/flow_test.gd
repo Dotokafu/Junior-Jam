@@ -34,6 +34,7 @@ func command(action: String, payload: Dictionary = {}) -> void:
 
 func simulate(strategy: String, mode: String = "story") -> void:
 	command("new_game", {"mode": mode, "seed": 4217})
+	check(session.snapshot().recipes.is_empty(), "Tarif defteri boş başlamalı")
 	var guard := 0
 	while session.state.phase != "ending" and guard < 1500:
 		guard += 1
@@ -76,6 +77,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			for ingredient: String in sequence:
 				command("select", {"id": ingredient})
 			command("brew")
+			if state.drink.get("id", "custom") != "custom":
+				check(session.snapshot().recipes.any(func(recipe: Dictionary) -> bool: return recipe.id == state.drink.id), "Demlenen tarif deftere yazılmalı")
 			check(not state.drink.is_empty(), "Karışım hazırlanmalı")
 			var art_allowed: bool = state.drink.get("latte_art_allowed", false)
 			latte_seen = latte_seen or art_allowed

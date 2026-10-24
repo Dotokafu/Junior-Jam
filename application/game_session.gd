@@ -282,6 +282,9 @@ func _brew() -> void:
 	for id: String in state.selected:
 		state.stock[id] -= 1
 	state.drink = drink
+	if drink.id != "custom" and drink.id not in state.discovered:
+		state.discovered.append(drink.id)
+		EventBus.feedback.emit(I18n.t("feedback.recipe_found", {"drink": drink.name}))
 	EventBus.feedback.emit(I18n.t("feedback.drink_ready", {"drink": state.drink.name}))
 
 ## Demlenmiş fincanı döker; harcanan stok geri gelmez.
@@ -518,7 +521,8 @@ func snapshot() -> Dictionary:
 	view["slots"] = save_slots.duplicate(true)
 	view["content_errors"] = content.errors.duplicate()
 	view["ingredients"] = content.ingredients.duplicate(true)
-	view["recipes"] = content.recipes.duplicate(true)
+	# Defterde yalnızca demlenerek bulunan tarifler görünür.
+	view["recipes"] = content.recipes.filter(func(recipe: Dictionary) -> bool: return recipe.id in state.discovered).duplicate(true)
 	view["headline"] = _day_content().headline if content_ok else I18n.t("error.content_status")
 	var person := _person().duplicate(true) if content_ok else {}
 	person.erase("species")
