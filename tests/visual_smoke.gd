@@ -53,6 +53,20 @@ func run() -> void:
 	check(screen.auto_button.button_pressed, "Boşluk, tıklanan AUTO butonunu kapatmamalı")
 	screen.auto_button.button_pressed = false
 	for i in range(8):
+		if session.state.stage == "interview":
+			break
+		bus.request("next")
+	await settle(0.6)
+	check(session.state.stage == "interview", "Konuşma bitince sorgu açılmalı")
+	await capture("interview")
+	var first_question: String = locale.t("balloon.question", {"number": 1, "text": session.snapshot().questions[0].text})
+	await click(first_question)
+	await settle(0.3)
+	check(session.state.stage == "answer" and session.state.asked == [0], "Soru düğmesine tıklamak soruyu sormalı")
+	await press(KEY_N)
+	check(session.state.marks.get(session._record_id(), []).size() == 1, "N cevabı işaretlemeli")
+	await capture("answer")
+	for i in range(8):
 		if session.state.stage == "brewing":
 			break
 		bus.request("next")

@@ -182,8 +182,8 @@ func _update_balloon(playing: bool) -> void:
 			mode = Balloon.Mode.DECISION
 			hint = I18n.t("balloon.decision_hint") if view.day >= 2 else ""
 		"interview":
+			# Kısayol ipucu soru listesinin altında (balloon.questions_left); alt satır yalnızca düğmeler.
 			mode = Balloon.Mode.DECISION
-			hint = I18n.t("balloon.interview_hint")
 	if view.stage == "tutorial":
 		speaker = I18n.t("character.barista")
 	var key := "%d|%s|%d|%s|%d|%s" % [view.day, view.phase, view.visit_index, view.stage, view.line_index, view.line]
