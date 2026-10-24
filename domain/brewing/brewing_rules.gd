@@ -5,6 +5,7 @@ const STATS: Array[String] = ["warm", "cool", "sweet", "bitter"]
 const SLOTS := 3
 ## Renk ağırlıkları: baz baskın, son ekleme yalnızca tonu kaydırır.
 const COLOR_WEIGHTS: Array[float] = [2.0, 0.3, 0.1]
+const DEFAULT_ART_COLOR := "ffffff"
 
 ## "" uygunsa; aksi halde hata kodu: full, unknown, not_base, not_mix.
 static func can_add(selected: Array, id: String, ingredients: Dictionary) -> String:
@@ -91,6 +92,15 @@ static func latte_art_allowed(selected: Array, ingredients: Dictionary, recipe: 
 			return slot > 0
 	return false
 
+## Latte art'ta dökülen köpüğün rengi: içecekteki ilk "latte" malzemesinin art_color'ı (ör. ilik),
+## yoksa beyaz süt köpüğü.
+static func art_color(selected: Array, ingredients: Dictionary) -> String:
+	for id: String in selected:
+		var item: Dictionary = ingredients.get(id, {})
+		if item.get("latte", false):
+			return str(item.get("art_color", DEFAULT_ART_COLOR))
+	return DEFAULT_ART_COLOR
+
 ## names: drink.name_* şablonları (çeviri katmanından gelir, domain metin bilmez).
 static func generated_name(selected: Array, ingredients: Dictionary, names: Dictionary) -> String:
 	var base: String = ingredients[selected[0]].name
@@ -114,6 +124,7 @@ static func brew(selected: Array, ingredients: Dictionary, recipes: Array, names
 	var drink := recipe.duplicate() if not recipe.is_empty() else {"id": "custom", "name": generated_name(selected, ingredients, names)}
 	drink["latte_art_allowed"] = latte_art_allowed(selected, ingredients, recipe)
 	drink["latte_art"] = false
+	drink["art_color"] = art_color(selected, ingredients)
 	drink["side"] = ingredients[selected[0]].side
 	drink["ingredients"] = selected.duplicate()
 	drink["stats"] = totals

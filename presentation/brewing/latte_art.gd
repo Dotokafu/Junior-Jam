@@ -73,14 +73,14 @@ func _ready() -> void:
 	hide()
 	set_process(false)
 
-func open(color: Color) -> void:
+func open(color: Color, art_color: Color = Color.WHITE) -> void:
 	if is_open:
 		return
 	is_open = true
 	session_id += 1
 	var my_session := session_id
 	drink_color = color
-	pour.set_drink_color(color)
+	pour.set_drink_color(color, art_color)
 	pour.reverse = false
 	_update_flow_icon()
 	reset()

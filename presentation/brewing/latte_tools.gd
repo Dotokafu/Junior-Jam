@@ -66,9 +66,11 @@ class Pour:
 		milk = Stream.new(milk_brush, MILK)
 		set_drink_color(fluid.base_color)
 
-	## Coffee Talk: hale rengi içecek ile beyazın ortalaması, yarı saydam.
-	func set_drink_color(drink: Color) -> void:
-		tint.brush.color = Color((drink.r + 1.0) / 2.0, (drink.g + 1.0) / 2.0, (drink.b + 1.0) / 2.0, 0.5)
+	## Coffee Talk: hale rengi içecek ile köpüğün ortalaması, yarı saydam. Köpük süt için beyaz,
+	## Fallen içeceklerinde iliğin rengi (art_color, içerikten).
+	func set_drink_color(drink: Color, art: Color = Color.WHITE) -> void:
+		milk.brush.color = art
+		tint.brush.color = Color((drink.r + art.r) / 2.0, (drink.g + art.g) / 2.0, (drink.b + art.b) / 2.0, 0.5)
 
 	func flow_direction() -> Vector2:
 		return Vector2.UP if reverse else Vector2.DOWN

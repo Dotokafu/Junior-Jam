@@ -181,7 +181,8 @@
         "blood",
         "marrow"
       ],
-      "description": "İki kan, bir ilik. Bir zamanlar sana da tanıdık gelirdi."
+      "description": "İki kan, bir ilik. Bir zamanlar sana da tanıdık gelirdi.",
+      "latte_art": true
     },
     {
       "id": "ashfall",

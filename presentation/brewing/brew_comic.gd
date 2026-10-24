@@ -97,7 +97,7 @@ func choose(action: String) -> void:
 		EventBus.request(action)
 	elif _latte_allowed():
 		latte.reduced_motion = reduced_motion
-		latte.open(Color(str(view.drink.get("color", "ffffff"))))
+		latte.open(Color(str(view.drink.get("color", "ffffff"))), Color(str(view.drink.get("art_color", "ffffff"))))
 
 func _latte_allowed() -> bool:
 	return bool(view.get("drink", {}).get("latte_art_allowed", false))

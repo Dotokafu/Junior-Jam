@@ -41,6 +41,12 @@ func _initialize() -> void:
 	check(not BrewingRules.latte_art_allowed(["coffee", "milk", "honey"], items, {"id": "mocha"}), "Bayraksız tarif sütü yok sayar")
 	var milky := BrewingRules.brew(["coffee", "honey", "milk"], items, [], names)
 	check(milky.latte_art_allowed and not milky.latte_art, "Demlenen içecek latte art iznini taşır, çizim servis anında eklenir")
+	# Latte art'ta dökülen renk: içecekteki latte malzemesinin art_color'ı (ilik), yoksa beyaz süt.
+	var art_items := {"milk": {"latte": true}, "marrow": {"latte": true, "art_color": "e8d6bc"}, "blood": {}, "coffee": {}}
+	check(BrewingRules.art_color(["coffee", "milk", "milk"], art_items) == "ffffff", "Süt beyaz döker")
+	check(BrewingRules.art_color(["blood", "blood", "marrow"], art_items) == "e8d6bc", "İlik kendi renginde döker")
+	check(BrewingRules.art_color(["blood", "blood", "blood"], art_items) == "ffffff", "Latte malzemesi yoksa varsayılan beyaz")
+	check(milky.art_color == "ffffff", "Demlenen içecek çizim rengini taşır")
 	check(not BrewingRules.matches_order({"stats": {"sweet": 1}, "latte_art": true}, milky), "Latte art isteyen sipariş çizimsiz reddedilir")
 	milky["latte_art"] = true
 	check(BrewingRules.matches_order({"stats": {"sweet": 1}, "latte_art": true}, milky), "Latte art'lı içecek siparişi karşılar")
