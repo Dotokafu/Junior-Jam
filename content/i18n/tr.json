@@ -124,7 +124,7 @@
   "feedback.report_sent": "Dosya teslim edildi. Bu karar geri alınamaz.",
   "error.content_status": "İÇERİK HATASI",
   "dialogue.brewing": "Üç ölçü seç. Demle. Kimi gördüğüne karar ver ve fincanı uzat.",
-  "dialogue.discovery": "“Ah… kusura bakmayın, karıştırmışım. Tarifi unuttum galiba, bir kontrol edeyim.”\n(Fincanı tek parmağıyla itti. Gözleri ışığı bir an kedininki gibi yakaladı.)",
+  "dialogue.discovery": "“Bu ne be?! Dalga mı geçiyorsun benimle!”\n(Fincanı hışımla tezgâhta geri iter. Gözleri karanlıkta bir an vahşice parıldar.)\n“Aç şu tarif defterine adam gibi bak, ne istediğimi öğren de öyle hazırla!”",
   "dialogue.delivery_decision": "Dosya vermek zorunda değilsin. Dosyalar'dan [G] bir kaydı teslim edebilir veya konuşmayı bitirebilirsin.",
   "dialogue.ask_state": "Dün gece şüpheli biri geldiyse dosyasını ver. Kimseyi korumak zorunda değilsin.",
   "dialogue.ask_order": "Bize verebileceğin biri var mı? Bir yüz, bir isim yeter.",

@@ -29,7 +29,7 @@ func show_slots(selected: Array, ingredients: Dictionary) -> void:
 		if i < selected.size():
 			var item: Dictionary = ingredients.get(selected[i], {})
 			row.label.text = str(item.get("name", "?")).to_upper()
-			var icon_path := ICON_PATH % item.get("id", "")
+			var icon_path := "res://assets/custom/coffee_pot.png" if item.get("id", "") == "coffee" and ResourceLoader.exists("res://assets/custom/coffee_pot.png") else ICON_PATH % item.get("id", "")
 			row.icon.texture = load(icon_path) if ResourceLoader.exists(icon_path) else null
 		else:
 			row.label.text = I18n.t("brew.slot_base") if i == 0 else I18n.t("brew.slot_empty", {"index": i + 1})

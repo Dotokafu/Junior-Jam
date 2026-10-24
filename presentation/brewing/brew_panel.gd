@@ -143,7 +143,7 @@ func _rebuild_jars() -> void:
 		if row_index.has(role):
 			row_index[role] += 1
 		var button := TextureButton.new()
-		var icon_path := ICON_PATH % item.id
+		var icon_path := "res://assets/custom/coffee_pot.png" if item.id == "coffee" and ResourceLoader.exists("res://assets/custom/coffee_pot.png") else ICON_PATH % item.id
 		if ResourceLoader.exists(icon_path):
 			button.texture_normal = load(icon_path)
 			rect = _fit_on_board(rect, button.texture_normal)

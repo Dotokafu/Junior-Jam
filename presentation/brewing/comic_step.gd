@@ -70,7 +70,7 @@ func setup(item: Dictionary, index: int, mixed_color: Color) -> void:
 		art.texture = load(art_path)
 	for node: CanvasItem in [jar, stream, cup]:
 		node.visible = not has_art
-	var icon_path := ICON_PATH % item.get("id", "")
+	var icon_path := "res://assets/custom/coffee_pot.png" if item.get("id", "") == "coffee" and ResourceLoader.exists("res://assets/custom/coffee_pot.png") else ICON_PATH % item.get("id", "")
 	jar.texture = load(icon_path) if ResourceLoader.exists(icon_path) else null
 	stream.modulate = Color(str(item.get("color", "ffffff")))
 	liquid.modulate = mixed_color

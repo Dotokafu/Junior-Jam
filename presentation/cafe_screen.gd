@@ -200,8 +200,6 @@ func _update_balloon(playing: bool) -> void:
 		"questioning":
 			# Cevap seçilmeden ilerlenmez; düğme yok, yalnızca cevaplar.
 			mode = Balloon.Mode.DECISION
-	if view.stage == "tutorial":
-		speaker = I18n.t("character.barista")
 	var key := "%d|%s|%d|%s|%d|%s" % [view.day, view.phase, view.visit_index, view.stage, view.line_index, view.line]
 	balloon.docked = mode == Balloon.Mode.STATIC
 	balloon.point_at(world.balloon_point())
