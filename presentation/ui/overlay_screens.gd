@@ -240,6 +240,8 @@ func _transition(view: Dictionary, fall: bool) -> void:
 	_label(box, I18n.t("transition.shift", {"day": "%02d" % view.day}), "NameTag")
 	_label(box, I18n.t("transition.fall_title" if fall else "transition.dawn_title"), "Title").add_theme_font_size_override("font_size", 130)
 	_label(box, I18n.t("transition.fall_body" if fall else "transition.dawn_body"))
+	if not fall and str(view.get("door_note", "")) != "":
+		_label(box, str(view.door_note), "HudText")
 	_label(box, I18n.t("transition.day_to_night" if fall else "transition.night_to_day"), "Caption")
 	_button(box, I18n.t("button.open_door" if fall else "button.start_day"), func() -> void: next_requested.emit(), true)
 

@@ -106,10 +106,10 @@ func set_interview(questions: Array, left: int, marked: bool, can_mark: bool) ->
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.custom_minimum_size.x = TEXT_WIDTH
-		button.disabled = questions[i].asked or left <= 0
+		button.disabled = questions[i].asked or left == 0
 		button.pressed.connect(func() -> void: question_pressed.emit(i))
 		questions_box.add_child(button)
-	if not questions.is_empty():
+	if not questions.is_empty() and left >= 0:
 		var remaining := Label.new()
 		remaining.theme_type_variation = &"Caption"
 		remaining.text = I18n.t("balloon.questions_left", {"count": left})
