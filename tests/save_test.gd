@@ -49,7 +49,7 @@ func run() -> void:
 	# Eski kayıt: sonradan eklenen malzemenin stoğu açılır, artık olmayan malzemeli seçim temizlenir.
 	var old: Dictionary = session.state.serialize()
 	old.stock.erase("matcha")
-	old.selected = ["honey"]
+	old.selected = ["olmayan_malzeme"]
 	Saves.write(old, 3)
 	bus.request("load_slot", {"slot": 3})
 	check(int(session.state.stock.get("matcha", 0)) == 10 and session.state.selected.is_empty(), "Eski kayıt yeni raflara yükseltilmeli")

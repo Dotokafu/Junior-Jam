@@ -5,7 +5,8 @@ const Brewing = preload("res://domain/brewing/brewing_rules.gd")
 var view: Dictionary = {}
 var page: String = "human"
 @onready var left_page: VBoxContainer = $Book/LeftPage/Box
-@onready var right_page: VBoxContainer = $Book/RightPage/Box
+## Tarifler çoğaldıkça sağ sayfa kaydırılır.
+@onready var right_page: VBoxContainer = $Book/RightPage/Scroll/Box
 @onready var human_tab: Button = $Tabs/HumanTab
 @onready var fallen_tab: Button = $Tabs/FallenTab
 @onready var close_button: Button = $CloseButton

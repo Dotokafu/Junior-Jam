@@ -299,6 +299,39 @@
       "sfx": "FIŞŞ!"
     },
     {
+      "id": "honey",
+      "name": "Bal",
+      "side": "human",
+      "color": "e0a030",
+      "description": "Sıkma şişede, koyu",
+      "base": false,
+      "mix": true,
+      "adjective": "Ballı",
+      "stats": {
+        "warm": [
+          0,
+          1,
+          0
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          3,
+          2
+        ],
+        "bitter": [
+          0,
+          0,
+          0
+        ]
+      },
+      "sfx": "VIIIK!"
+    },
+    {
       "id": "blood",
       "name": "Kan",
       "side": "fallen",

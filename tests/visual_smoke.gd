@@ -51,6 +51,13 @@ func run() -> void:
 	await click(locale.t("hud.auto"))
 	await press(KEY_SPACE)
 	check(screen.auto_button.button_pressed, "Boşluk, tıklanan AUTO butonunu kapatmamalı")
+	# AUTO açıkken düğme belirgin yanar (fare hâlâ üstündeyken de) ve konuşma kendiliğinden ilerler.
+	for state: String in ["font_hover_pressed_color", "icon_hover_pressed_color", "font_pressed_color", "icon_pressed_color"]:
+		check(screen.auto_button.get_theme_color(state) != screen.auto_button.get_theme_color("font_color"), "AUTO açıkken yanmalı: " + state)
+	var auto_line: int = session.state.line_index
+	var auto_stage: String = session.state.stage
+	await settle(3.5)
+	check(session.state.line_index != auto_line or session.state.stage != auto_stage, "AUTO konuşmayı birkaç saniyede kendiliğinden ilerletmeli")
 	screen.auto_button.button_pressed = false
 	for i in range(8):
 		if session.state.stage == "interview":
@@ -77,6 +84,7 @@ func run() -> void:
 	for id: String in ["coffee", "milk", "milk"]:
 		bus.request("select", {"id": id})
 	await settle(0.2)
+	check(screen.top_right.visible, "AUTO/FFWD demlerken de görünür kalmalı")
 	await capture("brewing")
 	bus.request("brew")
 	await settle(0.9)

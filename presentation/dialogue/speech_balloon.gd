@@ -13,8 +13,9 @@ const SCREEN_MARGIN := 24.0
 const ANCHOR_OVERLAP := 40.0
 ## Kutunun üst kenarı çapanın bu kadar üstünde durur; en uzun sorgu kutusu (3 soru) ekrana sığar.
 const ANCHOR_RISE := 210.0
-const AUTO_DELAY := 1.1
-const AUTO_PER_CHAR := 0.03
+## AUTO: satır yazıldıktan sonra bekleme (sn) = AUTO_DELAY + karakter başına AUTO_PER_CHAR.
+const AUTO_DELAY := 0.6
+const AUTO_PER_CHAR := 0.015
 const FFWD_DELAY := 0.25
 const TEXT_WIDTH := 520.0
 const DOCK_POSITION := Vector2(24, 24)

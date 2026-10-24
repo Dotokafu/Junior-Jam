@@ -166,10 +166,9 @@ func _update_hud() -> void:
 	var day_key := "header.endless_day" if view.mode == "endless" else "header.story_day"
 	var day := I18n.t(day_key, {"day": "%02d" % view.day, "total": "%02d" % view.total_days})
 	day_text.text = I18n.t("hud.day_phase", {"day": day, "phase": I18n.t("phase." + view.phase)})
-	# Demlerken üst köşeler sipariş şeridine ve makineye kalır.
+	# Demlerken sol üst köşe sipariş şeridine kalır; AUTO/FFWD her zaman görünür ve erişilebilir.
 	var brewing: bool = view.stage in ["brewing", "tutorial"]
 	day_text.visible = not brewing
-	top_right.visible = not brewing
 	# Makine tezgâhta durur; yalnızca müşteri karşındayken çekebilirsin.
 	camera_button.visible = view.day >= 2
 	camera_button.disabled = view.phase not in ["day", "night"] or view.stage == "reaction"

@@ -55,6 +55,7 @@ pivot_offset = Vector2(64, 80)
 rotation = -2.2
 mouse_filter = 2
 texture = ExtResource("4_jar")
+stretch_mode = 5
 expand_mode = 1
 
 [node name="Cup" type="Control" parent="."]

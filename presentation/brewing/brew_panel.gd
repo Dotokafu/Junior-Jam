@@ -20,6 +20,8 @@ const TALL_X := 875.0
 const TAG_GAP := 8.0
 const TAG_HEIGHT := 44.0
 const JAR_LIFT := 10.0
+## Yan yana iki kavanoz kutusu arasındaki boşluk.
+const JAR_GAP := 40.0
 var view: Dictionary = {}
 var reduced_motion: bool = false
 var is_open: bool = false
@@ -131,18 +133,22 @@ func _rebuild_jars() -> void:
 	jars.clear()
 	var items := _shelf_items()
 	var row_index := {"main": 0, "extra": 0}
+	var row_counts := {}
+	for item: Dictionary in items:
+		row_counts[_role(item)] = int(row_counts.get(_role(item), 0)) + 1
 	for i in range(items.size()):
 		var item: Dictionary = items[i]
 		var role := _role(item)
-		var rect := _jar_rect(role, row_index.get(role, 0))
+		var rect := _jar_rect(role, row_index.get(role, 0), row_counts.get(role, 1))
 		if row_index.has(role):
 			row_index[role] += 1
 		var button := TextureButton.new()
 		var icon_path := ICON_PATH % item.id
 		if ResourceLoader.exists(icon_path):
 			button.texture_normal = load(icon_path)
+			rect = _fit_on_board(rect, button.texture_normal)
 		button.ignore_texture_size = true
-		button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+		button.stretch_mode = TextureButton.STRETCH_SCALE
 		button.position = rect.position
 		button.size = rect.size
 		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
@@ -155,20 +161,39 @@ func _rebuild_jars() -> void:
 		tag.theme_type_variation = &"HudText"
 		tag.add_theme_font_size_override("font_size", 24)
 		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		tag.position = Vector2(rect.get_center().x - JAR_STEP / 2.0, rect.end.y + TAG_GAP)
-		tag.size = Vector2(JAR_STEP, TAG_HEIGHT)
+		var slot := _jar_rect(role, 0, row_counts.get(role, 1))
+		var tag_width := _row_step(row_counts.get(role, 1)) if role != "free" else TALL_SIZE.x + 40.0
+		tag.position = Vector2(rect.get_center().x - tag_width / 2.0, slot.end.y + TAG_GAP)
+		tag.size = Vector2(tag_width, TAG_HEIGHT)
 		tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		jar_layer.add_child(tag)
 		jars[item.id] = {"button": button, "tag": tag, "rest_y": rect.position.y}
 	_refresh_jars()
 
-## Kavanozun raftaki yeri: ana malzemeler üst tahtada, ekler alt tahtada soldan sağa; serbest malzeme
-## sağda alt tahtaya oturan uzun kutu.
-func _jar_rect(role: String, index: int) -> Rect2:
+## Kavanozun raftaki kutusu: ana malzemeler üst tahtada, ekler alt tahtada soldan sağa (süte çarpmadan
+## sığacak aralıkla); serbest malzeme sağda alt tahtaya oturan uzun kutu.
+func _jar_rect(role: String, index: int, count: int) -> Rect2:
 	if role == "free":
 		return Rect2(Vector2(TALL_X, BOTTOM_BOARD_Y - TALL_SIZE.y), TALL_SIZE)
 	var board := TOP_BOARD_Y if role == "main" else BOTTOM_BOARD_Y
-	return Rect2(Vector2(JAR_FIRST_X + index * JAR_STEP + (JAR_STEP - JAR_SIZE.x) / 2.0, board - JAR_SIZE.y), JAR_SIZE)
+	var step := _row_step(count)
+	var width := step - JAR_GAP
+	return Rect2(Vector2(JAR_FIRST_X + index * step + JAR_GAP / 2.0, board - JAR_SIZE.y), Vector2(width, JAR_SIZE.y))
+
+func _row_step(count: int) -> float:
+	return minf(JAR_STEP, (TALL_X - TAG_GAP - JAR_FIRST_X) / maxf(count, 1.0))
+
+## Çizimin görünen kısmı kutuya oranı korunarak sığdırılır; görünen alt kenarı tahtaya oturur, kutuda yatay
+## ortalanır. Farklı ölçüdeki çizimler (32×40 yer tutucu, 96×96 tasarım) aynı rafta aynı boyda durur.
+func _fit_on_board(box: Rect2, texture: Texture2D) -> Rect2:
+	var used := texture.get_image().get_used_rect()
+	if used.size.x <= 0 or used.size.y <= 0:
+		return box
+	var scale := minf(box.size.x / used.size.x, box.size.y / used.size.y)
+	var size := texture.get_size() * scale
+	var visible_center_x := (used.position.x + used.size.x / 2.0) * scale
+	var visible_bottom := (used.position.y + used.size.y) * scale
+	return Rect2(Vector2(box.get_center().x - visible_center_x, box.end.y - visible_bottom), size)
 
 func _on_jar_hover(id: String, button: TextureButton, entered: bool) -> void:
 	hovered = id if entered else ""

@@ -30,7 +30,11 @@ theme_override_constants/separation = 12
 size_flags_horizontal = 3
 theme_type_variation = &"BookPage"
 
-[node name="Box" type="VBoxContainer" parent="Book/RightPage"]
+[node name="Scroll" type="ScrollContainer" parent="Book/RightPage"]
+horizontal_scroll_mode = 0
+
+[node name="Box" type="VBoxContainer" parent="Book/RightPage/Scroll"]
+size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
 [node name="Tabs" type="VBoxContainer" parent="."]

@@ -47,6 +47,120 @@
       "description": "Çay, limon, nane. Titreyen eller için."
     },
     {
+      "id": "matcha_latte",
+      "name": "Yeşil Sabah",
+      "side": "human",
+      "ingredients": [
+        "matcha",
+        "milk",
+        "milk"
+      ],
+      "description": "Bir matcha, iki süt. Bahçeleri hatırlayanlara.",
+      "latte_art": true
+    },
+    {
+      "id": "matcha_garden",
+      "name": "Islak Bahçe",
+      "side": "human",
+      "ingredients": [
+        "matcha",
+        "honey",
+        "mint"
+      ],
+      "description": "Matcha, bal, nane. Yağmurdan sonraki serinlik."
+    },
+    {
+      "id": "hot_cocoa",
+      "name": "Kış Penceresi",
+      "side": "human",
+      "ingredients": [
+        "cocoa",
+        "milk",
+        "honey"
+      ],
+      "description": "Kakao, süt, bal. Çocukluktan kalma bir sıcaklık.",
+      "latte_art": true
+    },
+    {
+      "id": "ember",
+      "name": "Kor",
+      "side": "human",
+      "ingredients": [
+        "cocoa",
+        "spice",
+        "cinnamon"
+      ],
+      "description": "Kakao, baharat, tarçın. Sönmeyen bir şömine gibi."
+    },
+    {
+      "id": "night_watch",
+      "name": "Gece Nöbeti",
+      "side": "human",
+      "ingredients": [
+        "coffee",
+        "cinnamon",
+        "honey"
+      ],
+      "description": "Kahve, tarçın, bal. Uyanık ama yumuşak."
+    },
+    {
+      "id": "cold_street",
+      "name": "Serin Sokak",
+      "side": "human",
+      "ingredients": [
+        "coffee",
+        "milk",
+        "mint"
+      ],
+      "description": "Kahve, süt, nane. Sıcak günün serin sonu.",
+      "latte_art": true
+    },
+    {
+      "id": "caravan",
+      "name": "Kervan",
+      "side": "human",
+      "ingredients": [
+        "tea",
+        "milk",
+        "spice"
+      ],
+      "description": "Çay, süt, baharat. Uzak yollardan gelenlere.",
+      "latte_art": true
+    },
+    {
+      "id": "lullaby",
+      "name": "Ninni",
+      "side": "human",
+      "ingredients": [
+        "tea",
+        "honey",
+        "lemon"
+      ],
+      "description": "Çay, bal, limon. Uyumadan önce."
+    },
+    {
+      "id": "black_news",
+      "name": "Kara Haber",
+      "side": "human",
+      "ingredients": [
+        "coffee",
+        "coffee",
+        "coffee"
+      ],
+      "description": "Üç ölçü kahve. Haberleri sonuna kadar izleyenlere."
+    },
+    {
+      "id": "white_dream",
+      "name": "Beyaz Rüya",
+      "side": "human",
+      "ingredients": [
+        "milk",
+        "honey",
+        "cinnamon"
+      ],
+      "description": "Süt, bal, tarçın. Kahveye dayanamayanlara."
+    },
+    {
       "id": "red",
       "name": "Kızıl Hatıra",
       "side": "fallen",
@@ -78,6 +192,39 @@
         "bile"
       ],
       "description": "Doku, ilik, safra. Adı konulamayan bir eksiklik."
+    },
+    {
+      "id": "rust_bell",
+      "name": "Paslı Çan",
+      "side": "fallen",
+      "ingredients": [
+        "blood",
+        "salt",
+        "bile"
+      ],
+      "description": "Kan, tuz, safra. Dilin ucunda metal."
+    },
+    {
+      "id": "quiet_bone",
+      "name": "Sessiz Kemik",
+      "side": "fallen",
+      "ingredients": [
+        "marrow",
+        "ash",
+        "ash"
+      ],
+      "description": "İlik ve iki ölçü kül. Sesini kaybedenlere."
+    },
+    {
+      "id": "cold_skin",
+      "name": "Soğuk Deri",
+      "side": "fallen",
+      "ingredients": [
+        "tissue",
+        "tissue",
+        "salt"
+      ],
+      "description": "İki doku, bir tuz. Hiçbir şey hissetmeyenlere."
     }
   ]
 }

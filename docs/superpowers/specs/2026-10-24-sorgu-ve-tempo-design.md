@@ -14,6 +14,17 @@ Tarih: 2026-10-24 · Durum: **onaylandı** (kullanıcı "devam" dedi; açık sor
 
 Sonuç: oyun hızlı ve sığ akıyor. Hedef, Papers, Please'teki gibi konuşmadan ve tavırdan **şüphelenip** karar vermek. Karar zorlaşmalı ve oyuncu yanılabilmeli.
 
+## Oyunun temeli: örgüt ile devlet arasında
+
+Kullanıcının tarifi: Papers, Please'teki gibi iki taraf arasında seçim. Devlet (Defne, sabah teslimatı, polis) ile
+örgüt (Vey, gece teslimatı, Fallen) senden farklı şeyler ister. Birinin dediğini yapmak ötekini kızdırır; birinin
+dediklerini **fazla bariz** yaparsan öteki taraf işkillenir. Yanlış teşhis, ihbar ve servis kararları bu iki güveni
+oynatır (Plan 2'nin güven sayaçları bu dengeyi taşır: tek tarafa yaslanmak hem ödüllü hem riskli olmalı).
+
+İlk Fallen karşılaşması oyuncuyu gerer: barista hiçbir şey bilmiyormuş gibi davranır ("Ah, kusura bakmayın,
+karıştırmışım; tarifi bir kontrol edeyim"), tuhaflığı oyuncu kendisi fark eder (müşterinin gözleri, önceki
+baristanın "Kimseye söyleme" notu, raftaki kan kavanozları).
+
 ## Verilen kararlar
 
 | Soru | Karar |

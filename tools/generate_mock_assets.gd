@@ -705,8 +705,10 @@ func _theme() -> Theme:
 		theme.set_stylebox(state, "IconButton", StyleBoxEmpty.new())
 	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		theme.set_color(state, "IconButton", cream)
-	theme.set_color("font_pressed_color", "IconButton", Color("f0c987"))
-	theme.set_color("icon_pressed_color", "IconButton", Color("f0c987"))
+	# Basılı (AUTO/FFWD açık) hali fare üstündeyken de belirgin sarı yanar: ikon ve yazı, çerçevesiz.
+	var lit := Color("ffd34a")
+	for state: String in ["font_pressed_color", "font_hover_pressed_color", "icon_pressed_color", "icon_hover_pressed_color"]:
+		theme.set_color(state, "IconButton", lit)
 	theme.set_color("icon_hover_color", "IconButton", Color("fff6dc"))
 	theme.set_color("icon_disabled_color", "IconButton", Color(1, 1, 1, 0.3))
 	theme.set_color("font_disabled_color", "IconButton", Color(1, 1, 1, 0.3))
