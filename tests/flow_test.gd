@@ -5,6 +5,7 @@ var bus: Node
 var failures: int = 0
 var tutorial_checked: bool = false
 var latte_seen: bool = false
+var interviewed: bool = false
 
 func check(ok: bool, message: String) -> void:
 	if not ok:
@@ -22,6 +23,7 @@ func run() -> void:
 		simulate(strategy)
 	simulate("silent", "endless")
 	check(latte_seen, "Akışta en az bir latte art'lı içecek denenmeli")
+	check(interviewed, "Akışta en az bir müşteri sorgulanmalı")
 	print("FLOW: ", "PASS" if failures == 0 else "FAIL", " (", failures, " hata)")
 	quit(failures)
 
@@ -31,7 +33,7 @@ func command(action: String, payload: Dictionary = {}) -> void:
 func simulate(strategy: String, mode: String = "story") -> void:
 	command("new_game", {"mode": mode, "seed": 4217})
 	var guard := 0
-	while session.state.phase != "ending" and guard < 700:
+	while session.state.phase != "ending" and guard < 1500:
 		guard += 1
 		var state: RefCounted = session.state
 		if mode == "endless" and state.day > 6:
@@ -85,13 +87,31 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			command("shelf")
 			check(state.tutorial == "ready" and state.shelf == "fallen", "Kepenk öğreticisi tamamlandı")
 			tutorial_checked = true
+		elif state.stage == "interview":
+			var questions: Array = session._visit().get("questions", [])
+			check(snapshot.questions.size() == questions.size(), "Sorgu sırasında sorular görünmeli")
+			check(not str(snapshot.questions).contains("answer") and not snapshot.visit.has("questions"), "Cevaplar sorulmadan görünmemeli")
+			if state.asked.size() < InterrogationRules.QUESTION_LIMIT and state.asked.size() < questions.size():
+				command("mark")
+				check(session.state.marks.get(session._record_id(), []).has(snapshot.line), "Görünen cümle işaretlenmeli")
+				command("ask", {"index": state.asked.size()})
+				check(state.stage == "answer", "Soru sorunca cevap gelmeli")
+				interviewed = true
+			else:
+				var before: int = state.asked.size()
+				command("ask", {"index": 0})
+				check(state.asked.size() == before, "Sorulmuş soru ya da hak bitince soru sorulamaz")
+				command("next")
+				check(state.stage == "brewing", "Sorgudan siparişe geçilmeli")
+		elif state.stage == "answer":
+			command("next")
 		elif state.stage == "reaction":
 			command("next")
 		elif state.stage == "decision":
 			share(strategy)
 			if state.phase != "ending":
 				command("next")
-	check(guard < 700, "Akış kilitlenmemeli: " + strategy)
+	check(guard < 1500, "Akış kilitlenmemeli: " + strategy)
 	if mode == "endless":
 		check(session.state.day == 7 and session.state.ending.is_empty(), "Endless dördüncü günde bitmemeli")
 		print("  endless → gün ", session.state.day, " / ", session.state.served, " fincan")

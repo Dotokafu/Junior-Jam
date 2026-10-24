@@ -6,6 +6,9 @@ const Endings = preload("res://domain/consequences/ending_rules.gd")
 const Content = preload("res://infrastructure/content/content_repository.gd")
 const Saves = preload("res://infrastructure/persistence/save_repository.gd")
 const Director = preload("res://domain/encounters/encounter_director.gd")
+const Interrogation = preload("res://domain/interrogation/interrogation_rules.gd")
+## Soru hatası → bildirim anahtarı.
+const ASK_ERRORS := {"unknown": "feedback.ask_unknown", "asked": "feedback.ask_asked", "limit": "feedback.ask_limit"}
 var content := Content.new()
 var state := State.new()
 var started: bool = false
@@ -72,6 +75,8 @@ func _on_command(action: String, payload: Dictionary) -> void:
 					state.tutorial = "switch_hint"
 			"photo": _photograph()
 			"report": _report(str(payload.get("id", "")))
+			"ask": _ask(int(payload.get("index", -1)))
+			"mark": _mark()
 	_publish()
 	if not started or not persistence_enabled:
 		return
@@ -173,6 +178,11 @@ func _lines() -> Array:
 		if state.mode == "endless" and state.day > 1:
 			return content.pools.endless_evening
 		return day.evening
+	if state.stage == "answer":
+		var questions: Array = _visit().get("questions", [])
+		if state.answering >= 0 and state.answering < questions.size():
+			return questions[state.answering].get("answer", [])
+		return []
 	return _visit().get("dialogue", [])
 
 func _next() -> void:
@@ -190,8 +200,17 @@ func _next() -> void:
 		if state.line_index >= _lines().size():
 			if state.phase in ["morning_supplier", "night_supplier"]:
 				state.stage = "decision"
-			else:
+			elif _visit().get("questions", []).is_empty():
 				state.stage = "brewing"
+			else:
+				state.stage = "interview"
+	elif state.stage == "answer":
+		state.line_index += 1
+		if state.line_index >= _lines().size():
+			state.answering = -1
+			state.stage = "interview"
+	elif state.stage == "interview":
+		state.stage = "brewing"
 	elif state.stage == "reaction":
 		_advance_customer()
 	elif state.stage == "decision":
@@ -211,6 +230,8 @@ func _reset_visit() -> void:
 	state.stage = "dialogue"
 	state.selected = []
 	state.drink = {}
+	state.asked = []
+	state.answering = -1
 	state.visits = _generate_visits() if state.phase in ["day", "night"] else []
 
 func _advance_customer() -> void:
@@ -219,6 +240,8 @@ func _advance_customer() -> void:
 	state.stage = "dialogue"
 	state.selected = []
 	state.drink = {}
+	state.asked = []
+	state.answering = -1
 	if state.visit_index >= state.visits.size():
 		state.visit_index = 0
 		if state.phase == "day":
@@ -298,6 +321,43 @@ func _serve(latte_art: bool = false) -> void:
 		state.drink["reaction_key"] = "reaction.wrong_recipe"
 	else:
 		state.drink["reaction_key"] = "reaction.correct"
+
+## Sorgu: soru sorulur, cevap satırları okunur, sonra soru listesine dönülür.
+func _ask(index: int) -> void:
+	if state.stage != "interview":
+		return
+	var problem := Interrogation.can_ask(_visit().get("questions", []), state.asked, index)
+	if problem != "":
+		EventBus.feedback.emit(I18n.t(ASK_ERRORS[problem]))
+		return
+	state.asked.append(index)
+	state.answering = index
+	state.line_index = 0
+	state.stage = "answer"
+
+## Balonda o an görünen cümleyi bu ziyaretin notlarına ekler ya da notlardan çıkarır.
+func _mark() -> void:
+	if state.phase not in ["day", "night"] or state.stage not in ["dialogue", "answer", "interview"]:
+		return
+	var id := _record_id()
+	state.marks[id] = Interrogation.toggle_mark(state.marks.get(id, []), _current_line())
+
+## Sipariş cümlesi: ziyaretin order_line alanı; yoksa (eski içerik) ilk konuşma satırı.
+func _order_line() -> String:
+	var visit := _visit()
+	if visit.get("order_line", "") != "":
+		return visit.order_line
+	var dialogue: Array = visit.get("dialogue", [])
+	return dialogue[0] if not dialogue.is_empty() else I18n.t("dialogue.brewing")
+
+func _current_line() -> String:
+	match state.stage:
+		"dialogue", "answer":
+			var lines := _lines()
+			return lines[mini(state.line_index, lines.size() - 1)] if not lines.is_empty() else ""
+		"interview", "brewing":
+			return _order_line()
+	return ""
 
 func _switch_shelf() -> void:
 	if state.tutorial not in ["switch_hint", "ready"] or state.phase not in ["day", "night"]:
@@ -384,23 +444,29 @@ func snapshot() -> Dictionary:
 	view["visit"] = _visit().duplicate(true) if content_ok else {}
 	view.visit.erase("person")
 	view["line"] = ""
-	if content_ok and state.stage == "dialogue":
-		var lines := _lines()
-		view.line = lines[mini(state.line_index, lines.size() - 1)] if not lines.is_empty() else ""
-	elif state.stage == "brewing":
-		# Coffee Talk gibi: demlerken balonda siparişin kendisi durur.
-		var lines := _lines()
-		view.line = lines[0] if not lines.is_empty() else I18n.t("dialogue.brewing")
+	if content_ok and state.stage in ["dialogue", "answer", "interview", "brewing"]:
+		# Demlerken ve sorgu sırasında balonda siparişin kendisi durur.
+		view.line = _current_line()
 	elif state.stage == "tutorial":
 		view.line = I18n.t("dialogue.discovery")
 	elif state.stage == "reaction":
 		view.line = I18n.t(state.drink.reaction_key) if state.drink.has("reaction_key") else ""
 	elif state.stage == "decision":
 		view.line = I18n.t("dialogue.delivery_decision") if state.day >= 2 else I18n.t("dialogue.delivery_done")
+	# Cevaplar yalnızca sorulunca "line" olarak gelir; ziyaretin soru listesi sunuma gitmez.
+	view.visit.erase("questions")
+	view["questions"] = []
+	if content_ok and state.stage == "interview":
+		var questions: Array = _visit().get("questions", [])
+		for i in range(questions.size()):
+			view.questions.append({"text": str(content.pools.get("questions", {}).get(questions[i].get("id", ""), "")), "asked": i in state.asked})
+	view["questions_left"] = Interrogation.questions_left(state.asked)
+	view["marked"] = view.line != "" and view.line in state.marks.get(_record_id(), [])
 	view.records = []
 	for record: Dictionary in state.records:
 		var public_record := record.duplicate(true)
 		public_record.erase("truth")
+		public_record["marks"] = state.marks.get(record.id, []).duplicate()
 		view.records.append(public_record)
 	return view
 

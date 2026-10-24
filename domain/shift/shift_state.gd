@@ -22,6 +22,11 @@ var wrong_serves: int = 0
 var served: int = 0
 var ending: Dictionary = {}
 var notes: Array = []
+## Sorgu: bu müşteriye sorulan soruların sırası, cevabı okunan soru (-1 yok) ve ziyaret kimliğine göre
+## oyuncunun işaretlediği cümleler.
+var asked: Array = []
+var answering: int = -1
+var marks: Dictionary = {}
 
 func serialize() -> Dictionary:
 	return {
@@ -31,7 +36,8 @@ func serialize() -> Dictionary:
 		"stock": stock.duplicate(), "records": records.duplicate(true),
 		"human_reports": human_reports, "fallen_reports": fallen_reports,
 		"wrong_reports": wrong_reports, "wrong_serves": wrong_serves,
-		"served": served, "ending": ending.duplicate(), "notes": notes.duplicate()
+		"served": served, "ending": ending.duplicate(), "notes": notes.duplicate(),
+		"asked": asked.duplicate(), "answering": answering, "marks": marks.duplicate(true)
 	}
 
 static func restore(data: Dictionary) -> ShiftState:
