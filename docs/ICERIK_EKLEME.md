@@ -103,6 +103,29 @@ Hikâye ziyaretine iki isteğe bağlı alan eklenebilir:
 - Oyuncu balonda görünen cümleyi **İşaretle [N]** ile not eder; işaretler fotoğrafı çekilmiş kişinin dava dosyasında listelenir. Oyun işaretlerin istihbaratla eşleşip eşleşmediğini söylemez.
 - `questions` olmayan ziyaret eskisi gibi konuşmadan sonra doğrudan demlemeye geçer.
 
+## Şüpheler (devlet ve örgüt)
+
+Devletin (Defne) ve örgütün (Vey) senden şüphesi gizlidir; oyuncu sayıyı görmez. Sayılar `endings.json` → `rules.suspicion` içindedir:
+
+```json
+"suspicion": {"wary": 34, "threat": 67, "limit": 100, "give_other": 15, "give_streak": 10, "give_trust": -10, "wrong_report": 20, "decline": 8, "wrong_serve": 12, "wrong_recipe": 5}
+```
+
+- **`give_other` / `give_streak`:** Bir tarafa dosya verince öteki tarafın şüphesi bu kadar artar. Art arda aynı tarafa her teslimde `give_streak` kadar fazlası eklenir ("fazla bariz").
+- **`give_trust` / `wrong_report`:** Dosyayı alan tarafın şüphesi doğru kişide düşer, yanlış kişide artar.
+- **`decline`:** Tedarikçi sorup sen dosya vermezsen onun şüphesi bu kadar artar.
+- **`wrong_serve`:** İnsana Fallen içeceği devletin, Fallen'a insan içeceği örgütün şüphesini artırır.
+- **`wrong_recipe`:** Doğru rafın yanlış içeceği (istediğinden başka bir insan ya da Fallen içeceği) müşterinin tarafını biraz işkillendirir.
+- **Seviyeler:** `wary` ve `threat` eşikleri. Şüphe `limit`'e ulaşınca o tarafın bir sonraki teslimatında kötü son gelir (`state_arrest`, `order_vanish`).
+
+Metinler `encounter_pools.json` içindedir:
+
+- **`suspicion_lines.<state|order>.<wary|threat>`:** Tedarikçinin satırlarının sonuna eklenen tavır cümleleri. Her gün sıradaki seçilir.
+- **`interrogations.<state|order>`:** Şüphe ilk kez `threat` olunca o tarafın teslimatında açılan sorgu.
+  - Bir `line` (soru) ve 2–4 `answers` içerir.
+  - Her cevapta `text`, `effect` (şüpheye etkisi, negatif olabilir) ve `reply` (tedarikçinin karşılığı) bulunur.
+- **`door_notes.<state|order>.<wary|threat>`:** Şafak ekranında, şüphesi en yüksek tarafın notu.
+
 ## Malzeme ve raf yeri
 
 `ingredients.json`'daki `base` / `mix` bayrakları malzemenin hem kuralını hem raftaki yerini belirler:
