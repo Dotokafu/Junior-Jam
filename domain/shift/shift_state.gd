@@ -27,6 +27,15 @@ var notes: Array = []
 var asked: Array = []
 var answering: int = -1
 var marks: Dictionary = {}
+## Şüphe (gizli): devlet ve örgüt, 0–100. Art arda aynı tarafa teslim, bu teslimatta dosya verildi mi,
+## sorgusu yapılmış taraflar, sürmekte olan sorgunun tarafı ve tedarikçinin cevaba karşılığı.
+var suspicion: Dictionary = {"state": 0, "order": 0}
+var last_given: String = ""
+var give_streak: int = 0
+var delivery_reported: bool = false
+var interrogated: Array = []
+var interrogation: String = ""
+var verdict: String = ""
 
 func serialize() -> Dictionary:
 	return {
@@ -37,7 +46,10 @@ func serialize() -> Dictionary:
 		"human_reports": human_reports, "fallen_reports": fallen_reports,
 		"wrong_reports": wrong_reports, "wrong_serves": wrong_serves,
 		"served": served, "ending": ending.duplicate(), "notes": notes.duplicate(),
-		"asked": asked.duplicate(), "answering": answering, "marks": marks.duplicate(true)
+		"asked": asked.duplicate(), "answering": answering, "marks": marks.duplicate(true),
+		"suspicion": suspicion.duplicate(), "last_given": last_given, "give_streak": give_streak,
+		"delivery_reported": delivery_reported, "interrogated": interrogated.duplicate(),
+		"interrogation": interrogation, "verdict": verdict
 	}
 
 static func restore(data: Dictionary) -> ShiftState:

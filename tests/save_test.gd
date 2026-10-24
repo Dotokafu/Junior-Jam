@@ -38,6 +38,13 @@ func run() -> void:
 	check(not session.started and feedback.size() > before, "Boş yuva yüklenmemeli ve uyarı vermeli")
 	bus.request("load_slot", {"slot": 2})
 	check(session.started, "Ana menüden kayıt yüklenebilmeli")
+	# Şüphe alanları olmayan eski kayıt sakin başlar.
+	var calm_save: Dictionary = session.state.serialize()
+	for key: String in ["suspicion", "give_streak", "last_given", "delivery_reported", "interrogated", "interrogation", "verdict"]:
+		calm_save.erase(key)
+	Saves.write(calm_save, 3)
+	bus.request("load_slot", {"slot": 3})
+	check(session.state.suspicion == {"state": 0, "order": 0} and session.state.interrogated.is_empty(), "Eski kayıt şüphesiz yüklenmeli")
 	# Sorgu alanları olmayan eski kayıt varsayılanlarla yüklenir.
 	var legacy: Dictionary = session.state.serialize()
 	legacy.erase("asked")

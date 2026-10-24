@@ -123,6 +123,8 @@
   "dialogue.brewing": "Üç ölçü seç. Demle. Kimi gördüğüne karar ver ve fincanı uzat.",
   "dialogue.discovery": "“Ah… kusura bakmayın, karıştırmışım. Tarifi unuttum galiba, bir kontrol edeyim.”\n(Fincanı tek parmağıyla itti. Gözleri ışığı bir an kedininki gibi yakaladı.)",
   "dialogue.delivery_decision": "Dosya vermek zorunda değilsin. Dosyalar'dan [G] bir kaydı teslim edebilir veya konuşmayı bitirebilirsin.",
+  "dialogue.ask_state": "Dün gece şüpheli biri geldiyse dosyasını ver. Kimseyi korumak zorunda değilsin.  [G]",
+  "dialogue.ask_order": "Bize verebileceğin biri var mı? Bir yüz, bir isim yeter.  [G]",
   "dialogue.delivery_done": "Teslimat tamamlandı. Kapının ardında bekleyenler var.",
   "feedback.drink_ready": "{drink} hazır. Servis kararı senin.",
   "format.stock": "{name}  · {count}",

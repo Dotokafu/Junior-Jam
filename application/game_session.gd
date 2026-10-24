@@ -7,6 +7,7 @@ const Content = preload("res://infrastructure/content/content_repository.gd")
 const Saves = preload("res://infrastructure/persistence/save_repository.gd")
 const Director = preload("res://domain/encounters/encounter_director.gd")
 const Interrogation = preload("res://domain/interrogation/interrogation_rules.gd")
+const Suspicion = preload("res://domain/consequences/suspicion_rules.gd")
 ## Soru hatası → bildirim anahtarı.
 const ASK_ERRORS := {"unknown": "feedback.ask_unknown", "asked": "feedback.ask_asked", "limit": "feedback.ask_limit"}
 var content := Content.new()
@@ -195,6 +196,8 @@ func _next() -> void:
 		state.shelf = "human"
 		_restock("human")
 		_reset_visit()
+		state.delivery_reported = false
+		_check_bad_ending("state")
 	elif state.stage == "dialogue":
 		state.line_index += 1
 		if state.line_index >= _lines().size():
@@ -214,15 +217,7 @@ func _next() -> void:
 	elif state.stage == "reaction":
 		_advance_customer()
 	elif state.stage == "decision":
-		if state.phase == "morning_supplier":
-			state.phase = "day"
-			_reset_visit()
-		elif state.phase == "night_supplier":
-			_check_ending(state.mode == "story" and state.day == content.days.size())
-			if state.phase != "ending":
-				_restock("fallen")
-				state.phase = "dawn"
-				state.stage = "transition"
+		_finish_delivery()
 
 func _reset_visit() -> void:
 	state.visit_index = 0
@@ -249,6 +244,8 @@ func _advance_customer() -> void:
 			state.stage = "transition"
 		else:
 			state.phase = "night_supplier"
+			state.delivery_reported = false
+			_check_bad_ending("order")
 		state.visits = []
 
 func _select(id: String) -> void:
@@ -307,6 +304,7 @@ func _serve(latte_art: bool = false) -> void:
 	var person := _person()
 	var species_wrong: bool = state.drink.side != person.species
 	var recipe_wrong: bool = not Brewing.matches_order(_visit().get("order", ""), state.drink)
+	state.suspicion = Suspicion.after_serve(state.suspicion, state.drink.side, person.species, not recipe_wrong, _suspicion_rules())
 	if species_wrong or recipe_wrong:
 		state.wrong_serves += 1
 	state.served += 1
@@ -408,6 +406,11 @@ func _report(id: String) -> void:
 				state.human_reports += 1
 			else:
 				state.fallen_reports += 1
+			var side := "state" if recipient == "human" else "order"
+			state.give_streak = state.give_streak + 1 if state.last_given == side else 0
+			state.last_given = side
+			state.suspicion = Suspicion.after_report(state.suspicion, side, state.give_streak, record.truth == target, _suspicion_rules())
+			state.delivery_reported = true
 			EventBus.feedback.emit(I18n.t("feedback.report_sent"))
 			_check_ending(false)
 			return
@@ -415,16 +418,50 @@ func _report(id: String) -> void:
 func _check_ending(final_night: bool) -> void:
 	var result := Endings.resolve(state.human_reports, state.fallen_reports, state.wrong_reports, state.wrong_serves, final_night, content.ending_rules)
 	if result.id != "":
-		state.ending = content.endings[result.id].duplicate(true)
-		state.ending["id"] = result.id
-		state.ending["variant"] = result.variant
-		state.phase = "ending"
-		state.stage = "ending"
+		_end(result.id)
+
+## Teslimat biter: sorulup dosya verilmediyse soran işkillenir; o tarafın şüphesi dolduysa kötü son
+## bu teslimatın sonunda gelir; yoksa gün ilerler.
+func _finish_delivery() -> void:
+	var side := _supplier_side()
+	if state.day >= 2 and not state.delivery_reported:
+		state.suspicion = Suspicion.after_decline(state.suspicion, side, _suspicion_rules())
+	_check_bad_ending(side)
+	if state.phase == "ending":
+		return
+	if state.phase == "morning_supplier":
+		state.phase = "day"
+		_reset_visit()
+	elif state.phase == "night_supplier":
+		_check_ending(state.mode == "story" and state.day == content.days.size())
+		if state.phase != "ending":
+			_restock("fallen")
+			state.phase = "dawn"
+			state.stage = "transition"
+
+## Şüphe dolduysa o tarafın kötü sonu (yalnızca o tarafın teslimatında çağrılır).
+func _check_bad_ending(side: String) -> void:
+	if Suspicion.reached(state.suspicion, side, _suspicion_rules()):
+		_end(Suspicion.ENDINGS[side])
+
+func _end(id: String) -> void:
+	state.ending = content.endings[id].duplicate(true)
+	state.ending["id"] = id
+	state.ending["variant"] = Endings.variant(state.wrong_reports, state.wrong_serves)
+	state.phase = "ending"
+	state.stage = "ending"
+
+func _supplier_side() -> String:
+	return "state" if state.phase == "morning_supplier" else "order"
+
+func _suspicion_rules() -> Dictionary:
+	return content.ending_rules.get("suspicion", {})
 
 func snapshot() -> Dictionary:
 	var view := state.serialize()
 	# Gerçek tür ve gizli sonuç sayaçları sunuma gönderilmez.
-	for key: String in ["human_reports", "fallen_reports", "wrong_reports", "wrong_serves", "visits"]:
+	for key: String in ["human_reports", "fallen_reports", "wrong_reports", "wrong_serves", "visits",
+			"suspicion", "give_streak", "last_given", "interrogated", "interrogation"]:
 		view.erase(key)
 	view["started"] = started
 	view["total_days"] = content.days.size()
@@ -452,7 +489,8 @@ func snapshot() -> Dictionary:
 	elif state.stage == "reaction":
 		view.line = I18n.t(state.drink.reaction_key) if state.drink.has("reaction_key") else ""
 	elif state.stage == "decision":
-		view.line = I18n.t("dialogue.delivery_decision") if state.day >= 2 else I18n.t("dialogue.delivery_done")
+		var ask := "dialogue.ask_state" if state.phase == "morning_supplier" else "dialogue.ask_order"
+		view.line = I18n.t(ask) if state.day >= 2 else I18n.t("dialogue.delivery_done")
 	# Cevaplar yalnızca sorulunca "line" olarak gelir; ziyaretin soru listesi sunuma gitmez.
 	view.visit.erase("questions")
 	view["questions"] = []

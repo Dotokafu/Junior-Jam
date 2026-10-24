@@ -40,6 +40,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			break
 		var snapshot: Dictionary = session.snapshot()
 		check(not snapshot.has("wrong_serves"), "Gizli sayaç sızmamalı")
+		for hidden: String in ["suspicion", "give_streak", "last_given", "interrogated", "interrogation"]:
+			check(not snapshot.has(hidden), "Gizli şüphe sızmamalı: " + hidden)
 		check(not snapshot.person.has("species"), "Gerçek tür sızmamalı")
 		for record: Dictionary in snapshot.records:
 			check(not record.has("truth"), "GBT gerçek türü söylememeli")
@@ -120,8 +122,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 		check(session.state.day == 7 and session.state.ending.is_empty(), "Endless dördüncü günde bitmemeli")
 		print("  endless → gün ", session.state.day, " / ", session.state.served, " fincan")
 		return
-	var expected: String = {"silent": "fallen_world", "balanced": "grey", "give_humans": "human_supplier", "give_fallen": "fallen_supplier", "mistakes": "fallen_world"}[strategy]
-	check(session.state.ending.get("id") == expected, strategy + " sonu: " + str(session.state.ending.get("id")))
+	var expected: Array = {"silent": ["fallen_world"], "balanced": ["grey"], "give_humans": ["human_supplier"], "give_fallen": ["fallen_supplier"], "mistakes": ["state_arrest", "order_vanish"]}[strategy]
+	check(session.state.ending.get("id") in expected, strategy + " sonu: " + str(session.state.ending.get("id")))
 	if strategy == "mistakes":
 		check(session.state.ending.get("variant") == "errors", "Yanlış servis alt sonu")
 	print("  ", strategy, " → ", session.state.ending.get("id"), " / ", session.state.served, " fincan")
