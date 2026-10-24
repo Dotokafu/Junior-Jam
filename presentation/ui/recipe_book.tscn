@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/ui/recipe_book.gd" id="1_script"]
+
+[node name="RecipeBook" type="Control"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+
+[node name="Dim" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.03, 0.025, 0.045, 0.82)
+
+[node name="Book" type="HBoxContainer" parent="."]
+offset_left = 200.0
+offset_top = 90.0
+offset_right = 1680.0
+offset_bottom = 960.0
+theme_override_constants/separation = 6
+
+[node name="LeftPage" type="PanelContainer" parent="Book"]
+size_flags_horizontal = 3
+theme_type_variation = &"BookPage"
+
+[node name="Box" type="VBoxContainer" parent="Book/LeftPage"]
+theme_override_constants/separation = 12
+
+[node name="RightPage" type="PanelContainer" parent="Book"]
+size_flags_horizontal = 3
+theme_type_variation = &"BookPage"
+
+[node name="Scroll" type="ScrollContainer" parent="Book/RightPage"]
+horizontal_scroll_mode = 0
+
+[node name="Box" type="VBoxContainer" parent="Book/RightPage/Scroll"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Tabs" type="VBoxContainer" parent="."]
+offset_left = 1688.0
+offset_top = 130.0
+offset_right = 1860.0
+offset_bottom = 330.0
+theme_override_constants/separation = 12
+
+[node name="HumanTab" type="Button" parent="Tabs"]
+custom_minimum_size = Vector2(0, 64)
+text = "Gündüz"
+
+[node name="FallenTab" type="Button" parent="Tabs"]
+custom_minimum_size = Vector2(0, 64)
+text = "???"
+
+[node name="CloseButton" type="Button" parent="."]
+offset_left = 1300.0
+offset_top = 980.0
+offset_right = 1680.0
+offset_bottom = 1044.0
+text = "Defteri kapat"

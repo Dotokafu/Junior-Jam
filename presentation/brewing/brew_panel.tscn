@@ -1,0 +1,112 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/brewing/brew_panel.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/cafe/brew_shelf.png" id="2_shelf"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="3_cup"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="4_liquid"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/machine_readout.tscn" id="5_readout"]
+[ext_resource type="Texture2D" path="res://assets/cafe/shutter.png" id="6_shutter"]
+
+[node name="BrewPanel" type="Control"]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+
+[node name="Machine" type="Control" parent="."]
+offset_left = 780.0
+offset_right = 1920.0
+offset_bottom = 900.0
+
+[node name="Shelf" type="TextureRect" parent="Machine"]
+offset_right = 1140.0
+offset_bottom = 900.0
+texture = ExtResource("2_shelf")
+expand_mode = 1
+
+[node name="ShelfTitle" type="Label" parent="Machine"]
+offset_left = 36.0
+offset_top = 30.0
+offset_right = 600.0
+offset_bottom = 70.0
+theme_type_variation = &"HudText"
+text = "GÜNDÜZ RAFI"
+
+[node name="Jars" type="Control" parent="Machine"]
+mouse_filter = 2
+offset_right = 1140.0
+offset_bottom = 900.0
+
+[node name="Shutter" type="TextureRect" parent="Machine"]
+mouse_filter = 2
+offset_left = 24.0
+offset_top = 100.0
+offset_right = 1116.0
+offset_bottom = 100.0
+texture = ExtResource("6_shutter")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Hint" type="Label" parent="Machine"]
+offset_left = 36.0
+offset_top = 560.0
+offset_right = 330.0
+offset_bottom = 780.0
+theme_type_variation = &"HudText"
+autowrap_mode = 3
+vertical_alignment = 2
+
+[node name="ShutterButton" type="Button" parent="Machine"]
+offset_left = 36.0
+offset_top = 800.0
+offset_right = 330.0
+offset_bottom = 864.0
+text = "Kepenk   [M]"
+
+[node name="Body" type="PanelContainer" parent="Machine"]
+offset_left = 350.0
+offset_top = 590.0
+offset_right = 1116.0
+offset_bottom = 876.0
+theme_type_variation = &"MachinePanel"
+
+[node name="Box" type="HBoxContainer" parent="Machine/Body"]
+theme_override_constants/separation = 16
+
+[node name="Readout" parent="Machine/Body/Box" instance=ExtResource("5_readout")]
+
+[node name="Right" type="VBoxContainer" parent="Machine/Body/Box"]
+custom_minimum_size = Vector2(150, 0)
+theme_override_constants/separation = 10
+
+[node name="CupPreview" type="Control" parent="Machine/Body/Box/Right"]
+custom_minimum_size = Vector2(150, 96)
+
+[node name="Cup" type="TextureRect" parent="Machine/Body/Box/Right/CupPreview"]
+offset_left = 27.0
+offset_right = 123.0
+offset_bottom = 96.0
+texture = ExtResource("3_cup")
+expand_mode = 1
+
+[node name="Liquid" type="TextureRect" parent="Machine/Body/Box/Right/CupPreview"]
+offset_left = 27.0
+offset_right = 123.0
+offset_bottom = 96.0
+texture = ExtResource("4_liquid")
+expand_mode = 1
+
+[node name="ResetButton" type="Button" parent="Machine/Body/Box/Right"]
+custom_minimum_size = Vector2(0, 62)
+text = "Sıfırla"
+
+[node name="BrewButton" type="Button" parent="Machine/Body/Box/Right"]
+custom_minimum_size = Vector2(0, 62)
+theme_type_variation = &"PrimaryButton"
+text = "Demle"
+
+[node name="Frame" type="Panel" parent="Machine"]
+mouse_filter = 2
+offset_right = 1140.0
+offset_bottom = 900.0
+theme_type_variation = &"BrewFrame"

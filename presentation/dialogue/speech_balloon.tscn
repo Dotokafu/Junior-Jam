@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/dialogue/speech_balloon.gd" id="1_script"]
+
+[node name="SpeechBalloon" type="Control"]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_script")
+
+[node name="Panel" type="PanelContainer" parent="."]
+offset_left = 940.0
+offset_top = 660.0
+offset_right = 1504.0
+offset_bottom = 700.0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"BalloonPanel"
+
+[node name="Box" type="VBoxContainer" parent="Panel"]
+mouse_filter = 2
+custom_minimum_size = Vector2(520, 0)
+theme_override_constants/separation = 6
+
+[node name="NameTag" type="Label" parent="Panel/Box"]
+theme_type_variation = &"NameTag"
+text = "Ada"
+
+[node name="Text" type="RichTextLabel" parent="Panel/Box"]
+mouse_filter = 2
+custom_minimum_size = Vector2(520, 0)
+fit_content = true
+scroll_active = false
+text = "Bir Sabah Sisi alabilir miyim? Bir kahve, iki süt."
+
+[node name="Questions" type="VBoxContainer" parent="Panel/Box"]
+visible = false
+theme_override_constants/separation = 6
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Box"]
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="MarkButton" type="Button" parent="Panel/Box/Footer"]
+visible = false
+
+[node name="Hint" type="Label" parent="Panel/Box/Footer"]
+custom_minimum_size = Vector2(220, 0)
+size_flags_horizontal = 3
+theme_type_variation = &"Caption"
+autowrap_mode = 3
+
+[node name="DecisionButton" type="Button" parent="Panel/Box/Footer"]
+visible = false
+theme_type_variation = &"PrimaryButton"
+text = "Bitir"
+
+[node name="Arrow" type="Label" parent="Panel/Box/Footer"]
+size_flags_horizontal = 10
+theme_type_variation = &"NameTag"
+text = "▼"

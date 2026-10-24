@@ -1,0 +1,196 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/cafe_screen.gd" id="1_script"]
+[ext_resource type="Theme" path="res://presentation/theme/cafe_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://presentation/world/cafe_world.tscn" id="3_world"]
+[ext_resource type="PackedScene" path="res://presentation/dialogue/speech_balloon.tscn" id="4_balloon"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/brew_panel.tscn" id="5_brew"]
+[ext_resource type="PackedScene" path="res://presentation/ui/recipe_book.tscn" id="6_book"]
+[ext_resource type="PackedScene" path="res://presentation/ui/case_file.tscn" id="7_case"]
+[ext_resource type="Script" path="res://presentation/ui/overlay_screens.gd" id="8_screens"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/auto.png" id="9_auto"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/ffwd.png" id="10_ffwd"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/files.png" id="11_files"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/camera_device.png" id="12_camera"]
+[ext_resource type="Texture2D" path="res://assets/ui/polaroid.png" id="15_polaroid"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/brew_comic.tscn" id="16_comic"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/book.png" id="13_book"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/menu.png" id="14_menu"]
+[ext_resource type="PackedScene" path="res://presentation/ui/delivery_tray.tscn" id="20_delivery"]
+
+[node name="CoFFallen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="World" parent="." instance=ExtResource("3_world")]
+
+[node name="Balloon" parent="." instance=ExtResource("4_balloon")]
+
+[node name="BrewPanel" parent="." instance=ExtResource("5_brew")]
+
+[node name="Hud" type="Control" parent="."]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="DayText" type="Label" parent="Hud"]
+offset_left = 28.0
+offset_top = 20.0
+offset_right = 760.0
+offset_bottom = 60.0
+theme_type_variation = &"HudText"
+text = "GÜN 01 / 04  ·  GÜNDÜZ"
+
+[node name="TopRight" type="HBoxContainer" parent="Hud"]
+offset_left = 1676.0
+offset_top = 16.0
+offset_right = 1900.0
+offset_bottom = 136.0
+theme_override_constants/separation = 8
+
+[node name="AutoButton" type="Button" parent="Hud/TopRight"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[A]"
+theme_type_variation = &"IconButton"
+toggle_mode = true
+text = "AUTO"
+icon = ExtResource("9_auto")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="FfwdButton" type="Button" parent="Hud/TopRight"]
+custom_minimum_size = Vector2(108, 118)
+theme_type_variation = &"IconButton"
+toggle_mode = true
+text = "FFWD"
+icon = ExtResource("10_ffwd")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="EjectPhoto" type="Control" parent="Hud"]
+visible = false
+mouse_filter = 2
+offset_left = 52.0
+offset_top = 880.0
+offset_right = 172.0
+offset_bottom = 1024.0
+
+[node name="Photo" type="TextureRect" parent="Hud/EjectPhoto"]
+texture_filter = 2
+mouse_filter = 2
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 108.0
+offset_bottom = 108.0
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Frame" type="TextureRect" parent="Hud/EjectPhoto"]
+mouse_filter = 2
+offset_right = 120.0
+offset_bottom = 144.0
+texture = ExtResource("15_polaroid")
+expand_mode = 1
+
+[node name="BottomLeft" type="HBoxContainer" parent="Hud"]
+offset_left = 20.0
+offset_top = 880.0
+offset_right = 420.0
+offset_bottom = 1068.0
+theme_override_constants/separation = 8
+alignment = 0
+
+[node name="CameraButton" type="Button" parent="Hud/BottomLeft"]
+custom_minimum_size = Vector2(164, 188)
+tooltip_text = "[C]"
+theme_type_variation = &"IconButton"
+text = "ÇEK"
+icon = ExtResource("12_camera")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="FilesButton" type="Button" parent="Hud/BottomLeft"]
+custom_minimum_size = Vector2(120, 118)
+size_flags_vertical = 8
+tooltip_text = "[G]"
+theme_type_variation = &"IconButton"
+text = "DOSYALAR"
+icon = ExtResource("11_files")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="BottomRight" type="HBoxContainer" parent="Hud"]
+offset_left = 1660.0
+offset_top = 946.0
+offset_right = 1900.0
+offset_bottom = 1064.0
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="BookButton" type="Button" parent="Hud/BottomRight"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[B]"
+theme_type_variation = &"IconButton"
+text = "DEFTER"
+icon = ExtResource("13_book")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="MenuButton" type="Button" parent="Hud/BottomRight"]
+custom_minimum_size = Vector2(108, 118)
+tooltip_text = "[Esc]"
+theme_type_variation = &"IconButton"
+text = "MENÜ"
+icon = ExtResource("14_menu")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="DeliveryTray" parent="." instance=ExtResource("20_delivery")]
+
+[node name="BrewComic" parent="." instance=ExtResource("16_comic")]
+visible = false
+
+[node name="RecipeBook" parent="." instance=ExtResource("6_book")]
+visible = false
+
+[node name="CaseFile" parent="." instance=ExtResource("7_case")]
+visible = false
+
+[node name="Screens" type="Control" parent="."]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("8_screens")
+
+[node name="ScreenLayer" type="Control" parent="Screens"]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="ModalLayer" type="Control" parent="Screens"]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Flash" type="ColorRect" parent="."]
+mouse_filter = 2
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Toast" type="Label" parent="."]
+offset_left = 560.0
+offset_top = 150.0
+offset_right = 1360.0
+offset_bottom = 190.0
+theme_type_variation = &"HudText"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]

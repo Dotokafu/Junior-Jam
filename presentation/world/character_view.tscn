@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://presentation/world/character_view.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/characters/ada.png" id="2_preview"]
+
+[node name="CharacterView" type="Control"]
+mouse_filter = 2
+offset_right = 540.0
+offset_bottom = 780.0
+script = ExtResource("1_script")
+
+[node name="Body" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_right = 540.0
+offset_bottom = 780.0
+texture_filter = 2
+texture = ExtResource("2_preview")
+expand_mode = 1
+
+[node name="BalloonAnchor" type="Marker2D" parent="."]
+position = Vector2(432, 515)

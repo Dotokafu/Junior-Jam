@@ -1,0 +1,273 @@
+{
+  "days": [
+    {
+      "number": 1,
+      "headline": "SOKAĞA ÇIKMA SAATİ YİNE ÖNE ALINDI",
+      "morning": [
+        "Yeni anahtar sana yakışmış. Burası eskiden de sabaha kadar açık kalırdı.",
+        "Üst rafta ana malzemeler, altta eklemeler, süt her şeye gider… rafları doldurdum. Üç ölçüyü tarifteki sırayla koy; sütü en sona bırakırsan köpüğüne çizebilirsin. Demle, sonra servis et.",
+        "Akşam haberlerini dinle. Soluk bir yüz, birini suçlamaya yetmez. Ada hastaneden gelecek; ellerindeki kan kendi işi."
+      ],
+      "day": [
+        {
+          "character": "ada",
+          "order": "latte",
+          "dialogue": [
+            "Bütün gece ayaktaydım.",
+            "Hastanede yine elektrik kesildi. Kan bankasını elle soğuttuk.",
+            "İnsanlar üzerimdeki lekelere bakıyor.",
+            "Kimse ne kadar yorulduğumu sormuyor."
+          ],
+          "order_line": "Bana sıradan bir sabahı hatırlatacak bir şey ver. Kahvesi hafif kalsın, sütü bol olsun… yumuşak bir tat.",
+          "questions": [
+            {
+              "id": "where_from",
+              "answer": [
+                "Hastaneden. Ellerimdeki leke kan bankasından; temizlemeye vakit olmadı."
+              ]
+            },
+            {
+              "id": "sleep",
+              "answer": [
+                "Dün sabah, galiba. Güneş doğarken gözlerim kapandı, sonra yine çağırdılar."
+              ]
+            },
+            {
+              "id": "sirens",
+              "answer": [
+                "Ameliyathanedeydim. Siren çalınca kimse bıçağı bırakmaz."
+              ]
+            }
+          ]
+        },
+        {
+          "character": "mira",
+          "order": "tea",
+          "dialogue": [
+            "Postaneden çıktım, ellerim hâlâ titriyor.",
+            "Fotoğraf bazen gerçeği yakalar. Bazen yalnızca birinin en kötü anını."
+          ],
+          "order_line": "Titreyen ellere iyi gelecek bir şey… Nane ve limon ferahlığı iyi gelir derler, çayın buharı içimi ısıtsın.",
+          "questions": [
+            {
+              "id": "work",
+              "answer": [
+                "Mektup ayırıyorum. Çoğunun sahibi artık yok; yine de ayırıyorum."
+              ]
+            },
+            {
+              "id": "cold",
+              "answer": [
+                "İliklerime kadar. Bak, parmaklarım hâlâ buz gibi."
+              ]
+            },
+            {
+              "id": "previous_barista",
+              "answer": [
+                "Tanırdım. Hep aynı şarkıyı mırıldanırdı. Bir gece gitti, dönmedi."
+              ]
+            }
+          ]
+        }
+      ],
+      "night": [
+        {
+          "character": "eren",
+          "order": "red",
+          "dialogue": [
+            "Bu saatte açık olacağını söylemişti.",
+            "Kim mi? Senden önce tezgâhın arkasında duran kişi."
+          ],
+          "order_line": "Eskisi gibi bir şey. Sıcak… demir tadı önde olsun, kemiğin içindeki o eski kıvam gibi.",
+          "questions": [
+            {
+              "id": "where_from",
+              "answer": [
+                "Yürüyordum. Güneş tam tepedeydi, sokaklar bomboştu."
+              ]
+            },
+            {
+              "id": "cold",
+              "answer": [
+                "Soğuk mu? Hiç fark etmedim."
+              ]
+            },
+            {
+              "id": "previous_barista",
+              "answer": [
+                "Ellerini hatırlıyorum. Bardağı tutuşunu. Seninkiler de benziyor."
+              ]
+            }
+          ]
+        }
+      ],
+      "evening": [
+        "İsmim Vey. Sabahçı arkadaşının getiremediği şeyleri getiriyorum.",
+        "Rafın arkasını gördün. Artık hangi kapının ne zaman açıldığını biliyorsun.",
+        "Yarın sana fotoğraf çekmeyi öğretecekler. Bilgi de bir malzemedir. Kime verdiğine dikkat et."
+      ]
+    },
+    {
+      "number": 2,
+      "headline": "BELEDİYE: GÜVENLİK İÇİN YENİ KİMLİK TARAMASI",
+      "morning": [
+        "Dün gece tramvay çalışmıyordu. Yine de biri son tramvaydan indiğini söylüyormuş.",
+        "Polis bu fotoğraf makinesini bıraktı. Çektiğin her yüz için bir dava dosyası açılıyor.",
+        "Şüphelendiğin Fallen kayıtlarını bana verebilirsin. Vermemek de bir karar. Fotoğraf kanıt değildir; bunu unutma."
+      ],
+      "day": [
+        {
+          "character": "atlas",
+          "order": "espresso",
+          "dialogue": [
+            "Bir Uzun Gece. Kahvesi uykuyu kovacak kadar sert olsun, azıcık baharat sıcaklığıyla… Vardiya daha yeni bitti.",
+            "Gözüme mi bakıyorsun? Limandaki vinç beni iki parçaya ayıracaktı. Doktorlar birini kurtardı.",
+            "Defne bilir. Protez için evrakları onun kamyonuyla gönderdim."
+          ]
+        },
+        {
+          "character": "ilya",
+          "order": "red",
+          "dialogue": [
+            "Tezgâhın eski sahibi bana hep Kızıl Hatıra hazırlardı; kanı sıcak tutar, iliğin ağırlığıyla kıvam verirdi...",
+            "Arşivde ölüm kayıtlarını düzenliyorum. Yaşayanların evrakı daha karışık.",
+            "Bazen dosyanın üzerindeki tarih yanlış olur. Bazen dosyanın kendisi."
+          ]
+        }
+      ],
+      "night": [
+        {
+          "character": "ada",
+          "order": "mocha",
+          "dialogue": [
+            "Bu kez Son Işık. Kakaonun acılığı önce tarçın kokusuna karışsın, üstü süt olsun… eve gitmeden önce içimi ısıtsın.",
+            "Bugün Atlas diye bir işçiyi gördüm. Yeni gözüne alışamamış.",
+            "Kayıp kardeşimi arıyorum. Gece dışarı çıkmamın başka bir nedeni yok."
+          ]
+        },
+        {
+          "character": "saye",
+          "order": "hollow",
+          "dialogue": [
+            "Boşluk hazırlıyor musun? Safranın buruk acılığı, dokunun o tekinsiz ağırlığı... içimdeki eksikliği ancak o hissettirmiyor.",
+            "Kardeşimin fotoğrafını her yere astım. Artık onun yüzünü kendi yüzümden iyi biliyorum.",
+            "Sizin insanlarınız kaybolunca isimleri duvarlarda kalıyor. Bizimkiler hiç yaşamamış sayılıyor."
+          ]
+        }
+      ],
+      "evening": [
+        "İnsanların kimliklerini biriktiriyorsun. Bazıları onları koruduğunu sanıyor.",
+        "Bana insan fotoğrafları verirsen, kimin hangi sokaktan geçtiğini öğrenirim. Sonrasını sormayacaksın.",
+        "Karşılığında malzeme getiririm. Ama kapını hiç çalmamış birinin sessizliği de senin olacak."
+      ]
+    },
+    {
+      "number": 3,
+      "headline": "KAYIPLAR ARTIYOR · SİCİL SİSTEMİNDE ÇELİŞKİLER",
+      "morning": [
+        "Eski sicil kayıtlarını kontrol ettim. İlya aynı fotoğrafı ben çocukken de kullanıyordu.",
+        "Bir protez gözü, bir türün işareti sananlar var. Yanlış kişiyi bildirirsen geri alamayız.",
+        "Elinde Fallen olabileceğini düşündüğün biri var mı? Bugün de dosyaları alabilirim."
+      ],
+      "day": [
+        {
+          "character": "narin",
+          "order": "tea",
+          "dialogue": [
+            "Sığınak alabilir miyim? Çayın içine nane ferahlığıyla biraz limon… dersten önce sesimi ancak bu açıyor.",
+            "Çocuklara hâlâ sabah şarkıları öğretiyorum. Bazıları hiç gün doğumu görmemiş.",
+            "İlacım ellerimi buz gibi yapıyor. İnsanlar tokalaşmayı bıraktı."
+          ]
+        },
+        {
+          "character": "eren",
+          "order": "ashfall",
+          "dialogue": [
+            "Kül Yağmuru. Damağımda külün kuruluğu ve tuzun o yakıcı tadı kalsın... Bugün gün batmadan gelmek istedim.",
+            "Dün Vey bana eski bir fotoğrafımı gösterdi. Çekildiği günü hatırlıyorum; herkesin beni gömdüğü günü.",
+            "Sana da hiç hatırlamadığın bir geçmişten söz eden oldu mu?"
+          ]
+        }
+      ],
+      "night": [
+        {
+          "character": "mira",
+          "order": "espresso",
+          "dialogue": [
+            "Uzun Gece. Uyanık kalmak için o baharatlı, koyu kahveye ihtiyacım var... Bu ismi kim koyduysa ileri görüşlüymüş.",
+            "Dün çektiğim fotoğrafta bir yüz eksik. Aynadan değil, listeden silinmiş.",
+            "Bir fotoğrafı birine verdiğinde, yalnızca kâğıt vermiyorsun."
+          ]
+        },
+        {
+          "character": "ilya",
+          "order": "red",
+          "dialogue": [
+            "Kızıl Hatıra. Kanın ve iliğin o unutulmayan ağırlığı... Bugün adını daha iyi anlıyorum.",
+            "Senden önceki barista kimseyi bildirmedi. Sonra bu sokakta sabah gelmemeye başladı.",
+            "Sessizlik bazen bir taraf seçmektir. Bunu senden saklamayacağım."
+          ]
+        }
+      ],
+      "evening": [
+        "Bu gece mahalle boş. Bazı kapılar içeriden kilitli.",
+        "Defne kaç dosya aldı? İsim söyleme. Bazen yüzün yeterince konuşur.",
+        "Vereceğin her kayıt birini bulmamızı kolaylaştırır. Kararı başkasının verdiğini söyleyemezsin."
+      ]
+    },
+    {
+      "number": 4,
+      "headline": "SON GÜVENLİK ÇEMBERİ BU GECE KAPATILIYOR",
+      "morning": [
+        "Son teslimat. Akşam sokak kapanacak.",
+        "Bir taraf çok şey öğrenirse, öteki kimin konuştuğunu anlar. Ben de anlarım.",
+        "Bugün vereceğin dosyalar son listeye girecek. Sonra bu şehir aynı şehir olmayacak."
+      ],
+      "day": [
+        {
+          "character": "eren",
+          "order": "ashfall",
+          "dialogue": [
+            "Kül Yağmuru. Kül ve tuzun o bastırılamayan açlığı... Bugün pencereden ilk kez güneşi izledim.",
+            "Işık sandığım kadar acıtmıyormuş. Belki hep yanlış hikâyeyi dinledim.",
+            "Duvardaki fotoğrafına baktın mı? Eski sahibin fotoğrafına değil. Seninkine."
+          ]
+        },
+        {
+          "character": "atlas",
+          "order": "latte",
+          "dialogue": [
+            "Sabah Sisi. Annem gibi kahvesi hafif, sütü bol severim ben de.",
+            "Mahalledeki kayıpların fotoğrafları hep aynı açıdan çekilmiş. Bir tezgâhın karşısından.",
+            "Bana bakarken ne gördüğünü bilmiyorum. Yalnızca eve dönmek istiyorum."
+          ]
+        }
+      ],
+      "night": [
+        {
+          "character": "narin",
+          "order": "mocha",
+          "dialogue": [
+            "Son Işık. Tarçın ve kakaonun o yumuşak tesellisi... Bu gece adını değiştirmeyelim.",
+            "Çocuklar yarın ders var mı diye sordu. İlk kez bir cevabım yoktu.",
+            "Birini kurtarmak bazen yalnızca kapıyı açmaktır."
+          ]
+        },
+        {
+          "character": "saye",
+          "order": "hollow",
+          "dialogue": [
+            "Bir Boşluk daha. Dilimde safranın soğuk acısı kalsın... Son olsun.",
+            "Bunca gece boyunca kendine hiç içecek hazırlamadın.",
+            "Aç olmadığından mı? Yoksa ne istediğini hatırlamaktan mı korkuyorsun?"
+          ]
+        }
+      ],
+      "evening": [
+        "Bu gece son kez soruyorum. Elindeki insan kayıtlarından hangilerini vereceksin?",
+        "Az sonra dükkânın ışığı sönecek. Şehirde kalanlar verdiğin isimleri hatırlayacak.",
+        "Bir fincan daha var, barista. Bu kez kendin için."
+      ]
+    }
+  ]
+}
