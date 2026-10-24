@@ -230,6 +230,204 @@
         "salt"
 	  ],
 	  "description": "İki doku, bir tuz. Hiçbir şey hissetmeyenlere."
+	},
+	{
+	  "id": "bloody_coffee",
+	  "name": "Kanlı Kahve",
+	  "side": "fallen",
+	  "ingredients": [
+		"coffee",
+		"blood",
+		"cinnamon"
+	  ],
+	  "description": "Kavrulmuş kahve, taze kan ve bir tutam tarçın. İki dünyanın sınırında bir lezzet."
+	},
+	{
+	  "id": "iron_tea",
+	  "name": "Demir Çay",
+	  "side": "fallen",
+	  "ingredients": [
+		"tea",
+		"blood",
+		"lemon"
+	  ],
+	  "description": "Çay, kan ve limon. Metalik ve keskin bir sığınak."
+	},
+	{
+	  "id": "sweet_sin",
+	  "name": "Tatlı Günah",
+	  "side": "fallen",
+	  "ingredients": [
+		"blood",
+		"honey",
+		"cinnamon"
+	  ],
+	  "description": "Kan, bal ve tarçın. İnsanların unuttuğu tatlılığı arayanlara."
+	},
+	{
+	  "id": "bone_latte",
+	  "name": "Kemik Sisi",
+	  "side": "fallen",
+	  "ingredients": [
+		"coffee",
+		"marrow",
+		"milk"
+	  ],
+	  "description": "Kahve, ilik ve süt. İlik köpüğüyle yumuşayan koyu bir uyanış."
+	},
+	{
+	  "id": "dark_velvet",
+	  "name": "Karanlık Kadife",
+	  "side": "fallen",
+	  "ingredients": [
+		"cocoa",
+		"marrow",
+		"spice"
+	  ],
+	  "description": "Yoğun kakao, ilik ve baharat. Soğuk bedenleri içeriden ısıtan koyu bir tatlılık."
+	},
+	{
+	  "id": "marrow_tea",
+	  "name": "Kemik Çayı",
+	  "side": "fallen",
+	  "ingredients": [
+		"tea",
+		"marrow",
+		"honey"
+	  ],
+	  "description": "Çay, ilik ve bal. Boğazı saran yumuşak ve ağır bir şifa."
+	},
+	{
+	  "id": "ash_coffee",
+	  "name": "Küllü Kahve",
+	  "side": "fallen",
+	  "ingredients": [
+		"coffee",
+		"ash",
+		"spice"
+	  ],
+	  "description": "Kahve, kül ve baharat. Köz kokulu, uyuşturan bir sertlik."
+	},
+	{
+	  "id": "grey_matcha",
+	  "name": "Küllü Bahçe",
+	  "side": "fallen",
+	  "ingredients": [
+		"matcha",
+		"ash",
+		"milk"
+	  ],
+	  "description": "Matcha, kül ve süt. Sisli sabahların küllü yeşili."
+	},
+	{
+	  "id": "ash_cocoa",
+	  "name": "Kül Çikolatası",
+	  "side": "fallen",
+	  "ingredients": [
+		"cocoa",
+		"ash",
+		"cinnamon"
+	  ],
+	  "description": "Kakao, kül ve tarçın. Yangından geriye kalan tatlı bir hatıra."
+	},
+	{
+	  "id": "tissue_coffee",
+	  "name": "Derin Doku",
+	  "side": "fallen",
+	  "ingredients": [
+		"coffee",
+		"tissue",
+		"honey"
+	  ],
+	  "description": "Kahve, doku ve bal. Tezgâhın altında saklanan tatlı ve ağır bir harman."
+	},
+	{
+	  "id": "flesh_tea",
+	  "name": "Kırmızı Kök",
+	  "side": "fallen",
+	  "ingredients": [
+		"tea",
+		"tissue",
+		"mint"
+	  ],
+	  "description": "Çay, doku ve nane. Sıcak çayın içinde eriyen tekinsiz bir ferahlık."
+	},
+	{
+	  "id": "tissue_feast",
+	  "name": "Avcı Harmanı",
+	  "side": "fallen",
+	  "ingredients": [
+		"tissue",
+		"spice",
+		"lemon"
+	  ],
+	  "description": "Doku, baharat ve limon. Yaşayanların tadını özleyen gecelere."
+	},
+	{
+	  "id": "bile_coffee",
+	  "name": "Acı Safra",
+	  "side": "fallen",
+	  "ingredients": [
+		"coffee",
+		"bile",
+		"lemon"
+	  ],
+	  "description": "Kahve, safra ve limon. Çift kat acı ve asit, zihni buz gibi açar."
+	},
+	{
+	  "id": "yellow_tea",
+	  "name": "Zehirli Bal",
+	  "side": "fallen",
+	  "ingredients": [
+		"tea",
+		"bile",
+		"honey"
+	  ],
+	  "description": "Çay, safra ve bal. Safranın keskinliğini örten sahte bir tatlılık."
+	},
+	{
+	  "id": "bile_matcha",
+	  "name": "Zümrüt Safra",
+	  "side": "fallen",
+	  "ingredients": [
+		"matcha",
+		"bile",
+		"mint"
+	  ],
+	  "description": "Matcha, safra ve nane. Boğazı yakan buz gibi bir burukluk."
+	},
+	{
+	  "id": "salted_coffee",
+	  "name": "Tuzlu Ayaz",
+	  "side": "fallen",
+	  "ingredients": [
+		"coffee",
+		"salt",
+		"cinnamon"
+	  ],
+	  "description": "Kahve, tuz ve tarçın. Soğuk nöbetlerde damarları tutuşturan tuzlu kahve."
+	},
+	{
+	  "id": "salted_mocha",
+	  "name": "Tuzlu Gölge",
+	  "side": "fallen",
+	  "ingredients": [
+		"cocoa",
+		"salt",
+		"milk"
+	  ],
+	  "description": "Kakao, tuz ve süt. Tuz kristalleriyle zenginleşen sıcak çikolata."
+	},
+	{
+	  "id": "salted_tea",
+	  "name": "Buz Kervanı",
+	  "side": "fallen",
+	  "ingredients": [
+		"tea",
+		"salt",
+		"spice"
+	  ],
+	  "description": "Çay, tuz ve baharat. Kar fırtınasında kaybolanlara."
 	}
   ]
 }

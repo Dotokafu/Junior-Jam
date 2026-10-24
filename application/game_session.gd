@@ -368,8 +368,6 @@ func _switch_shelf() -> void:
 	if state.stage not in ["brewing", "tutorial"]:
 		return
 	state.shelf = "fallen" if state.shelf == "human" else "human"
-	state.selected = []
-	state.drink = {}
 	if state.tutorial == "switch_hint":
 		state.tutorial = "ready"
 		state.stage = "brewing"

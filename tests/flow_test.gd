@@ -75,6 +75,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			if session.content.ingredient_map[sequence[0]].side != state.shelf:
 				sequence = session.content.recipes[1].ingredients
 			for ingredient: String in sequence:
+				if session.content.ingredient_map[ingredient].side != state.shelf and state.tutorial in ["switch_hint", "ready"]:
+					command("shelf")
 				command("select", {"id": ingredient})
 			command("brew")
 			if state.drink.get("id", "custom") != "custom":

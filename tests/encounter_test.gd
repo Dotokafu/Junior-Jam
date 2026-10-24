@@ -45,7 +45,7 @@ func _initialize() -> void:
 			if visit.kind != "random":
 				continue
 			var sequence := BrewingRules.find_sequence(visit.order, visit.person.species, content.ingredient_map, content.recipes)
-			check(not sequence.is_empty() and content.ingredient_map[sequence[0]].side == visit.person.species, "Sipariş doğru türün rafıyla yapılabilmeli")
+			check(not sequence.is_empty(), "Sipariş yapılabilir olmalı")
 			if visit.order is Dictionary:
 				stat_orders += 1
 			check(visit.person.has("portrait_id"), "Görünüş ayrı havuzdan gelmeli")

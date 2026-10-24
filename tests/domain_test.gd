@@ -32,6 +32,13 @@ func _initialize() -> void:
 	check(is_equal_approx(mixed.r, 0.4 / 2.4), "Renk ağırlıkları baz baskın")
 	var drink := BrewingRules.brew(["coffee", "honey", "honey"], items, [], names)
 	check(drink.id == "custom" and drink.side == "human", "Tarifsiz içecek de servis edilebilir")
+	items["blood"] = {"name": "Kan", "adjective": "Kanlı", "side": "fallen", "base": true, "mix": true, "color": "974356",
+		"stats": {"warm": [3, 2, 1], "cool": [0, 0, 0], "sweet": [1, 1, 1], "bitter": [0, 0, 0]}}
+	var hybrid := BrewingRules.brew(["coffee", "blood", "honey"], items, [], names)
+	check(hybrid.id == "custom" and hybrid.side == "fallen", "Fallen içeren melez içecek fallen tarafına aittir")
+	var bloody_recipe := [{"id": "bloody_coffee", "side": "fallen", "ingredients": ["coffee", "blood", "honey"]}]
+	var bloody_drink := BrewingRules.brew(["coffee", "blood", "honey"], items, bloody_recipe, names)
+	check(bloody_drink.id == "bloody_coffee" and bloody_drink.side == "fallen", "Tarifli melez içecek tarifin tarafını alır")
 	check(BrewingRules.matches_order({"stats": {"sweet": 2}}, drink), "Tat siparişi tier ile karşılanır")
 	check(not BrewingRules.matches_order({"stats": {"sweet": 3}}, drink), "Yetersiz tier reddedilir")
 	check(not BrewingRules.matches_order("latte", drink), "Tarif siparişi kimlik ister")

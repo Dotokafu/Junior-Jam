@@ -81,13 +81,11 @@ func _shelf_items() -> Array:
 		ordered.append_array(items.filter(func(item: Dictionary) -> bool: return _role(item) == role))
 	return ordered
 
-## main: yalnızca baz (üst raf); free: baz + karışım (sağda, uzun); extra: yalnızca karışım (alt raf).
+## main: yalnızca baz (üst raf); free: süt/ilik gibi latte köpüğü olan uzun kutu (sağda); extra: karışım (alt raf).
 static func _role(item: Dictionary) -> String:
-	var base: bool = item.get("base", false)
-	var mix: bool = item.get("mix", false)
-	if base and mix:
+	if item.get("latte", false):
 		return "free"
-	return "main" if base else "extra"
+	return "main" if item.get("base", false) else "extra"
 
 func _ingredient_map() -> Dictionary:
 	var map := {}

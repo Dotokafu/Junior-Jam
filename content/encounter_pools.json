@@ -4,13 +4,17 @@
 	"guest_h01",
 	"guest_h02",
 	"guest_h03",
-    "guest_h04"
+	"guest_h04",
+	"guest_h05",
+	"guest_h06",
+    "guest_h07"
   ],
   "fallen": [
 	"guest_f01",
 	"guest_f02",
 	"guest_f03",
-    "guest_f04"
+	"guest_f04",
+    "guest_f05"
   ],
   "portraits": [
 	"defne",

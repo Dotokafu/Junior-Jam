@@ -112,7 +112,11 @@ static func brew(selected: Array, ingredients: Dictionary, recipes: Array, names
 	drink["latte_art_allowed"] = latte_art_allowed(selected, ingredients)
 	drink["latte_art"] = false
 	drink["art_color"] = art_color(selected, ingredients)
-	drink["side"] = ingredients[selected[0]].side
+	if not recipe.is_empty():
+		drink["side"] = str(recipe.get("side", ingredients[selected[0]].side))
+	else:
+		var has_fallen: bool = selected.any(func(id: String) -> bool: return ingredients.get(id, {}).get("side", "") == "fallen")
+		drink["side"] = "fallen" if has_fallen else str(ingredients[selected[0]].side)
 	drink["ingredients"] = selected.duplicate()
 	drink["stats"] = totals
 	drink["tiers"] = tiers(totals)
