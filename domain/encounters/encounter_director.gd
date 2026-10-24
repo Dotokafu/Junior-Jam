@@ -50,7 +50,16 @@ static func _random_visit(period: String, rng: RandomNumberGenerator, catalog: D
 		if product.is_empty():
 			return {}
 		order = product.id
-		request = catalog.pools.order_template.format({"drink": product.name})
+		var hint_phrase: String = ""
+		if product.has("description"):
+			var desc: String = product.description
+			var dot_idx := desc.find(". ")
+			if dot_idx != -1:
+				hint_phrase = desc.substr(dot_idx + 2).strip_edges().trim_suffix(".")
+		if not hint_phrase.is_empty() and catalog.pools.has("order_template_hint"):
+			request = catalog.pools.order_template_hint.format({"drink": product.name, "hint": hint_phrase})
+		else:
+			request = catalog.pools.order_template.format({"drink": product.name})
 	var templates: Array = person.get("smalltalk", catalog.pools.default_smalltalk)
 	var line: String = templates[rng.randi_range(0, templates.size() - 1)]
 	return {"character": person.id, "person": person, "order": order, "kind": "random", "mandatory": false,
