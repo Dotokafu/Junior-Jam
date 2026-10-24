@@ -246,7 +246,7 @@ func _advance_customer() -> void:
 			state.stage = "transition"
 		else:
 			state.phase = "night_supplier"
-			state.delivery_reported = false
+			state.delivery_reported = state.reported_day == state.day
 			_check_bad_ending("order")
 		state.visits = []
 
@@ -395,6 +395,9 @@ func _photograph() -> void:
 func _report(id: String) -> void:
 	if state.stage != "decision" or state.day < 2 or state.phase not in ["morning_supplier", "night_supplier"]:
 		return
+	if state.reported_day == state.day:
+		EventBus.feedback.emit(I18n.t("feedback.already_reported_today"))
+		return
 	var recipient := "human" if state.phase == "morning_supplier" else "fallen"
 	var target := "fallen" if recipient == "human" else "human"
 	for record: Dictionary in state.records:
@@ -405,6 +408,8 @@ func _report(id: String) -> void:
 					EventBus.feedback.emit(I18n.t("feedback.person_reported"))
 					return
 			record.reported_to = recipient
+			state.reported_day = state.day
+			state.delivery_reported = true
 			if record.truth != target:
 				state.wrong_reports += 1
 			elif target == "human":
@@ -415,7 +420,6 @@ func _report(id: String) -> void:
 			state.give_streak = state.give_streak + 1 if state.last_given == side else 0
 			state.last_given = side
 			state.suspicion = Suspicion.after_report(state.suspicion, side, state.give_streak, record.truth == target, _suspicion_rules())
-			state.delivery_reported = true
 			EventBus.feedback.emit(I18n.t("feedback.report_sent"))
 			_check_ending(false)
 			return

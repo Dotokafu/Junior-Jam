@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://presentation/ui/delivery_tray.gd" id="1_script"]
 [ext_resource type="Shader" path="res://presentation/ui/delivery_shade.gdshader" id="2_shade"]
 [ext_resource type="Script" path="res://presentation/ui/delivery_drop_zone.gd" id="3_drop"]
+[ext_resource type="Texture2D" path="res://assets/ui/polaroid.png" id="4_polaroid"]
+[ext_resource type="Texture2D" path="res://assets/ui/tape.png" id="5_tape"]
+[ext_resource type="Texture2D" path="res://assets/ui/clip.png" id="6_clip"]
 
 [sub_resource type="ShaderMaterial" id="ShadeMaterial"]
 shader = ExtResource("2_shade")
@@ -10,7 +13,7 @@ shader = ExtResource("2_shade")
 [node name="DeliveryTray" type="Control"]
 offset_right = 1920.0
 offset_bottom = 1080.0
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_script")
 
 [node name="Shade" type="ColorRect" parent="."]
@@ -23,24 +26,205 @@ offset_right = 540.0
 offset_bottom = 780.0
 script = ExtResource("3_drop")
 
+[node name="Folder" type="Control" parent="."]
+offset_left = 60.0
+offset_top = 480.0
+offset_right = 920.0
+offset_bottom = 1040.0
+
+[node name="Tab" type="PanelContainer" parent="Folder"]
+offset_left = 20.0
+offset_top = -42.0
+offset_right = 320.0
+offset_bottom = 4.0
+theme_type_variation = &"FolderTab"
+
+[node name="Header" type="Label" parent="Folder/Tab"]
+theme_type_variation = &"FileCaption"
+text = "DAVA DOSYASI · NO. 0001"
+
+[node name="NavPrev" type="Button" parent="Folder"]
+offset_left = 440.0
+offset_top = -42.0
+offset_right = 490.0
+offset_bottom = 4.0
+text = "◀"
+
+[node name="NavCount" type="Label" parent="Folder"]
+offset_left = 495.0
+offset_top = -42.0
+offset_right = 615.0
+offset_bottom = 4.0
+theme_type_variation = &"FileCaption"
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "1 / 1"
+
+[node name="NavNext" type="Button" parent="Folder"]
+offset_left = 620.0
+offset_top = -42.0
+offset_right = 670.0
+offset_bottom = 4.0
+text = "▶"
+
+[node name="LeftPage" type="Panel" parent="Folder"]
+offset_right = 426.0
+offset_bottom = 560.0
+theme_type_variation = &"FolderPage"
+
+[node name="RightPage" type="Panel" parent="Folder"]
+offset_left = 424.0
+offset_right = 860.0
+offset_bottom = 560.0
+theme_type_variation = &"FolderPage"
+
+[node name="Crease" type="ColorRect" parent="Folder"]
+mouse_filter = 2
+offset_left = 420.0
+offset_top = 6.0
+offset_right = 434.0
+offset_bottom = 554.0
+color = Color(0.62, 0.47, 0.27, 1)
+
+[node name="Polaroid" type="Control" parent="Folder"]
+offset_left = 113.0
+offset_top = 24.0
+offset_right = 313.0
+offset_bottom = 264.0
+rotation = -0.03
+
+[node name="Photo" type="TextureRect" parent="Folder/Polaroid"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 180.0
+offset_bottom = 180.0
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Frame" type="TextureRect" parent="Folder/Polaroid"]
+offset_right = 200.0
+offset_bottom = 240.0
+texture = ExtResource("4_polaroid")
+expand_mode = 1
+
+[node name="Tape" type="TextureRect" parent="Folder/Polaroid"]
+offset_left = 55.0
+offset_top = -12.0
+offset_right = 145.0
+offset_bottom = 22.0
+texture = ExtResource("5_tape")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="Folder"]
+offset_left = 20.0
+offset_top = 275.0
+offset_right = 410.0
+offset_bottom = 325.0
+theme_type_variation = &"FileText"
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
+
+[node name="Guess" type="Label" parent="Folder"]
+offset_left = 20.0
+offset_top = 325.0
+offset_right = 410.0
+offset_bottom = 375.0
+theme_type_variation = &"FileCaption"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="GiveDossierButton" type="Button" parent="Folder"]
+offset_left = 50.0
+offset_top = 385.0
+offset_right = 376.0
+offset_bottom = 445.0
+theme_type_variation = &"PrimaryButton"
+text = "Bu Dosyayı Teslim Et"
+
+[node name="ScrollHint" type="Label" parent="Folder"]
+offset_left = 20.0
+offset_top = 460.0
+offset_right = 410.0
+offset_bottom = 540.0
+theme_type_variation = &"FileCaption"
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 3
+text = "↕ Fare tekerleğiyle diğer dosyaya geç
+[1–9] Kart kısayolu · [◀ ▶] Gezin"
+
+[node name="Paper" type="PanelContainer" parent="Folder"]
+offset_left = 445.0
+offset_top = 24.0
+offset_right = 840.0
+offset_bottom = 536.0
+rotation = 0.01
+theme_type_variation = &"PaperPanel"
+
+[node name="Box" type="VBoxContainer" parent="Folder/Paper"]
+theme_override_constants/separation = 6
+
+[node name="Number" type="Label" parent="Folder/Paper/Box"]
+theme_type_variation = &"FileCaption"
+horizontal_alignment = 2
+
+[node name="ObservationCaption" type="Label" parent="Folder/Paper/Box"]
+theme_type_variation = &"FileCaption"
+text = "GÖZLEM"
+
+[node name="Observation" type="Label" parent="Folder/Paper/Box"]
+custom_minimum_size = Vector2(340, 0)
+theme_type_variation = &"FileText"
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+
+[node name="RecordCaption" type="Label" parent="Folder/Paper/Box"]
+theme_type_variation = &"FileCaption"
+text = "SİCİL KAYDI"
+
+[node name="Record" type="Label" parent="Folder/Paper/Box"]
+custom_minimum_size = Vector2(340, 0)
+theme_type_variation = &"FileText"
+theme_override_font_sizes/font_size = 20
+autowrap_mode = 3
+
+[node name="Clip" type="TextureRect" parent="Folder"]
+offset_left = 590.0
+offset_top = 4.0
+offset_right = 670.0
+offset_bottom = 60.0
+texture = ExtResource("6_clip")
+expand_mode = 1
+
+[node name="Stamp" type="Label" parent="Folder"]
+visible = false
+offset_left = 460.0
+offset_top = 260.0
+offset_right = 820.0
+offset_bottom = 330.0
+pivot_offset = Vector2(180, 35)
+rotation = -0.21
+theme_type_variation = &"Stamp"
+horizontal_alignment = 1
+
 [node name="Hint" type="Label" parent="."]
-offset_left = 300.0
-offset_top = 772.0
-offset_right = 1440.0
-offset_bottom = 812.0
+offset_left = 940.0
+offset_top = 752.0
+offset_right = 1460.0
+offset_bottom = 792.0
 theme_type_variation = &"HudText"
 horizontal_alignment = 1
 
 [node name="Tray" type="HBoxContainer" parent="."]
-offset_left = 300.0
-offset_top = 820.0
-offset_right = 1440.0
-offset_bottom = 1056.0
-theme_override_constants/separation = 24
+offset_left = 940.0
+offset_top = 800.0
+offset_right = 1460.0
+offset_bottom = 1040.0
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="FinishButton" type="Button" parent="."]
-offset_left = 1460.0
+offset_left = 1480.0
 offset_top = 972.0
 offset_right = 1896.0
 offset_bottom = 1036.0

@@ -33,6 +33,7 @@ var suspicion: Dictionary = {"state": 0, "order": 0}
 var last_given: String = ""
 var give_streak: int = 0
 var delivery_reported: bool = false
+var reported_day: int = 0
 var interrogated: Array = []
 var interrogation: String = ""
 var verdict: String = ""
@@ -50,7 +51,7 @@ func serialize() -> Dictionary:
 		"served": served, "ending": ending.duplicate(), "notes": notes.duplicate(),
 		"asked": asked.duplicate(), "answering": answering, "marks": marks.duplicate(true),
 		"suspicion": suspicion.duplicate(), "last_given": last_given, "give_streak": give_streak,
-		"delivery_reported": delivery_reported, "interrogated": interrogated.duplicate(),
+		"delivery_reported": delivery_reported, "reported_day": reported_day, "interrogated": interrogated.duplicate(),
 		"interrogation": interrogation, "verdict": verdict, "discovered": discovered.duplicate()
 	}
 
