@@ -153,6 +153,7 @@
   "drink.name_strong": "Koyu {adj} {base}",
   "drink.name_mix": "{first} {second} {base}",
   "error.unreachable_order": "Hiçbir karışımla yapılamayan tat siparişi: ",
+  "error.invalid_questions": "Geçersiz sorgu (soru havuzda yok ya da cevap boş): ",
   "error.ingredient_stats": "Malzemenin warm/cool/sweet/bitter değerleri üçer sayı olmalı: ",
   "error.recipe_order": "Tarifin ilk malzemesi baz, diğerleri karışım olmalı: ",
   "hud.auto": "AUTO",

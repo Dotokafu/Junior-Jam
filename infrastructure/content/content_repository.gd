@@ -2,6 +2,7 @@ class_name ContentRepository
 extends RefCounted
 ## İçerik sınırı. JSON dosyaları yalnızca burada okunur ve doğrulanır.
 const Brewing = preload("res://domain/brewing/brewing_rules.gd")
+const MAX_QUESTIONS := 4
 var ingredients: Array = []
 var ingredient_map: Dictionary = {}
 var recipes: Array = []
@@ -34,13 +35,7 @@ func load_all() -> bool:
 		characters[person.id] = person
 	_validate_ingredients()
 	var recipe_ids := _validate_recipes()
-	for day: Dictionary in days:
-		for period: String in ["day", "night"]:
-			if day.get(period, []).is_empty():
-				errors.append(_message("error.empty_shift") + str(day.get("number", "?")))
-			for visit: Dictionary in day.get(period, []):
-				if not characters.has(visit.character) or not _valid_order(visit.get("order"), characters[visit.character].species, recipe_ids):
-					errors.append(_message("error.invalid_visit") + str(visit))
+	validate_visits(recipe_ids)
 	if days.is_empty() or ingredients.is_empty() or recipes.is_empty() or endings.is_empty():
 		errors.append(_message("error.missing_content"))
 	for side: String in ["human", "fallen", "portraits"]:
@@ -56,6 +51,35 @@ func load_all() -> bool:
 			if not _valid_order(order, side, recipe_ids):
 				errors.append(_message("error.unreachable_order") + str(order))
 	return errors.is_empty()
+
+## Hikâye ziyaretleri: karakter, sipariş ve (varsa) sorgu alanları. Testler içeriği bozup tekrar çağırabilir.
+func validate_visits(recipe_ids: Array = []) -> void:
+	if recipe_ids.is_empty():
+		recipe_ids = recipes.map(func(recipe: Dictionary) -> String: return recipe.id)
+	for day: Dictionary in days:
+		for period: String in ["day", "night"]:
+			if day.get(period, []).is_empty():
+				errors.append(_message("error.empty_shift") + str(day.get("number", "?")))
+			for visit: Dictionary in day.get(period, []):
+				if not characters.has(visit.character) or not _valid_order(visit.get("order"), characters[visit.character].species, recipe_ids):
+					errors.append(_message("error.invalid_visit") + str(visit))
+				elif not _valid_questions(visit):
+					errors.append(_message("error.invalid_questions") + str(visit.character))
+
+## questions: en fazla MAX_QUESTIONS; her soru havuzdaki bir kimlik ve boş olmayan cevap satırları.
+func _valid_questions(visit: Dictionary) -> bool:
+	if visit.has("order_line") and not visit.order_line is String:
+		return false
+	var questions: Variant = visit.get("questions", [])
+	if not questions is Array or questions.size() > MAX_QUESTIONS:
+		return false
+	for question: Variant in questions:
+		if not question is Dictionary or not pools.get("questions", {}).has(question.get("id", "")):
+			return false
+		var answer: Variant = question.get("answer", [])
+		if not answer is Array or answer.is_empty():
+			return false
+	return true
 
 func _validate_ingredients() -> void:
 	for item: Dictionary in ingredients:

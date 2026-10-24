@@ -61,6 +61,9 @@ func simulate(strategy: String, mode: String = "story") -> void:
 				side = "human" if side == "fallen" else "fallen"
 			var sequence: Array = BrewingRules.find_sequence(wanted, side, session.content.ingredient_map, session.content.recipes)
 			check(not sequence.is_empty(), "Sipariş yapılabilir olmalı: " + str(wanted))
+			if strategy == "mistakes" and not BrewingRules.can_consume(sequence, state.stock):
+				# Yanlış rafın stoğu tükendiyse doğru içecek: stok sınırı stratejiyi kilitlemesin.
+				sequence = BrewingRules.find_sequence(visit.order, session._person().species, session.content.ingredient_map, session.content.recipes)
 			if session.content.ingredient_map[sequence[0]].side != state.shelf:
 				command("shelf")
 			# İlk günün gündüzünde gizli menüye zorla erişilemez.
@@ -92,8 +95,9 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			check(snapshot.questions.size() == questions.size(), "Sorgu sırasında sorular görünmeli")
 			check(not str(snapshot.questions).contains("answer") and not snapshot.visit.has("questions"), "Cevaplar sorulmadan görünmemeli")
 			if state.asked.size() < InterrogationRules.QUESTION_LIMIT and state.asked.size() < questions.size():
+				var was_marked: bool = snapshot.marked
 				command("mark")
-				check(session.state.marks.get(session._record_id(), []).has(snapshot.line), "Görünen cümle işaretlenmeli")
+				check(session.state.marks.get(session._record_id(), []).has(snapshot.line) != was_marked, "İşaretle görünen cümleyi açıp kapamalı")
 				command("ask", {"index": state.asked.size()})
 				check(state.stage == "answer", "Soru sorunca cevap gelmeli")
 				interviewed = true
