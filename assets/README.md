@@ -21,6 +21,7 @@ oyunda **×3** büyütülür (keskin `nearest` filtre). Yani 1 çizim pikseli = 
 | `ui/icons/camera_device.png` | 48×48 (kayıtta ×3) | Tezgâhtaki kare anlık fotoğraf makinesi; polaroid üst yarıktan çıkar |
 | `ui/polaroid.png` | 40×48 | Polaroid çerçevesi; ortadaki 32×32 alan **şeffaf** kalmalı (fotoğraf arkadan görünür) |
 | `ui/tape.png`, `ui/clip.png` | 18×7, 32×22 | Fotoğrafı tutan bant ve kâğıdı tutan mandal |
+| (teslim ekranı) | — | Polaroid kartları `ui/polaroid.png` çerçevesini ve kişinin çiziminden kesilen fotoğrafı kullanır; ayrı görsel gerekmez |
 | `ui/logo.png` | 108×30 | Oyun logosu (giriş ekranı, ×6). Yer tutucu: COFFALLEN, bir F düşmüş |
 | `ui/segment_on.png`, `ui/segment_off.png` | 5×8 (kayıtta ×3) | Makinedeki tat çubuğu kareleri; dolu kare **beyaz** çizilir, oyun boyar |
 | `cafe/shutter.png` | 12×12 (kayıtta ×3) | Kepenk perdesi, döşenerek uzar |
