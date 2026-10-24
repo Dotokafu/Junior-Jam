@@ -78,6 +78,7 @@ func _on_command(action: String, payload: Dictionary) -> void:
 			"report": _report(str(payload.get("id", "")))
 			"ask": _ask(int(payload.get("index", -1)))
 			"mark": _mark()
+			"answer_interrogation": _answer_interrogation(int(payload.get("index", -1)))
 	_publish()
 	if not started or not persistence_enabled:
 		return
@@ -172,13 +173,11 @@ func _person() -> Dictionary:
 func _lines() -> Array:
 	var day := _day_content()
 	if state.phase == "morning_supplier":
-		if state.mode == "endless" and state.day > 1:
-			return content.pools.endless_morning
-		return day.morning
+		var morning: Array = content.pools.endless_morning if state.mode == "endless" and state.day > 1 else day.morning
+		return _with_suspicion_line(morning, "state")
 	if state.phase == "night_supplier":
-		if state.mode == "endless" and state.day > 1:
-			return content.pools.endless_evening
-		return day.evening
+		var evening: Array = content.pools.endless_evening if state.mode == "endless" and state.day > 1 else day.evening
+		return _with_suspicion_line(evening, "order")
 	if state.stage == "answer":
 		var questions: Array = _visit().get("questions", [])
 		if state.answering >= 0 and state.answering < questions.size():
@@ -202,7 +201,7 @@ func _next() -> void:
 		state.line_index += 1
 		if state.line_index >= _lines().size():
 			if state.phase in ["morning_supplier", "night_supplier"]:
-				state.stage = "decision"
+				_start_delivery_decision()
 			elif _visit().get("questions", []).is_empty():
 				state.stage = "brewing"
 			else:
@@ -216,6 +215,9 @@ func _next() -> void:
 		state.stage = "brewing"
 	elif state.stage == "reaction":
 		_advance_customer()
+	elif state.stage == "verdict":
+		state.verdict = ""
+		state.stage = "decision"
 	elif state.stage == "decision":
 		_finish_delivery()
 
@@ -420,6 +422,50 @@ func _check_ending(final_night: bool) -> void:
 	if result.id != "":
 		_end(result.id)
 
+## Tedarikçinin satırları bitti. O tarafın şüphesi tehdit seviyesindeyse ve daha önce sorgulanmadıysan
+## önce sorgu gelir; sonra dosya teslimi.
+func _start_delivery_decision() -> void:
+	var side := _supplier_side()
+	var rules := _suspicion_rules()
+	if state.day >= 2 and side not in state.interrogated and Suspicion.level(int(state.suspicion[side]), rules) == "threat":
+		state.interrogated.append(side)
+		state.interrogation = side
+		state.stage = "questioning"
+		return
+	state.stage = "decision"
+
+func _answer_interrogation(index: int) -> void:
+	if state.stage != "questioning":
+		return
+	var answers: Array = content.pools.interrogations[state.interrogation].answers
+	if index < 0 or index >= answers.size():
+		return
+	state.suspicion = Suspicion.after_answer(state.suspicion, state.interrogation, int(answers[index].effect), _suspicion_rules())
+	state.verdict = str(answers[index].reply)
+	state.interrogation = ""
+	state.stage = "verdict"
+
+## Tedarikçinin satırlarına, o tarafın şüphe seviyesine göre bir tavır satırı eklenir (sakinse eklenmez).
+func _with_suspicion_line(lines: Array, side: String) -> Array:
+	var level := Suspicion.level(int(state.suspicion[side]), _suspicion_rules())
+	if level == "calm" or state.day < 2:
+		return lines
+	var variants: Array = content.pools.get("suspicion_lines", {}).get(side, {}).get(level, [])
+	if variants.is_empty():
+		return lines
+	var result := lines.duplicate()
+	result.append(variants[state.day % variants.size()])
+	return result
+
+## Şafakta kepengin altından gelen not: şüphesi en yüksek tarafın seviyesine göre; ikisi de sakinse yok.
+func _door_note() -> String:
+	var rules := _suspicion_rules()
+	var side := "state" if int(state.suspicion.state) >= int(state.suspicion.order) else "order"
+	var level := Suspicion.level(int(state.suspicion[side]), rules)
+	if level == "calm":
+		return ""
+	return str(content.pools.get("door_notes", {}).get(side, {}).get(level, ""))
+
 ## Teslimat biter: sorulup dosya verilmediyse soran işkillenir; o tarafın şüphesi dolduysa kötü son
 ## bu teslimatın sonunda gelir; yoksa gün ilerler.
 func _finish_delivery() -> void:
@@ -488,6 +534,10 @@ func snapshot() -> Dictionary:
 		view.line = I18n.t("dialogue.discovery")
 	elif state.stage == "reaction":
 		view.line = I18n.t(state.drink.reaction_key) if state.drink.has("reaction_key") else ""
+	elif state.stage == "questioning" and content_ok:
+		view.line = str(content.pools.interrogations[state.interrogation].line)
+	elif state.stage == "verdict":
+		view.line = state.verdict
 	elif state.stage == "decision":
 		var ask := "dialogue.ask_state" if state.phase == "morning_supplier" else "dialogue.ask_order"
 		view.line = I18n.t(ask) if state.day >= 2 else I18n.t("dialogue.delivery_done")
@@ -498,7 +548,12 @@ func snapshot() -> Dictionary:
 		var questions: Array = _visit().get("questions", [])
 		for i in range(questions.size()):
 			view.questions.append({"text": str(content.pools.get("questions", {}).get(questions[i].get("id", ""), "")), "asked": i in state.asked})
-	view["questions_left"] = Interrogation.questions_left(state.asked)
+	if content_ok and state.stage == "questioning":
+		for answer: Dictionary in content.pools.interrogations[state.interrogation].answers:
+			view.questions.append({"text": str(answer.text), "asked": false})
+	# Sorguda kalan hak satırı gösterilmez (-1).
+	view["questions_left"] = -1 if state.stage == "questioning" else Interrogation.questions_left(state.asked)
+	view["door_note"] = _door_note() if content_ok and state.phase == "dawn" else ""
 	view["marked"] = view.line != "" and view.line in state.marks.get(_record_id(), [])
 	view.records = []
 	for record: Dictionary in state.records:

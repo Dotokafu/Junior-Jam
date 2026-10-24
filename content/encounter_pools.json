@@ -35,6 +35,76 @@
     "previous_barista": "Benden öncekini tanır mıydın?",
     "work": "Ne iş yaparsın?"
   },
+  "suspicion_lines": {
+    "state": {
+      "wary": [
+        "Komşular gece ışıklarının yandığını söylüyor. Ben söylemedim; onlar söylüyor."
+      ],
+      "threat": [
+        "Senin hakkında bir dosya açıldı. Benim elimden geçerse kapanır. Geçmezse… geçmezse bilmiyorum."
+      ]
+    },
+    "order": {
+      "wary": [
+        "Sabahçı arkadaşınla çok konuşuyorsun. Ne konuştuğunuzu merak ediyoruz."
+      ],
+      "threat": [
+        "Bazıları senin kapına bir daha gelmememizi istiyor. Ben henüz onlardan biri değilim."
+      ]
+    }
+  },
+  "interrogations": {
+    "state": {
+      "line": "Otur. Gece kepengin arkasında ne var? Bana doğruyu söyle, gerisini ben hallederim.",
+      "answers": [
+        {
+          "text": "Eski raflar. Öncekinden kaldı, boş.",
+          "effect": -15,
+          "reply": "Boş. Peki. Bir dahaki sefere o “boş” rafların fotoğrafını çekerim."
+        },
+        {
+          "text": "Kimseye bir şey vermiyorum, kahve dışında.",
+          "effect": 5,
+          "reply": "Kahve dışında. Bu cümleyi ezberlemişsin."
+        },
+        {
+          "text": "Bilmek istemezsin, Defne.",
+          "effect": 15,
+          "reply": "İstemem. Ama raporu yazacak olan benim."
+        }
+      ]
+    },
+    "order": {
+      "line": "Kapıyı kilitle. Polise bizden bahsettin mi? Gözlerime bakarak söyle.",
+      "answers": [
+        {
+          "text": "Hayır. Onlara sadece kahve veriyorum.",
+          "effect": -15,
+          "reply": "Sadece kahve. İyi. Biz de sana sadece zaman veriyoruz."
+        },
+        {
+          "text": "Bana soru soruyorlar, ben de cevap veriyorum.",
+          "effect": 10,
+          "reply": "Cevap veriyorsun. Neyi, kime… bunları da sayıyoruz."
+        },
+        {
+          "text": "Kimin tarafında olduğumu bilmiyorum.",
+          "effect": 5,
+          "reply": "Bilmiyorsan ikimiz de senin yerine karar veririz."
+        }
+      ]
+    }
+  },
+  "door_notes": {
+    "state": {
+      "wary": "Kepengin altından bir kâğıt: “Saat dörtte ışıkların yanıyordu.”",
+      "threat": "Kapıda resmi bir zarf. İçinde yalnızca kafenin fotoğrafı var; tarih bugünün."
+    },
+    "order": {
+      "wary": "Kapının önünde, sabaha kadar sönmemiş tek bir mum.",
+      "threat": "Kepenge tırnakla kazınmış tek bir kelime: “SAY.”"
+    }
+  },
   "endless_visits": {
     "day": 3,
     "night": 4

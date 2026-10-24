@@ -6,6 +6,7 @@ var failures: int = 0
 var tutorial_checked: bool = false
 var latte_seen: bool = false
 var interviewed: bool = false
+var questioned: bool = false
 
 func check(ok: bool, message: String) -> void:
 	if not ok:
@@ -24,6 +25,7 @@ func run() -> void:
 	simulate("silent", "endless")
 	check(latte_seen, "Akışta en az bir latte art'lı içecek denenmeli")
 	check(interviewed, "Akışta en az bir müşteri sorgulanmalı")
+	check(questioned, "Şüphe yükselince en az bir sorgu sahnesi yaşanmalı")
 	print("FLOW: ", "PASS" if failures == 0 else "FAIL", " (", failures, " hata)")
 	quit(failures)
 
@@ -109,6 +111,15 @@ func simulate(strategy: String, mode: String = "story") -> void:
 				check(state.asked.size() == before, "Sorulmuş soru ya da hak bitince soru sorulamaz")
 				command("next")
 				check(state.stage == "brewing", "Sorgudan siparişe geçilmeli")
+		elif state.stage == "questioning":
+			check(snapshot.questions.size() >= 2 and snapshot.line != "", "Sorguda soru ve cevaplar görünmeli")
+			var before: Dictionary = state.suspicion.duplicate()
+			command("answer_interrogation", {"index": 0})
+			check(state.stage == "verdict" and state.suspicion != before, "Sorgu cevabı şüpheyi oynatmalı")
+			questioned = true
+		elif state.stage == "verdict":
+			command("next")
+			check(state.stage in ["decision", "ending"], "Sorgudan sonra teslimat sürmeli")
 		elif state.stage == "answer":
 			command("next")
 		elif state.stage == "reaction":
