@@ -7,6 +7,8 @@ signal finish_requested
 const Card = preload("res://presentation/ui/delivery_card.gd")
 const CaseFile = preload("res://presentation/ui/case_file.gd")
 const HOLE_MARGIN := 18.0
+## Onay, Vey'in/Defne'nin sözünün devamı gibi konuşma kutusunun hemen altında durur.
+const CONFIRM_GAP := 14.0
 var is_active: bool = false
 var view: Dictionary = {}
 var pending: String = ""
@@ -93,7 +95,9 @@ func _process(_delta: float) -> void:
 	drop_zone.size = person.size
 	var shade_material := shade.material as ShaderMaterial
 	shade_material.set_shader_parameter("hole_a", _hole(person))
-	shade_material.set_shader_parameter("hole_b", _hole(balloon_panel.get_global_rect()))
+	var balloon_rect := balloon_panel.get_global_rect()
+	shade_material.set_shader_parameter("hole_b", _hole(balloon_rect))
+	confirm.position = Vector2(balloon_rect.position.x, balloon_rect.end.y + CONFIRM_GAP)
 
 func _hole(rect: Rect2) -> Vector4:
 	var grown := rect.grow(HOLE_MARGIN)
@@ -126,7 +130,9 @@ func _pick(record_id: String) -> void:
 		if record.id == record_id:
 			pending = record_id
 			confirm_text.text = I18n.t("delivery.confirm", {"name": record.name})
+			confirm.reset_size()
 			confirm.show()
+			hint.hide()
 			return
 
 func _give() -> void:
@@ -135,8 +141,10 @@ func _give() -> void:
 	var record_id := pending
 	pending = ""
 	confirm.hide()
+	hint.show()
 	report_requested.emit(record_id)
 
 func _cancel() -> void:
 	pending = ""
 	confirm.hide()
+	hint.show()

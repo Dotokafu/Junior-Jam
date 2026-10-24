@@ -35,7 +35,7 @@ func hide_person() -> void:
 
 ## Karşıdaki kişinin ekrandaki dikdörtgeni (teslim ekranında aydınlık kalan ve polaroidin bırakıldığı yer).
 func character_rect() -> Rect2:
-	return character.body.get_global_rect()
+	return character.art_rect()
 
 ## Kamera kayarken bile kameranın varacağı yere göre hesaplanır.
 func balloon_point() -> Vector2:

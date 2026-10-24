@@ -193,6 +193,22 @@ func run() -> void:
 	bus.request("next")
 	await settle(1.0)
 	check(session.state.stage == "decision" and screen.balloon.panel.size.y < 450.0, "Teslimat kutusu dikeyde uzamamalı: %.0f px" % screen.balloon.panel.size.y)
+	# Teslim ekranı: gölge + polaroid tepsisi; polaroid teslimatçıya gerçek fareyle sürüklenir, onaylanır.
+	check(screen.delivery.is_active and screen.delivery.tray.get_child_count() >= 1, "Teslimatta polaroid tepsisi açılmalı")
+	await capture("delivery")
+	if screen.delivery.tray.get_child_count() >= 1:
+		var card: Control = screen.delivery.tray.get_child(0)
+		var given_id: String = card.record_id
+		var from: Vector2 = card.get_global_rect().get_center()
+		var target: Vector2 = screen.delivery.drop_zone.get_global_rect().get_center()
+		await drag([from, from + Vector2(0, -40), target], [0.15, 0.15, 0.2])
+		await settle(0.3)
+		check(screen.delivery.confirm.visible, "Polaroidi teslimatçıya bırakınca onay sorulmalı")
+		await capture("delivery_confirm")
+		await click(locale.t("delivery.give"))
+		await settle(0.4)
+		var given: Array = session.state.records.filter(func(record: Dictionary) -> bool: return record.id == given_id)
+		check(not given.is_empty() and given[0].reported_to == "fallen", "Onaylanınca dosya Vey'e teslim edilmeli")
 	# Şafak: kapı notu ekranda.
 	session.state.phase = "dawn"
 	session.state.stage = "transition"

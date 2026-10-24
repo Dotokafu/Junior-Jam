@@ -24,40 +24,41 @@ offset_bottom = 780.0
 script = ExtResource("3_drop")
 
 [node name="Hint" type="Label" parent="."]
-offset_left = 360.0
+offset_left = 300.0
 offset_top = 772.0
-offset_right = 1560.0
+offset_right = 1440.0
 offset_bottom = 812.0
 theme_type_variation = &"HudText"
 horizontal_alignment = 1
 
 [node name="Tray" type="HBoxContainer" parent="."]
-offset_left = 360.0
+offset_left = 300.0
 offset_top = 820.0
-offset_right = 1560.0
+offset_right = 1440.0
 offset_bottom = 1056.0
 theme_override_constants/separation = 24
 alignment = 1
 
 [node name="FinishButton" type="Button" parent="."]
-offset_left = 1580.0
-offset_top = 980.0
-offset_right = 1900.0
-offset_bottom = 1044.0
+offset_left = 1460.0
+offset_top = 972.0
+offset_right = 1896.0
+offset_bottom = 1036.0
+grow_horizontal = 0
 
 [node name="Confirm" type="PanelContainer" parent="."]
 visible = false
-offset_left = 660.0
-offset_top = 560.0
-offset_right = 1260.0
-offset_bottom = 740.0
+offset_left = 860.0
+offset_top = 720.0
+offset_right = 1424.0
+offset_bottom = 840.0
 theme_type_variation = &"BalloonPanel"
 
 [node name="Box" type="VBoxContainer" parent="Confirm"]
 theme_override_constants/separation = 14
 
 [node name="Text" type="Label" parent="Confirm/Box"]
-custom_minimum_size = Vector2(520, 0)
+custom_minimum_size = Vector2(500, 0)
 theme_type_variation = &"HudText"
 autowrap_mode = 3
 
