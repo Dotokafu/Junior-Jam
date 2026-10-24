@@ -44,6 +44,7 @@ theme_override_constants/separation = 12
 visible = false
 
 [node name="Hint" type="Label" parent="Panel/Box/Footer"]
+custom_minimum_size = Vector2(220, 0)
 size_flags_horizontal = 3
 theme_type_variation = &"Caption"
 autowrap_mode = 3

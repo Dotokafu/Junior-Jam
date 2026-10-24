@@ -189,6 +189,10 @@ func run() -> void:
 	await click(first_answer)
 	await settle(0.3)
 	check(session.state.stage == "verdict" and session.state.suspicion.order != 70, "Cevaba tıklamak şüpheyi oynatmalı")
+	# Teslimat sorusu ilk kez açılınca kutu ekranın altına uzamamalı (ipucu yazısı ilk karede 1 px genişlikte hesaplanıyordu).
+	bus.request("next")
+	await settle(1.0)
+	check(session.state.stage == "decision" and screen.balloon.panel.size.y < 450.0, "Teslimat kutusu dikeyde uzamamalı: %.0f px" % screen.balloon.panel.size.y)
 	# Şafak: kapı notu ekranda.
 	session.state.phase = "dawn"
 	session.state.stage = "transition"
