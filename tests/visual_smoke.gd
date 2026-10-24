@@ -171,6 +171,32 @@ func run() -> void:
 	check(screen.brew_panel.is_open and not screen.case_file.visible and screen.modal == "", "Demlemeye geçince dava dosyası kapanmalı")
 	screen._close_modal()
 	await settle(0.5)
+	# Örgütün şüphesi tehdit seviyesinde: Vey'in teslimatında sorgu açılır, cevaba gerçek tıklanır.
+	session.state.suspicion = {"state": 0, "order": 70}
+	session.state.interrogated = []
+	session.state.phase = "night_supplier"
+	session.state.stage = "dialogue"
+	session.state.line_index = 0
+	bus.request("refresh")
+	for i in range(12):
+		if session.state.stage == "questioning":
+			break
+		bus.request("next")
+	await settle(0.6)
+	check(session.state.stage == "questioning", "Tehdit seviyesinde teslimat sorguyla başlamalı")
+	await capture("questioning")
+	var first_answer: String = locale.t("balloon.question", {"number": 1, "text": session.snapshot().questions[0].text})
+	await click(first_answer)
+	await settle(0.3)
+	check(session.state.stage == "verdict" and session.state.suspicion.order != 70, "Cevaba tıklamak şüpheyi oynatmalı")
+	# Şafak: kapı notu ekranda.
+	session.state.phase = "dawn"
+	session.state.stage = "transition"
+	bus.request("refresh")
+	await settle(0.6)
+	var note: String = session.snapshot().door_note
+	check(note != "" and find_label(screen, note) != null, "Şafakta kapı notu görünmeli")
+	await capture("door_note")
 	session.state.phase = "fall"
 	session.state.stage = "transition"
 	bus.request("refresh")
@@ -268,6 +294,15 @@ func milk_peak(fluid: Node) -> float:
 		for x in range(40, 216, 4):
 			peak = maxf(peak, image.get_pixel(x, y).r)
 	return peak
+
+func find_label(node: Node, text: String) -> Label:
+	if node is Label and node.is_visible_in_tree() and node.text == text:
+		return node
+	for child: Node in node.get_children():
+		var found := find_label(child, text)
+		if found:
+			return found
+	return null
 
 func find_button(node: Node, text: String) -> Button:
 	if node is Button and node.is_visible_in_tree() and not node.disabled and node.text == text:

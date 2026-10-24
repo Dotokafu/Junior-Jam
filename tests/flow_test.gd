@@ -6,6 +6,7 @@ var failures: int = 0
 var tutorial_checked: bool = false
 var latte_seen: bool = false
 var interviewed: bool = false
+var questioned: bool = false
 
 func check(ok: bool, message: String) -> void:
 	if not ok:
@@ -24,6 +25,7 @@ func run() -> void:
 	simulate("silent", "endless")
 	check(latte_seen, "Akışta en az bir latte art'lı içecek denenmeli")
 	check(interviewed, "Akışta en az bir müşteri sorgulanmalı")
+	check(questioned, "Şüphe yükselince en az bir sorgu sahnesi yaşanmalı")
 	print("FLOW: ", "PASS" if failures == 0 else "FAIL", " (", failures, " hata)")
 	quit(failures)
 
@@ -32,6 +34,7 @@ func command(action: String, payload: Dictionary = {}) -> void:
 
 func simulate(strategy: String, mode: String = "story") -> void:
 	command("new_game", {"mode": mode, "seed": 4217})
+	check(session.snapshot().recipes.is_empty(), "Tarif defteri boş başlamalı")
 	var guard := 0
 	while session.state.phase != "ending" and guard < 1500:
 		guard += 1
@@ -40,6 +43,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			break
 		var snapshot: Dictionary = session.snapshot()
 		check(not snapshot.has("wrong_serves"), "Gizli sayaç sızmamalı")
+		for hidden: String in ["suspicion", "give_streak", "last_given", "interrogated", "interrogation"]:
+			check(not snapshot.has(hidden), "Gizli şüphe sızmamalı: " + hidden)
 		check(not snapshot.person.has("species"), "Gerçek tür sızmamalı")
 		for record: Dictionary in snapshot.records:
 			check(not record.has("truth"), "GBT gerçek türü söylememeli")
@@ -72,6 +77,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 			for ingredient: String in sequence:
 				command("select", {"id": ingredient})
 			command("brew")
+			if state.drink.get("id", "custom") != "custom":
+				check(session.snapshot().recipes.any(func(recipe: Dictionary) -> bool: return recipe.id == state.drink.id), "Demlenen tarif deftere yazılmalı")
 			check(not state.drink.is_empty(), "Karışım hazırlanmalı")
 			var art_allowed: bool = state.drink.get("latte_art_allowed", false)
 			latte_seen = latte_seen or art_allowed
@@ -107,6 +114,15 @@ func simulate(strategy: String, mode: String = "story") -> void:
 				check(state.asked.size() == before, "Sorulmuş soru ya da hak bitince soru sorulamaz")
 				command("next")
 				check(state.stage == "brewing", "Sorgudan siparişe geçilmeli")
+		elif state.stage == "questioning":
+			check(snapshot.questions.size() >= 2 and snapshot.line != "", "Sorguda soru ve cevaplar görünmeli")
+			var before: Dictionary = state.suspicion.duplicate()
+			command("answer_interrogation", {"index": 0})
+			check(state.stage == "verdict" and state.suspicion != before, "Sorgu cevabı şüpheyi oynatmalı")
+			questioned = true
+		elif state.stage == "verdict":
+			command("next")
+			check(state.stage in ["decision", "ending"], "Sorgudan sonra teslimat sürmeli")
 		elif state.stage == "answer":
 			command("next")
 		elif state.stage == "reaction":
@@ -120,8 +136,8 @@ func simulate(strategy: String, mode: String = "story") -> void:
 		check(session.state.day == 7 and session.state.ending.is_empty(), "Endless dördüncü günde bitmemeli")
 		print("  endless → gün ", session.state.day, " / ", session.state.served, " fincan")
 		return
-	var expected: String = {"silent": "fallen_world", "balanced": "grey", "give_humans": "human_supplier", "give_fallen": "fallen_supplier", "mistakes": "fallen_world"}[strategy]
-	check(session.state.ending.get("id") == expected, strategy + " sonu: " + str(session.state.ending.get("id")))
+	var expected: Array = {"silent": ["fallen_world"], "balanced": ["grey"], "give_humans": ["human_supplier"], "give_fallen": ["fallen_supplier"], "mistakes": ["state_arrest", "order_vanish"]}[strategy]
+	check(session.state.ending.get("id") in expected, strategy + " sonu: " + str(session.state.ending.get("id")))
 	if strategy == "mistakes":
 		check(session.state.ending.get("variant") == "errors", "Yanlış servis alt sonu")
 	print("  ", strategy, " → ", session.state.ending.get("id"), " / ", session.state.served, " fincan")

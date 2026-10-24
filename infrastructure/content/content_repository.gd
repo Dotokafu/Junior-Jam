@@ -36,6 +36,7 @@ func load_all() -> bool:
 	_validate_ingredients()
 	var recipe_ids := _validate_recipes()
 	validate_visits(recipe_ids)
+	validate_suspicion()
 	if days.is_empty() or ingredients.is_empty() or recipes.is_empty() or endings.is_empty():
 		errors.append(_message("error.missing_content"))
 	for side: String in ["human", "fallen", "portraits"]:
@@ -65,6 +66,23 @@ func validate_visits(recipe_ids: Array = []) -> void:
 					errors.append(_message("error.invalid_visit") + str(visit))
 				elif not _valid_questions(visit):
 					errors.append(_message("error.invalid_questions") + str(visit.character))
+
+## Şüphe metinleri: her taraf için tavır satırları ve kapı notu (wary, threat), 2–4 cevaplı bir sorgu.
+func validate_suspicion() -> void:
+	for side: String in ["state", "order"]:
+		for level: String in ["wary", "threat"]:
+			var lines: Variant = pools.get("suspicion_lines", {}).get(side, {}).get(level, [])
+			if not lines is Array or lines.is_empty() or str(pools.get("door_notes", {}).get(side, {}).get(level, "")) == "":
+				errors.append(_message("error.invalid_suspicion") + side + "/" + level)
+		var interrogation: Variant = pools.get("interrogations", {}).get(side, {})
+		var answers: Variant = interrogation.get("answers", []) if interrogation is Dictionary else []
+		if not interrogation is Dictionary or str(interrogation.get("line", "")) == "" or not answers is Array or answers.size() < 2 or answers.size() > MAX_QUESTIONS:
+			errors.append(_message("error.invalid_suspicion") + side)
+			continue
+		for answer: Variant in answers:
+			if not answer is Dictionary or str(answer.get("text", "")) == "" or str(answer.get("reply", "")) == "" or not (answer.get("effect") is float or answer.get("effect") is int):
+				errors.append(_message("error.invalid_suspicion") + side)
+				break
 
 ## questions: en fazla MAX_QUESTIONS; her soru havuzdaki bir kimlik ve boş olmayan cevap satırları.
 func _valid_questions(visit: Dictionary) -> bool:

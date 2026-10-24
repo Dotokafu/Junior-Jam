@@ -9,6 +9,16 @@ func _initialize() -> void:
 	var first_day: Dictionary = catalog.days[0]
 	for visit: Dictionary in first_day.day + first_day.night:
 		check(visit.get("questions", []).size() == 3 and visit.get("order_line", "") != "", "1. günün müşterileri sorgulanabilir olmalı: " + visit.character)
+	for side: String in ["state", "order"]:
+		check(catalog.pools.interrogations[side].answers.size() >= 2, "Sorgu cevapları olmalı: " + side)
+		for level: String in ["wary", "threat"]:
+			check(not catalog.pools.suspicion_lines[side][level].is_empty() and catalog.pools.door_notes[side][level] != "", "Şüphe metinleri olmalı: " + side + "/" + level)
+	var no_answers := ContentRepository.new()
+	no_answers.load_all()
+	no_answers.pools.interrogations.state.answers = []
+	no_answers.errors.clear()
+	no_answers.validate_suspicion()
+	check(not no_answers.errors.is_empty(), "Cevapsız sorgu içerik hatası vermeli")
 	var broken := ContentRepository.new()
 	broken.load_all()
 	broken.days[0].night[0]["questions"] = [{"id": "olmayan_soru", "answer": ["..."]}]

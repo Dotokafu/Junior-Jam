@@ -63,7 +63,8 @@ func _ready() -> void:
 	balloon.advance_requested.connect(func() -> void: EventBus.request("next"))
 	balloon.decision_pressed.connect(func() -> void: EventBus.request("next"))
 	balloon.line_started.connect(func() -> void: world.character.bounce())
-	balloon.question_pressed.connect(func(index: int) -> void: EventBus.request("ask", {"index": index}))
+	balloon.question_pressed.connect(func(index: int) -> void:
+		EventBus.request("answer_interrogation" if view.get("stage", "") == "questioning" else "ask", {"index": index}))
 	balloon.mark_pressed.connect(func() -> void: EventBus.request("mark"))
 	book.closed.connect(_close_modal)
 	case_file.closed.connect(_close_modal)
@@ -190,12 +191,18 @@ func _update_balloon(playing: bool) -> void:
 		"interview":
 			# Kısayol ipucu soru listesinin altında (balloon.questions_left); alt satır yalnızca düğmeler.
 			mode = Balloon.Mode.DECISION
+		"questioning":
+			# Cevap seçilmeden ilerlenmez; düğme yok, yalnızca cevaplar.
+			mode = Balloon.Mode.DECISION
 	if view.stage == "tutorial":
 		speaker = I18n.t("character.barista")
 	var key := "%d|%s|%d|%s|%d|%s" % [view.day, view.phase, view.visit_index, view.stage, view.line_index, view.line]
 	balloon.docked = mode == Balloon.Mode.STATIC
 	balloon.point_at(world.balloon_point())
-	var decision_text := I18n.t("button.to_order") if view.stage == "interview" else I18n.t("button.finish_delivery")
+	var decision_text := ""
+	match view.stage:
+		"interview": decision_text = I18n.t("button.to_order")
+		"decision": decision_text = I18n.t("button.finish_delivery")
 	balloon.say(speaker, view.line, mode, key, hint, decision_text)
 	var can_mark: bool = view.phase in ["day", "night"] and view.stage in ["dialogue", "answer", "interview"]
 	balloon.set_interview(view.get("questions", []), int(view.get("questions_left", 0)), view.get("marked", false), can_mark)
@@ -432,6 +439,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif key >= KEY_1 and key <= KEY_9:
 		if view.stage == "interview":
 			EventBus.request("ask", {"index": key - KEY_1})
+		elif view.stage == "questioning":
+			EventBus.request("answer_interrogation", {"index": key - KEY_1})
 		else:
 			brew_panel.select_index(key - KEY_1)
 	else:

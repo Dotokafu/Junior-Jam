@@ -35,6 +35,20 @@
       "text": "Beşinci sonun hikâyesi ve açılma koşulları daha sonra belirlenecek. Bu yuva mevcut oyunda tetiklenmez.",
       "errors": "",
       "enabled": false
+    },
+    "state_arrest": {
+      "number": "VI",
+      "title": "Mühür",
+      "subtitle": "DEFNE BU SABAH YALNIZ GELMEDİ",
+      "text": "Kasaları indirmedi. Arkasında iki üniforma, ellerinde senin fincanlarının listesi vardı. “Fazla sessizdin,” dedi Defne, “ya da fazla gürültülü. Artık fark etmez.” Kepenk dışarıdan mühürlendi; kırmızı balmumu, kapıdaki COFFALLEN yazısının düşmüş F’sinin üstüne damlıyordu.",
+      "errors": "Yanlış verdiğin fincanlar ve isimler de dosyadaydı. Kimin ne olduğunu bilmeden karar verdiğin her gece, şimdi senin adına imzalanmıştı."
+    },
+    "order_vanish": {
+      "number": "VII",
+      "title": "Kapı",
+      "subtitle": "VEY’İN SON TESLİMATI",
+      "text": "Vey bu gece kasa getirmedi. Kapıyı içeriden kilitledi, ışıkları tek tek söndürdü. “Bize bakıyormuş gibi yaptın,” dedi, “ama gözün hep sabahtaydı.” Sabah olduğunda kafe açıktı. Tezgâhın arkasında yeni biri duruyordu.",
+      "errors": "Aç bıraktığın misafirler ve yanlış isimler unutulmadı. Örgüt hatayı affetmez; yalnızca sırasını bekler."
     }
   },
   "rules": {
@@ -42,6 +56,18 @@
     "grey_minimum_reports": 2,
     "grey_minimum_share": 0.4,
     "grey_maximum_share": 0.6,
-    "grey_maximum_errors": 1
+    "grey_maximum_errors": 1,
+    "suspicion": {
+      "wary": 34,
+      "threat": 67,
+      "limit": 100,
+      "give_other": 15,
+      "give_streak": 10,
+      "give_trust": -10,
+      "wrong_report": 20,
+      "decline": 8,
+      "wrong_serve": 12,
+      "wrong_recipe": 5
+    }
   }
 }
