@@ -128,6 +128,18 @@
       "latte_art": true
     },
     {
+      "id": "milk_tea",
+      "name": "Ev Sıcağı",
+      "side": "human",
+      "ingredients": [
+        "tea",
+        "milk",
+        "milk"
+      ],
+      "description": "Bir çay, iki süt. Dışarısı ne olursa olsun, mutfak hâlâ sıcak.",
+      "latte_art": true
+    },
+    {
       "id": "lullaby",
       "name": "Ninni",
       "side": "human",

@@ -33,7 +33,10 @@ var snapped_cup_id: String = ""
 @onready var settings_cup: TopdownCup = $Cups/SettingsCup
 @onready var kettle: KettleCursor = $KettleCursor
 @onready var hint_label: Label = $Footer/HintLabel
-@onready var title_label: Label = $Header/TitleLabel
+## Başlık üç parça: "CoF" + ters dönüp aşağı düşmüş "F" (Fallen) + "allen".
+@onready var title_parts: Array[Label] = [$Header/Title/TitleLeft, $Header/Title/FlipHolder/TitleFlip, $Header/Title/TitleRight]
+@onready var flip_holder: Control = $Header/Title/FlipHolder
+@onready var flip_label: Label = $Header/Title/FlipHolder/TitleFlip
 @onready var tagline_label: Label = $Header/TaglineLabel
 
 # Blurlu arka plan bokeh ışıkları (Hafif alan derinliği simülasyonu)
@@ -57,7 +60,8 @@ func _ready() -> void:
 	director = MenuDirectorScript.new()
 	_check_custom_background()
 	# Yazılar resmin boyalı dokusuna uysun: başlık eski duvar boyası, diğerleri hafif aşınmış.
-	title_label.material = PaintMaterial.make(0.32, 0.22)
+	for part: Label in title_parts:
+		part.material = PaintMaterial.make(0.32, 0.22)
 	tagline_label.material = PaintMaterial.make(0.22, 0.08)
 	hint_label.material = PaintMaterial.make(0.15, 0.04)
 	_setup_ui_strings()
@@ -74,7 +78,10 @@ func _check_custom_background() -> void:
 			return
 
 func _setup_ui_strings() -> void:
-	title_label.text = I18n.t("app.title")
+	title_parts[0].text = I18n.t("menu.logo_left")
+	title_parts[1].text = I18n.t("menu.logo_fallen")
+	title_parts[2].text = I18n.t("menu.logo_right")
+	_fit_fallen_letter()
 	tagline_label.text = I18n.t("app.tagline")
 	hint_label.text = I18n.t("menu.pour_hint")
 
@@ -83,6 +90,19 @@ func _setup_ui_strings() -> void:
 	story_cup.set_cup_data("story", story_title, story_sub)
 	endless_cup.set_cup_data("endless", I18n.t("menu.endless"), I18n.t("menu.endless_sub"))
 	settings_cup.set_cup_data("settings", I18n.t("menu.settings"), I18n.t("menu.settings_sub"))
+
+## Düşen harf: kendi kutusunda 180° döner (gölgesi tscn'de ters verildi, dönünce doğru yöne düşer),
+## biraz aşağı kayar ve hafif eğilir.
+const FALLEN_DROP := 20.0
+const FALLEN_TILT := 0.1
+
+func _fit_fallen_letter() -> void:
+	var letter_size := flip_label.get_minimum_size()
+	flip_holder.custom_minimum_size = letter_size
+	flip_label.size = letter_size
+	flip_label.pivot_offset = letter_size / 2.0
+	flip_label.position = Vector2(0.0, FALLEN_DROP)
+	flip_label.rotation = PI + FALLEN_TILT
 
 func setup_view(view: Dictionary) -> void:
 	view_state = view
