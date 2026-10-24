@@ -73,6 +73,7 @@ Terminal kullanıyorsan proje klasöründen `godot --path .` oyunu, `godot --edi
 | Malzeme seç | 1–6 |
 | Demle / servis et / sıfırla | E / F / R |
 | Sorgu: soru sor / cümleyi işaretle / siparişe geç | 1–4 / N / Boşluk |
+| Teslimat: polaroidi seç / ver / vazgeç / bitir | 1–9 (ya da sürükle) / Enter / Esc / Boşluk |
 | Latte art (sütlü içecekte, servis sayfasında) | L |
 | Latte art: süt dök / çiz / akışı çevir / baştan / fincanı çevir | 1 / 2 / I / R / Q–E (servis: Enter, geri: Esc) |
 | Tarif kitabı / raf kepengi | B / M |

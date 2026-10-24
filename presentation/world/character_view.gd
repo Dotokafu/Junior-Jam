@@ -14,6 +14,7 @@ var person_key: String = ""
 var home: Vector2
 var swap_tween: Tween
 var idle_tween: Tween
+var used_rects: Dictionary = {}
 @onready var body: TextureRect = $Body
 @onready var anchor: Marker2D = $BalloonAnchor
 
@@ -65,6 +66,17 @@ func bounce() -> void:
 
 func balloon_point() -> Vector2:
 	return anchor.global_position
+
+## Çizimin dolu (şeffaf olmayan) bölgesinin ekrandaki dikdörtgeni; doku başına bir kez hesaplanır.
+func art_rect() -> Rect2:
+	var rect := body.get_global_rect()
+	if body.texture == null:
+		return rect
+	if not used_rects.has(body.texture):
+		used_rects[body.texture] = body.texture.get_image().get_used_rect()
+	var used: Rect2 = used_rects[body.texture]
+	var ratio := rect.size / body.texture.get_size()
+	return Rect2(rect.position + used.position * ratio, used.size * ratio)
 
 func _texture_for(person: Dictionary) -> Texture2D:
 	for path: String in [str(person.get("portrait_texture", "")), ART_PATH % person.get("portrait_id", ""), ART_PATH % person.get("id", "")]:

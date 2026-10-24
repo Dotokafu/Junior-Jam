@@ -30,6 +30,7 @@ var toast_tween: Tween
 @onready var balloon: Control = $Balloon
 @onready var brew_panel: Control = $BrewPanel
 @onready var brew_comic: Control = $BrewComic
+@onready var delivery: Control = $DeliveryTray
 @onready var book: Control = $RecipeBook
 @onready var case_file: Control = $CaseFile
 @onready var screens: Control = $Screens
@@ -66,6 +67,9 @@ func _ready() -> void:
 	balloon.question_pressed.connect(func(index: int) -> void:
 		EventBus.request("answer_interrogation" if view.get("stage", "") == "questioning" else "ask", {"index": index}))
 	balloon.mark_pressed.connect(func() -> void: EventBus.request("mark"))
+	delivery.track(world, balloon.panel)
+	delivery.report_requested.connect(func(record_id: String) -> void: EventBus.request("report", {"id": record_id}))
+	delivery.finish_requested.connect(func() -> void: EventBus.request("next"))
 	book.closed.connect(_close_modal)
 	case_file.closed.connect(_close_modal)
 	screens.start_requested.connect(_start)
@@ -146,6 +150,7 @@ func _on_state(snapshot: Dictionary) -> void:
 		toast.modulate.a = 0.0
 	world.focus_brew(brew_panel.is_open)
 	_update_balloon(playing)
+	delivery.apply(view if playing else {})
 	if playing and view.stage == "reaction":
 		world.show_cup(view.drink.get("color", ""))
 	else:
@@ -187,7 +192,8 @@ func _update_balloon(playing: bool) -> void:
 			mode = Balloon.Mode.STATIC
 		"decision":
 			mode = Balloon.Mode.DECISION
-			hint = I18n.t("balloon.decision_hint") if view.day >= 2 else ""
+			# Teslim tepsisi açıkken bitirme ve ipucu tepside; balon yalnızca soruyu taşır.
+			hint = "" if delivery.wants(view) else (I18n.t("balloon.decision_hint") if view.day >= 2 else "")
 		"interview":
 			# Kısayol ipucu soru listesinin altında (balloon.questions_left); alt satır yalnızca düğmeler.
 			mode = Balloon.Mode.DECISION
@@ -202,7 +208,7 @@ func _update_balloon(playing: bool) -> void:
 	var decision_text := ""
 	match view.stage:
 		"interview": decision_text = I18n.t("button.to_order")
-		"decision": decision_text = I18n.t("button.finish_delivery")
+		"decision": decision_text = "" if delivery.wants(view) else I18n.t("button.finish_delivery")
 	balloon.say(speaker, view.line, mode, key, hint, decision_text)
 	var can_mark: bool = view.phase in ["day", "night"] and view.stage in ["dialogue", "answer", "interview"]
 	balloon.set_interview(view.get("questions", []), int(view.get("questions_left", 0)), view.get("marked", false), can_mark)
@@ -385,6 +391,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if modal == "" and balloon.try_advance():
 			get_viewport().set_input_as_handled()
 
+## Teslim ekranında Boşluk/Enter önce teslimatçının süren cümlesini tamamlar (aşağıdaki genel dal), bitirmez.
+func _skips_typing(key: int) -> bool:
+	return key in [KEY_SPACE, KEY_ENTER] and balloon.is_typing() and not delivery.confirm.visible
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo:
 		return
@@ -395,6 +405,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		# Latte art açıkken tuşlar önce ona gider (Esc = geri, Enter = servis).
 		if not brew_comic.latte.handle_key(key):
 			return
+	elif modal == "" and delivery.is_active and not _skips_typing(key) and delivery.handle_key(key):
+		pass
 	elif key == KEY_ESCAPE:
 		# Alt sayfadan menü listesine, listeden oyuna döner.
 		if modal in screens.PAGES and modal != "pause" and view.get("started", false):
