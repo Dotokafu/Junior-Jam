@@ -32,9 +32,16 @@ fit_content = true
 scroll_active = false
 text = "Bir Sabah Sisi alabilir miyim? Bir kahve, iki süt."
 
+[node name="Questions" type="VBoxContainer" parent="Panel/Box"]
+visible = false
+theme_override_constants/separation = 6
+
 [node name="Footer" type="HBoxContainer" parent="Panel/Box"]
 mouse_filter = 2
 theme_override_constants/separation = 12
+
+[node name="MarkButton" type="Button" parent="Panel/Box/Footer"]
+visible = false
 
 [node name="Hint" type="Label" parent="Panel/Box/Footer"]
 size_flags_horizontal = 3

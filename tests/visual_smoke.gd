@@ -53,6 +53,22 @@ func run() -> void:
 	check(screen.auto_button.button_pressed, "Boşluk, tıklanan AUTO butonunu kapatmamalı")
 	screen.auto_button.button_pressed = false
 	for i in range(8):
+		if session.state.stage == "interview":
+			break
+		bus.request("next")
+	await settle(0.6)
+	check(session.state.stage == "interview", "Konuşma bitince sorgu açılmalı")
+	await capture("interview")
+	var interview_top: float = screen.balloon.panel.global_position.y
+	var first_question: String = locale.t("balloon.question", {"number": 1, "text": session.snapshot().questions[0].text})
+	await click(first_question)
+	await settle(0.3)
+	check(absf(screen.balloon.panel.global_position.y - interview_top) < 2.0, "Balon sorudan cevaba geçerken zıplamamalı: %.0f → %.0f" % [interview_top, screen.balloon.panel.global_position.y])
+	check(session.state.stage == "answer" and session.state.asked == [0], "Soru düğmesine tıklamak soruyu sormalı")
+	await press(KEY_N)
+	check(session.state.marks.get(session._record_id(), []).size() == 1, "N cevabı işaretlemeli")
+	await capture("answer")
+	for i in range(8):
 		if session.state.stage == "brewing":
 			break
 		bus.request("next")
@@ -70,10 +86,39 @@ func run() -> void:
 	await settle(2.4)
 	check(screen.brew_comic.steps_page.visible == false and screen.brew_comic.serve_page.visible, "Hazırlık kapanıp servis sayfası tam ekran gelmeli")
 	await capture("brewed")
-	# Seçim çizgi roman sayfasında: "Servis et"e gerçekten tıkla.
-	await click(locale.t("button.serve"))
+	# Latte art: sütlü içecekte üçüncü seçenek. Gerçek tıklama ve gerçek fare sürüklemesiyle çizilir.
+	check(screen.brew_comic.latte_button.visible, "Sütlü içecekte Latte art seçeneği görünmeli")
+	await click(locale.t("button.latte_art"))
+	await settle(0.9)
+	var latte: Control = screen.brew_comic.latte
+	check(latte.is_open and not latte.busy, "Latte art paneli aşağıdan gelmeli")
+	var foam: Control = latte.foam
+	var center: Vector2 = foam.get_global_rect().get_center()
+	await drag([center + Vector2(0, -60), center + Vector2(0, -40), center + Vector2(0, 40)], [1.4, 0.5, 0.3])
+	await settle(0.4)
+	check(milk_peak(latte.fluid) > 0.8, "Basılı fare süt dökmeli: " + str(milk_peak(latte.fluid)))
+	await capture("latte_pour")
+	await press(KEY_2)
+	check(latte.tool == "etch", "2 çizim aracını seçmeli")
+	var line: Array[Vector2] = []
+	var waits: Array[float] = []
+	for i in range(16):
+		line.append(center + Vector2(0, -200 + i * 22))
+		waits.append(0.04)
+	await drag(line, waits)
+	await settle(0.5)
+	await capture("latte_art")
+	await press(KEY_ESCAPE)
 	await settle(0.8)
-	check(session.state.stage == "reaction" and not screen.brew_comic.is_open, "Servis seçimi sayfayı kapatıp tepkiye geçmeli")
+	check(not latte.is_open and screen.brew_comic.is_open and screen.modal == "", "Esc latte art'tan servis sayfasına dönmeli")
+	await press(KEY_L)
+	await settle(0.9)
+	check(latte.is_open and milk_peak(latte.fluid) < latte.fluid.base_color.r + 0.02, "L latte art'ı temiz köpükle yeniden açmalı")
+	await drag([center, center + Vector2(0, 30)], [1.0, 0.3])
+	await press(KEY_ENTER)
+	await settle(1.2)
+	check(session.state.stage == "reaction" and not screen.brew_comic.is_open, "Latte art'tan servis tepkiye geçmeli")
+	check(session.state.drink.get("latte_art", false), "İçecek latte art'lı servis edilmeli")
 	await capture("reaction")
 	screen._open_modal("pause")
 	await settle(0.3)
@@ -109,6 +154,13 @@ func run() -> void:
 	screen._toggle_files()
 	await settle(0.5)
 	await capture("files")
+	# Dosya açıkken demlemeye geçilirse dosya kapanır (demleme ekranının üstünde kalmaz).
+	for i in range(12):
+		if session.state.stage == "brewing":
+			break
+		bus.request("next")
+	await settle(0.8)
+	check(screen.brew_panel.is_open and not screen.case_file.visible and screen.modal == "", "Demlemeye geçince dava dosyası kapanmalı")
 	screen._close_modal()
 	await settle(0.5)
 	session.state.phase = "fall"
@@ -175,6 +227,39 @@ func press(code: Key) -> void:
 		event.pressed = pressed
 		root.push_input(event)
 		await process_frame
+
+## Basılı fareyle noktalar arasında gezinir; her noktada verilen süre bekler. Input üzerinden gönderilir
+## ki Input.is_mouse_button_pressed da basılı görsün.
+func drag(points: Array[Vector2], waits: Array[float]) -> void:
+	var transform: Transform2D = root.get_final_transform()
+	for i in range(points.size()):
+		var motion := InputEventMouseMotion.new()
+		motion.position = transform * points[i]
+		motion.global_position = motion.position
+		motion.button_mask = MOUSE_BUTTON_MASK_LEFT
+		Input.parse_input_event(motion)
+		if i == 0:
+			var down := InputEventMouseButton.new()
+			down.position = motion.position
+			down.button_index = MOUSE_BUTTON_LEFT
+			down.pressed = true
+			Input.parse_input_event(down)
+		await settle(waits[i])
+	var up := InputEventMouseButton.new()
+	up.position = transform * points[-1]
+	up.button_index = MOUSE_BUTTON_LEFT
+	up.pressed = false
+	Input.parse_input_event(up)
+	await process_frame
+
+## Köpüğün orta bölgesindeki en açık hücrenin kırmızı kanalı (süt beyazdır).
+func milk_peak(fluid: Node) -> float:
+	var image: Image = fluid.texture.get_image()
+	var peak := 0.0
+	for y in range(40, 216, 4):
+		for x in range(40, 216, 4):
+			peak = maxf(peak, image.get_pixel(x, y).r)
+	return peak
 
 func find_button(node: Node, text: String) -> Button:
 	if node is Button and node.is_visible_in_tree() and not node.disabled and node.text == text:

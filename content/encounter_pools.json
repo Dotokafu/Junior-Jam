@@ -24,8 +24,16 @@
     "narin"
   ],
   "story_random_visits": {
-    "day": 0,
-    "night": 1
+    "day": 1,
+    "night": 2
+  },
+  "questions": {
+    "where_from": "Bu saatte nereden geliyorsun?",
+    "sleep": "En son ne zaman uyudun?",
+    "sirens": "Siren çaldığında neredeydin?",
+    "cold": "Dışarısı soğuk muydu?",
+    "previous_barista": "Benden öncekini tanır mıydın?",
+    "work": "Ne iş yaparsın?"
   },
   "endless_visits": {
     "day": 3,

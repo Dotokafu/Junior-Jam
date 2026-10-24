@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cctxj3hcy747o"
-path="res://.godot/imported/hand_cup_liquid.png-efbd2bc1377ae5664178bd89c3917404.ctex"
+uid="uid://dwaynca4vgk6v"
+path="res://.godot/imported/saucer.png-ce43a1c7c87dce4a17321c4460ad0d66.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/comic/hand_cup_liquid.png"
-dest_files=["res://.godot/imported/hand_cup_liquid.png-efbd2bc1377ae5664178bd89c3917404.ctex"]
+source_file="res://assets/latte/saucer.png"
+dest_files=["res://.godot/imported/saucer.png-ce43a1c7c87dce4a17321c4460ad0d66.ctex"]
 
 [params]
 

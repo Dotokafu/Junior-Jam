@@ -40,20 +40,20 @@ expand_mode = 1
 [node name="Cup" type="Control" parent="."]
 mouse_filter = 2
 offset_left = 652.0
-offset_top = 772.0
+offset_top = 760.0
 offset_right = 748.0
 offset_bottom = 856.0
 
 [node name="Body" type="TextureRect" parent="Cup"]
 mouse_filter = 2
 offset_right = 96.0
-offset_bottom = 84.0
+offset_bottom = 96.0
 texture = ExtResource("5_cup")
 expand_mode = 1
 
 [node name="Liquid" type="TextureRect" parent="Cup"]
 mouse_filter = 2
 offset_right = 96.0
-offset_bottom = 84.0
+offset_bottom = 96.0
 texture = ExtResource("6_liquid")
 expand_mode = 1

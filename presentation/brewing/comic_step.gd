@@ -9,7 +9,7 @@ const POUR_TIME := 0.3
 const JAR_TOP := 0.08
 const COUNTER_TOP := 0.8
 const SFX_TOP := 0.4
-const LIQUID_DEPTH := 32.0
+const LIQUID_DEPTH := 56.0
 ## Her demlemede kare biraz farklı çizilir (yalnızca görsel; oyun durumunu etkilemez).
 const JAR_TILT := Vector2(-2.45, -1.95)
 const SFX_TILT := Vector2(-0.3, 0.25)

@@ -13,13 +13,11 @@ var written: Array[String] = []
 
 func _initialize() -> void:
 	force = "--force" in OS.get_cmdline_user_args()
-	for folder: String in ["res://assets/cutscene", "res://assets/comic", "res://assets/cafe", "res://assets/characters", "res://assets/ui/ingredients", "res://assets/ui/icons", "res://assets/ui/chrome", "res://presentation/theme"]:
+	for folder: String in ["res://assets/latte", "res://assets/cutscene", "res://assets/comic", "res://assets/cafe", "res://assets/characters", "res://assets/ui/ingredients", "res://assets/ui/icons", "res://assets/ui/chrome", "res://presentation/theme"]:
 		DirAccess.make_dir_recursive_absolute(folder)
 	_save(_background(false), "res://assets/cafe/background_day.png")
 	_save(_background(true), "res://assets/cafe/background_night.png")
 	_save(_counter(), "res://assets/cafe/counter.png")
-	_save(_cup(), "res://assets/cafe/cup.png")
-	_save(_cup_liquid(), "res://assets/cafe/cup_liquid.png")
 	_save(_brew_shelf(), "res://assets/cafe/brew_shelf.png")
 	for person: Dictionary in _json("res://content/characters.json").get("characters", []):
 		_save(_character(person), "res://assets/characters/%s.png" % person.id)
@@ -28,6 +26,7 @@ func _initialize() -> void:
 	_chrome()
 	_icons()
 	_comic()
+	_latte()
 	_cutscene()
 	_save(_logo(), "res://assets/ui/logo.png")
 	var stream := _blank(6, 16)
@@ -138,20 +137,6 @@ func _counter() -> Image:
 		_rect(image, 470 + i * 26, 4, 20, 9, Color("9ed39a").darkened(i * 0.08))
 	return image
 
-func _cup() -> Image:
-	var image := _blank(32, 28)
-	_rect(image, 4, 6, 20, 18, Color("f1e9dc"))
-	_rect(image, 6, 8, 16, 4, Color(0, 0, 0, 0))
-	_rect(image, 24, 10, 5, 8, Color("f1e9dc"))
-	_rect(image, 26, 12, 2, 4, Color(0, 0, 0, 0))
-	_rect(image, 0, 24, 30, 4, Color("d8cbbb"))
-	return image
-
-func _cup_liquid() -> Image:
-	var image := _blank(32, 28)
-	_rect(image, 6, 8, 16, 4, Color.WHITE)
-	return image
-
 ## Demleme ekranının arka planı: yakından raf. Kavanozlar kodla üst rafa dizilir.
 func _brew_shelf() -> Image:
 	var image := _blank(380, 300)
@@ -161,14 +146,12 @@ func _brew_shelf() -> Image:
 		var offset := 0 if (row / 10) % 2 == 0 else 14
 		for column in range(offset, 380, 28):
 			_rect(image, column, row, 1, 10, Color("231920"))
-	for shelf_y: int in [100, 210]:
-		_rect(image, 0, shelf_y, 380, 8, Color("6a4a36"))
-		_rect(image, 0, shelf_y, 380, 2, Color("8a6448"))
-		_rect(image, 0, shelf_y + 8, 380, 3, Color("1c1418"))
-	# Alt rafta dekor
-	_rect(image, 16, 180, 22, 30, Color("44524a"))
-	_rect(image, 44, 192, 30, 18, Color("7c5a3a"))
-	_rect(image, 22, 168, 10, 12, Color("5c8a52"))
+	# Coffee Talk gibi iki raf: üstte ana malzemeler (raf sağda bitmez, süt boyu yer kalır), altta
+	# ek malzemeler ve sağda uzun süt. Oyunda ×3: üst tahta y=240, alt tahta y=450, üst tahta x<840.
+	for board: Vector3i in [Vector3i(80, 0, 280), Vector3i(150, 0, 380)]:
+		_rect(image, board.y, board.x, board.z, 8, Color("6a4a36"))
+		_rect(image, board.y, board.x, board.z, 2, Color("8a6448"))
+		_rect(image, board.y, board.x + 8, board.z, 3, Color("1c1418"))
 	return image
 
 func _jar(item: Dictionary) -> Image:
@@ -377,8 +360,6 @@ func _tape() -> Image:
 # --- Çizgi roman demleme sayfası ----------------------------------------------
 
 func _comic() -> void:
-	_save(_hand_cup(false), "res://assets/comic/hand_cup.png")
-	_save(_hand_cup(true), "res://assets/comic/hand_cup_liquid.png")
 	_save(_step_backdrop(), "res://assets/comic/step_backdrop.png")
 	_save(_result_backdrop(), "res://assets/comic/result_backdrop.png")
 	var dots := _blank(6, 6)
@@ -401,36 +382,6 @@ func _comic() -> void:
 		_rect(serve, x, 3 + (x % 2), 1, 5, Color("8f8a78"))
 	_save_up(serve, dir + "serve.png")
 
-## Sağ elde tutulan fincan, yakın plan. liquid=true yalnızca sıvı yüzeyinin beyaz maskesi.
-func _hand_cup(liquid: bool) -> Image:
-	var image := _blank(120, 100)
-	if liquid:
-		_rect(image, 22, 30, 56, 8, Color.WHITE)
-		_rect(image, 26, 28, 48, 12, Color.WHITE)
-		return image
-	var cup := Color("f2ece0")
-	var shade := Color("cfc6b4")
-	_rect(image, 16, 26, 68, 4, OUTLINE)
-	_rect(image, 14, 30, 72, 30, OUTLINE)
-	_rect(image, 18, 60, 64, 10, OUTLINE)
-	_rect(image, 26, 70, 48, 6, OUTLINE)
-	_rect(image, 16, 30, 68, 30, cup)
-	_rect(image, 20, 60, 60, 9, cup)
-	_rect(image, 28, 69, 44, 5, shade)
-	_rect(image, 16, 44, 8, 16, shade)
-	_rect(image, 20, 28, 60, 12, Color("6b4a36"))
-	# El: sağdan fincanı kavrar
-	var skin := Color("c98d6c")
-	_rect(image, 76, 34, 30, 40, OUTLINE)
-	_rect(image, 78, 36, 28, 36, skin)
-	for y in [38, 47, 56]:
-		_rect(image, 70, y, 12, 8, OUTLINE)
-		_rect(image, 71, y + 1, 11, 6, skin)
-	_rect(image, 98, 60, 22, 40, OUTLINE)
-	_rect(image, 100, 62, 20, 38, skin.darkened(0.1))
-	_rect(image, 104, 72, 16, 28, Color("4a5a6a"))
-	return image
-
 ## Adım karesinin arka planı (204×200, oyunda ×3 = 612×600): tezgâh yakın planı.
 func _step_backdrop() -> Image:
 	var image := _blank(204, 200)
@@ -452,6 +403,100 @@ func _result_backdrop() -> Image:
 	_rect(image, 470, 270, 30, 26, Color("d9cf8f"))
 	_rect(image, 506, 266, 34, 30, Color("e3d99a"))
 	return image
+
+# --- Latte art (piksel, oyunda ×3) ---------------------------------------------
+## Fincan üstten: iç daire (yarıçap 96) şeffaf, köpük simülasyonu arkadan görünür. Köpük maskesi aynı
+## dairedir. Oyunda: köpük 576 px (64 hücre × 9), fincan 672 px, tabak 816 px.
+func _latte() -> void:
+	var dir := "res://assets/latte/"
+	var cup := Color("f2ece0")
+	var shade := Color("cfc6b4")
+	var top := _blank(224, 224)
+	_circle(top, Vector2(112, 112), 112, OUTLINE)
+	_circle(top, Vector2(112, 112), 110, cup)
+	_circle(top, Vector2(112, 112), 100, shade)
+	_circle(top, Vector2(112, 112), 98, Color("4a3428"))
+	_circle(top, Vector2(112, 112), 96, Color.TRANSPARENT)
+	_save(top, dir + "cup_top.png")
+	var mask := _blank(192, 192)
+	_circle(mask, Vector2(96, 96), 96, Color.WHITE)
+	_save(mask, dir + "foam_mask.png")
+	var handle := _blank(56, 40)
+	_rect(handle, 0, 8, 50, 24, OUTLINE)
+	_rect(handle, 44, 4, 12, 32, OUTLINE)
+	_rect(handle, 0, 10, 48, 20, cup)
+	_rect(handle, 46, 6, 8, 28, cup)
+	_rect(handle, 16, 16, 28, 8, OUTLINE)
+	_rect(handle, 0, 26, 48, 4, shade)
+	_save(handle, dir + "cup_handle.png")
+	var saucer := _blank(272, 272)
+	_circle(saucer, Vector2(136, 136), 136, OUTLINE)
+	_circle(saucer, Vector2(136, 136), 134, Color("e8e0d0"))
+	_circle(saucer, Vector2(136, 136), 120, Color("d6cdbb"))
+	_circle(saucer, Vector2(136, 136), 116, Color("e1d9c8"))
+	_save(saucer, dir + "saucer.png")
+	var counter := _blank(640, 360)
+	counter.fill(Color("5a3d2e"))
+	for y in range(0, 360, 30):
+		_rect(counter, 0, y, 640, 2, Color("47301f"))
+		_rect(counter, 0, y + 2, 640, 1, Color("6b4a38"))
+		for x in range((y * 7) % 90, 640, 160):
+			_rect(counter, x, y, 2, 30, Color("47301f"))
+	for i in range(220):
+		_rect(counter, (i * 97) % 640, (i * 53) % 360, 6, 1, Color("634433"))
+	_save(counter, dir + "backdrop.png")
+	_latte_icons()
+
+func _latte_icons() -> void:
+	var dir := "res://assets/ui/icons/"
+	var steel := Color("b9bcc2")
+	var pour := _blank(32, 32)
+	_rect(pour, 8, 8, 16, 20, OUTLINE)
+	_rect(pour, 10, 10, 12, 16, steel)
+	_rect(pour, 22, 12, 7, 12, OUTLINE)
+	_rect(pour, 24, 14, 3, 8, Color.TRANSPARENT)
+	_rect(pour, 3, 6, 7, 4, OUTLINE)
+	_rect(pour, 4, 7, 5, 2, steel)
+	_rect(pour, 2, 11, 2, 6, Color("f4eee4"))
+	_save_up(pour, dir + "latte_pour.png")
+	var etch := _blank(32, 32)
+	for i in range(20):
+		_rect(etch, 6 + i, 25 - i, 3, 3, OUTLINE)
+		_rect(etch, 7 + i, 26 - i, 1, 1, steel)
+	_rect(etch, 4, 26, 3, 3, OUTLINE)
+	_save_up(etch, dir + "latte_etch.png")
+	for reverse: bool in [false, true]:
+		var arrow := _blank(32, 32)
+		for row in range(10):
+			var y := 4 + row if not reverse else 27 - row
+			_rect(arrow, 16 - row, y, row * 2 + 1, 1, OUTLINE)
+		_rect(arrow, 13, 14 if not reverse else 6, 7, 12, OUTLINE)
+		_save_up(arrow, dir + ("latte_flow_reverse.png" if reverse else "latte_flow.png"))
+	var reset := _blank(32, 32)
+	_circle(reset, Vector2(16, 16), 12, OUTLINE)
+	_circle(reset, Vector2(16, 16), 8, Color.TRANSPARENT)
+	_rect(reset, 16, 2, 14, 12, Color.TRANSPARENT)
+	_rect(reset, 18, 2, 3, 10, OUTLINE)
+	_rect(reset, 18, 10, 9, 3, OUTLINE)
+	_save_up(reset, dir + "latte_reset.png")
+	var art := _blank(32, 32)
+	var grey := Color("8f8a78")
+	_circle(art, Vector2(16, 16), 14, grey)
+	_circle(art, Vector2(16, 16), 11, Color("6b4a36"))
+	_circle(art, Vector2(13, 14), 3.5, Color("f4eee4"))
+	_circle(art, Vector2(19, 14), 3.5, Color("f4eee4"))
+	for row in range(6):
+		_rect(art, 10 + row, 16 + row, 12 - row * 2, 1, Color("f4eee4"))
+	_save_up(art, dir + "latte_art.png")
+
+## Sert kenarlı piksel daire; renk şeffafsa deler.
+func _circle(image: Image, center: Vector2, radius: float, color: Color) -> void:
+	for y in range(int(center.y - radius) - 1, int(center.y + radius) + 1):
+		for x in range(int(center.x - radius) - 1, int(center.x + radius) + 1):
+			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height():
+				continue
+			if Vector2(x + 0.5, y + 0.5).distance_to(center) <= radius:
+				image.set_pixel(x, y, color)
 
 # --- The Fall ara sahnesi (piksel çizgi sanatı, 640×360 ölçeğinde ×3) ---------------
 ## Bina ve kafe camı çizim koordinatları; ekranda ×3. fall_cutscene.gd varsayılanları bunlara göre.

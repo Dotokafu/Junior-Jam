@@ -1,8 +1,8 @@
 extends Control
 ## Demle'ye basınca açılan iki tam ekran çizgi roman sayfası:
 ## 1) Hazırlık: üstte makine göstergesi, altta her malzeme için bir adım karesi sırayla açılır.
-## 2) Servis: hazırlık kapanır, içecek elde gelir; seçim burada yapılır: Çöpe at / Servis et.
-## (Latte art servis sayfasına üçüncü seçenek olarak eklenebilir.)
+## 2) Servis: hazırlık kapanır, içecek elde gelir; seçim burada yapılır: Çöpe at / Servis et /
+##    Latte art (yalnızca izinli içecekte; latte_art.gd açılır, oradan servis edilir).
 const Brewing = preload("res://domain/brewing/brewing_rules.gd")
 const Readout = preload("res://presentation/brewing/machine_readout.gd")
 const FADE_TIME := 0.18
@@ -40,6 +40,9 @@ var rng := RandomNumberGenerator.new()
 @onready var hand_liquid: TextureRect = $Serve/HandCup/Liquid
 @onready var trash_button: Button = $Serve/TrashChoice
 @onready var serve_button: Button = $Serve/ServeChoice
+@onready var latte_button: Button = $Serve/LatteChoice
+@onready var latte_line: Line2D = $Serve/Leaders/LatteLine
+@onready var latte: Control = $LatteArt
 @onready var leaders: Control = $Serve/Leaders
 
 func _ready() -> void:
@@ -49,6 +52,11 @@ func _ready() -> void:
 	serve_button.tooltip_text = I18n.t("key.serve")
 	trash_button.pressed.connect(func() -> void: choose("trash"))
 	serve_button.pressed.connect(func() -> void: choose("serve"))
+	latte_button.text = I18n.t("button.latte_art")
+	latte_button.tooltip_text = I18n.t("key.latte_art")
+	latte_button.pressed.connect(func() -> void: choose("latte_art"))
+	latte.served.connect(func() -> void: EventBus.request("serve", {"latte_art": true}))
+	latte.closed.connect(_raise_hand)
 	hand_rest = hand.position.y
 	rng.randomize()
 	hide()
@@ -83,9 +91,16 @@ func apply(snapshot: Dictionary) -> void:
 
 ## Seçim yalnızca servis sayfası tamamen geldiğinde kabul edilir.
 func choose(action: String) -> void:
-	if busy or not is_open:
+	if busy or not is_open or latte.is_open:
 		return
-	EventBus.request(action)
+	if action != "latte_art":
+		EventBus.request(action)
+	elif _latte_allowed():
+		latte.reduced_motion = reduced_motion
+		latte.open(Color(str(view.drink.get("color", "ffffff"))))
+
+func _latte_allowed() -> bool:
+	return bool(view.get("drink", {}).get("latte_art_allowed", false))
 
 func _ingredient_map() -> Dictionary:
 	var map := {}
@@ -102,6 +117,8 @@ func _fill(drink: Dictionary) -> void:
 	machine_liquid.modulate = drink_color
 	hand_liquid.modulate = drink_color
 	title.text = drink.get("name", "")
+	latte_button.visible = _latte_allowed()
+	latte_line.visible = _latte_allowed()
 	summary.text = Readout.tier_summary(drink.get("tiers", {}))
 	for i in range(steps.size()):
 		var item: Dictionary = map.get(selected[i], {}) if i < selected.size() else {}
@@ -152,14 +169,14 @@ func _open() -> void:
 		serve_page.modulate.a = 0.0)
 	swap.set_parallel(true)
 	swap.chain().tween_property(serve_page, "modulate:a", 1.0, SWAP_TIME)
-	hand.position.y = hand_rest + SERVE_RISE
-	swap.tween_property(hand, "position:y", hand_rest, SWAP_TIME * 1.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	swap.tween_callback(_raise_hand)
 	await swap.finished
 	if my_sequence == sequence_id:
 		_set_busy(false)
 
 func _close() -> void:
 	is_open = false
+	latte.force_close()
 	sequence_id += 1
 	_set_busy(false)
 	if reduced_motion:
@@ -171,8 +188,17 @@ func _close() -> void:
 		if not is_open:
 			hide())
 
+## Fincan servis sayfasına aşağıdan yükselir (latte art'tan geri dönünce de).
+func _raise_hand() -> void:
+	if reduced_motion:
+		hand.position.y = hand_rest
+		return
+	hand.position.y = hand_rest + SERVE_RISE
+	create_tween().tween_property(hand, "position:y", hand_rest, SWAP_TIME * 1.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
 func _set_busy(value: bool) -> void:
 	busy = value
 	trash_button.disabled = value
 	serve_button.disabled = value
+	latte_button.disabled = value
 	leaders.visible = not value
