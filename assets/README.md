@@ -43,11 +43,9 @@ oyunda **×3** büyütülür (keskin `nearest` filtre). Yani 1 çizim pikseli = 
 | `cutscene/window_light.png` | 8×8 | Rastgele yanan pencere ışığı (konumlar sahnede `near/far_window_rects`) |
 | `cutscene/bat.png` | 40×12 (2 kare) | Yarasa; yan yana 2 kanat karesi |
 | `cutscene/walker.png` | 20×24 (2 kare) | Camda yürüyen silüet; yan yana 2 adım karesi |
-| `menu/background.png` | 1920×1080 | Ana menü arka planı (barista tezgâhı / kafe) |
-| `menu/cup_story.png` | 280×290 | Hikâye modu fincanı |
-| `menu/cup_endless.png` | 280×290 | Endless modu fincanı |
-| `menu/cup_settings.png` | 280×290 | Ayarlar fincanı |
-| `menu/kettle.png` | 160×160 | Kahve demliği (fare imleci) |
+| `menu/background.jpg` (ya da `.png`) | 1920×1080 | Ana menü resmi; **üç fincan bu resmin içinde çizili**. Resim değişirse fincanların ağız elipsi ve yazı yerleri `presentation/menu/topdown_menu.tscn` içinde (`mouth_center`, `mouth_radii`, `label_y`…) yeniden ölçülmeli |
+| `menu/kettle.png` | 240×210 | İsteğe bağlı demlik çizimi (fare imleci); ağız ucu (228, 46) noktasında olmalı. Yoksa bakır demlik kodla çizilir |
+| `fonts/IMFellEnglish.ttf`, `fonts/Cinzel.ttf` | — | Menü başlığı ve fincanlara kazınmış yazı (OFL lisanslı, yanlarında lisans dosyaları) |
 | `ui/chrome/*.png` | 12×12 / 16×16 (kayıtta ×3) | 9-slice çerçeveler: balon, makine, buton, defter, klasör kanadı, kâğıt, sekme |
 
 `<id>` = `content/characters.json` ve `content/ingredients.json` içindeki `id` (ör. `ada.png`, `coffee.png`).

@@ -23,14 +23,14 @@ var selection_locked: bool = false
 ## Mıknatıs: fare bir bardağın kenarına bu kadar yaklaşınca demlik o bardağın üstüne hizalanır.
 ## Bardak arası 120 px; alanlar çakışmaz, çakışırsa en yakın bardak kazanır.
 const SNAP_MARGIN := 50.0
-## Demliğin ağzı bardak ağzının tam üstünde, bu kadar yukarıda durur: akış dümdüz iner.
-const SNAP_SPOUT_OFFSET := Vector2(0, -70)
+## Demliğin ağzı bardak ağzının tam üstünde, bu kadar yukarıda durur: akış dümdüz iner ve
+## demliğin gövdesi (ağzın ~200 px altına uzanır) fincanın kenarına pek binmez.
+const SNAP_SPOUT_OFFSET := Vector2(0, -150)
 var snapped_cup_id: String = ""
 
-@onready var cups_container: HBoxContainer = $CenterContainer/CupsContainer
-@onready var story_cup: TopdownCup = $CenterContainer/CupsContainer/StoryCup
-@onready var endless_cup: TopdownCup = $CenterContainer/CupsContainer/EndlessCup
-@onready var settings_cup: TopdownCup = $CenterContainer/CupsContainer/SettingsCup
+@onready var story_cup: TopdownCup = $Cups/StoryCup
+@onready var endless_cup: TopdownCup = $Cups/EndlessCup
+@onready var settings_cup: TopdownCup = $Cups/SettingsCup
 @onready var kettle: KettleCursor = $KettleCursor
 @onready var hint_label: Label = $Footer/HintLabel
 @onready var title_label: Label = $Header/TitleLabel
@@ -49,12 +49,17 @@ const BOKEH_LIGHTS: Array[Dictionary] = [
 	{"pos": Vector2(1580, 310), "r": 40.0, "color": Color(0.9, 0.65, 0.35, 0.10)},
 ]
 
-const MENU_BG_PATH := "res://assets/menu/background.png"
+## Arka plan resmi (fincanlar bu resmin içinde çizili; konumları menü sahnesinde).
+const MENU_BG_PATHS := ["res://assets/menu/background.png", "res://assets/menu/background.jpg"]
 var custom_bg_texture: Texture2D = null
 
 func _ready() -> void:
 	director = MenuDirectorScript.new()
 	_check_custom_background()
+	# Yazılar resmin boyalı dokusuna uysun: başlık eski duvar boyası, diğerleri hafif aşınmış.
+	title_label.material = PaintMaterial.make(0.32, 0.22)
+	tagline_label.material = PaintMaterial.make(0.22, 0.08)
+	hint_label.material = PaintMaterial.make(0.15, 0.04)
 	_setup_ui_strings()
 	_connect_cup(story_cup, "story")
 	_connect_cup(endless_cup, "endless")
@@ -62,10 +67,11 @@ func _ready() -> void:
 	set_kettle_active(true)
 
 func _check_custom_background() -> void:
-	if ResourceLoader.exists(MENU_BG_PATH):
-		custom_bg_texture = load(MENU_BG_PATH)
-	else:
-		custom_bg_texture = null
+	custom_bg_texture = null
+	for path: String in MENU_BG_PATHS:
+		if ResourceLoader.exists(path):
+			custom_bg_texture = load(path)
+			return
 
 func _setup_ui_strings() -> void:
 	title_label.text = I18n.t("app.title")
@@ -75,8 +81,8 @@ func _setup_ui_strings() -> void:
 	var story_title: String = I18n.t("menu.story")
 	var story_sub: String = I18n.t("menu.save_select")
 	story_cup.set_cup_data("story", story_title, story_sub)
-	endless_cup.set_cup_data("endless", I18n.t("menu.endless"), "SONSUZ VARDİYA")
-	settings_cup.set_cup_data("settings", I18n.t("menu.settings"), "SES & EKRAN")
+	endless_cup.set_cup_data("endless", I18n.t("menu.endless"), I18n.t("menu.endless_sub"))
+	settings_cup.set_cup_data("settings", I18n.t("menu.settings"), I18n.t("menu.settings_sub"))
 
 func setup_view(view: Dictionary) -> void:
 	view_state = view
@@ -129,7 +135,7 @@ func _start_pouring(cup_id: String) -> void:
 		active_cup.is_pouring = true
 	if active_cup and kettle:
 		kettle.is_pouring = true
-		kettle.target_cup_pos = active_cup.global_position + active_cup.get_cup_center()
+		kettle.target_cup_pos = active_cup.global_position + active_cup.get_pour_point()
 
 func _stop_pouring(cup_id: String) -> void:
 	if pouring_cup_id == cup_id:
@@ -145,6 +151,10 @@ func _process(delta: float) -> void:
 	if selection_locked or director == null:
 		return
 	_update_snap()
+	# Akış yükselen kahve yüzeyine düşer.
+	var pouring_cup: TopdownCup = _get_cup_by_id(pouring_cup_id)
+	if pouring_cup and kettle:
+		kettle.target_cup_pos = pouring_cup.global_position + pouring_cup.get_pour_point()
 
 	# Doldurma ve boşalma durumunu domain servisinde güncelle
 	var resolution: Dictionary = director.update_pouring(pouring_cup_id, is_holding_pour, delta, has_save)

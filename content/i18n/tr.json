@@ -67,6 +67,8 @@
   "menu.story": "Hikâye",
   "menu.endless": "Endless",
   "menu.settings": "Ayarlar",
+  "menu.endless_sub": "Sonsuz vardiya",
+  "menu.settings_sub": "Ses ve ekran",
   "menu.pour_hint": "Doldurmak için bardağa tıkla ve basılı tut",
   "menu.continue_hint": "Kayıttan Devam",
   "menu.save_select": "Kayıt Seçimi",

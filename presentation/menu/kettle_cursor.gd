@@ -1,7 +1,8 @@
 extends Control
 class_name KettleCursor
-## Kuşbakışı (top-down) kahve demliği / kettle fare imleci.
-## Fareyi takip eder; bardağa basıldığında eğilir ve kahve akıtır.
+## Ana menünün fare imleci: yandan görünen bakır kuğu boyunlu demlik, arka plan resminin
+## mürekkep kontur + boya üslubuyla çizilir. Fareyi takip eder; fincana basılınca eğilir ve kahve akıtır.
+## assets/menu/kettle.png varsa (240×210, ağız ucu SPOUT_OFFSET'te) çizim yerine o kullanılır.
 
 @export var is_pouring: bool = false
 @export var target_cup_pos: Vector2 = Vector2.ZERO
@@ -19,28 +20,35 @@ var snap_spout: Vector2 = Vector2.INF:
 var gliding: bool = false
 ## Farenin son konumu; menü fare hareketi olaylarından günceller (test olayları da aynı yoldan gelir).
 var pointer: Vector2 = Vector2.ZERO
-const SPOUT_OFFSET := Vector2(128, 46)
+const SIZE := Vector2(240, 210)
+## Ağız ucu (akışın çıktığı nokta) ve gövde merkezi (dönme ekseni), yerel koordinat.
+const SPOUT_OFFSET := Vector2(228, 46)
+const BODY_CENTER := Vector2(100, 140)
 const SNAP_SPEED := 18.0
+## Sahnedeki iri fincanların yanında oyuncak gibi durmasın.
+const DRAW_SCALE := 1.4
 
-# Renkler
-const COLOR_KETTLE_SHADOW := Color(0.03, 0.02, 0.04, 0.45)
-const COLOR_BODY_BASE := Color(0.22, 0.20, 0.25)
-const COLOR_BODY_METAL := Color(0.35, 0.32, 0.38)
-const COLOR_BODY_HIGHLIGHT := Color(0.55, 0.52, 0.60, 0.7)
-const COLOR_LID := Color(0.28, 0.25, 0.32)
-const COLOR_KNOB := Color(0.78, 0.60, 0.36)  # Pirinç / Ahşap kapak kulpu
-const COLOR_HANDLE := Color(0.14, 0.12, 0.16)
-const COLOR_COFFEE_STREAM := Color(0.20, 0.10, 0.05)
-const COLOR_COFFEE_STREAM_LIGHT := Color(0.68, 0.48, 0.28, 0.85)
+const INK := Color(0.10, 0.07, 0.05)
+const COPPER := Color(0.49, 0.29, 0.19)
+const COPPER_DARK := Color(0.32, 0.19, 0.12)
+const COPPER_LIGHT := Color(0.71, 0.48, 0.32)
+const SHINE := Color(0.96, 0.88, 0.74, 0.55)
+const WOOD := Color(0.36, 0.22, 0.14)
+const SHADOW := Color(0.02, 0.02, 0.04, 0.35)
+const STREAM := Color(0.17, 0.09, 0.05)
+const STREAM_LIGHT := Color(0.47, 0.29, 0.16)
+const SPLASH := Color(0.62, 0.42, 0.25, 0.7)
 const KETTLE_PATH := "res://assets/menu/kettle.png"
 var custom_kettle_texture: Texture2D = null
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	custom_minimum_size = Vector2(160, 160)
-	size = Vector2(160, 160)
-	pivot_offset = Vector2(80, 80)
+	custom_minimum_size = SIZE
+	size = SIZE
+	pivot_offset = BODY_CENTER
+	scale = Vector2.ONE * DRAW_SCALE
 	z_index = 50  # Her zaman fincanların ve arayüzün üstünde
+	material = PaintMaterial.make(0.18)
 	_check_custom_kettle()
 	pointer = get_global_mouse_position()
 
@@ -58,31 +66,29 @@ func _process(delta: float) -> void:
 
 	if is_pouring:
 		stream_time += delta * 12.0
-		# Hedef bardağa doğru hafif eğim
-		var dir := (target_cup_pos - (global_position + Vector2(120, 40))).angle()
+		# Hedef fincana doğru eğim (ağız aşağı)
+		var dir := (target_cup_pos - get_spout_global_pos()).angle()
 		tilt_angle = lerpf(tilt_angle, clampf(dir * 0.3, -0.35, 0.35), delta * 10.0)
 	else:
 		tilt_angle = lerpf(tilt_angle, 0.0, delta * 8.0)
 	# Önce eğim: kilitliyken konum, bu karenin eğimine göre ağzı yerinde tutacak şekilde hesaplanır.
 	rotation = tilt_angle
 
-	# Fare pozisyonuna hizalan
-	var mouse_pos := pointer
-	# Demliğin ağzı (spout) fare ucuna yakın olacak şekilde hafif ofset
-	var follow := mouse_pos - Vector2(120, 40)
+	# Ağız ucu farenin ucunda durur.
+	var follow := _position_for_spout(pointer)
 	if snap_spout != Vector2.INF or gliding:
-		var target := follow if snap_spout == Vector2.INF else _snapped_position()
+		var target := follow if snap_spout == Vector2.INF else _position_for_spout(snap_spout)
 		global_position = global_position.lerp(target, minf(1.0, delta * SNAP_SPEED))
 		gliding = snap_spout == Vector2.INF and global_position.distance_to(target) > 4.0
 	else:
 		global_position = follow
 	queue_redraw()
 
-## Ağız ucu, demlik eğilmiş olsa da snap_spout'ta kalsın diye gereken konum. Dönüşün nereye göre
-## uygulandığını varsaymaz: güncel dönüşüm matrisinden ağzın konuma göre kaymasını okur.
-func _snapped_position() -> Vector2:
+## Ağız ucu, demlik eğilmiş ve ölçeklenmiş olsa da point'te dursun diye gereken konum. Dönüşün nereye
+## göre uygulandığını varsaymaz: güncel dönüşüm matrisinden ağzın konuma göre kaymasını okur.
+func _position_for_spout(point: Vector2) -> Vector2:
 	var xform := get_global_transform()
-	return snap_spout - (xform.origin - global_position) - xform.basis_xform(SPOUT_OFFSET)
+	return point - (xform.origin - global_position) - xform.basis_xform(SPOUT_OFFSET)
 
 ## Global koordinatı bu Control düğümünün yerel koordinatına çevirir (Node2D.to_local alternatifi)
 func to_local_pos(p_global: Vector2) -> Vector2:
@@ -90,65 +96,99 @@ func to_local_pos(p_global: Vector2) -> Vector2:
 
 ## Demliğin ağız ucunun (dökülen nokta) global pozisyonunu döner
 func get_spout_global_pos() -> Vector2:
-	return get_global_transform() * Vector2(128, 46)
+	return get_global_transform() * SPOUT_OFFSET
 
 func _draw() -> void:
-	# Demliğin gövde merkezi ve ağız ucu
-	var body_center := Vector2(65, 80)
-	var spout_tip := body_center + Vector2(63, -34)
-
-	# Harici özel demlik çizimi (assets/menu/kettle.png) varsa onu kullan
+	if is_pouring and target_cup_pos != Vector2.ZERO:
+		_draw_stream()
 	if custom_kettle_texture:
 		draw_texture_rect(custom_kettle_texture, Rect2(Vector2.ZERO, size), false)
-	else:
-		# 1. Gölge
-		draw_circle(body_center + Vector2(6, 12), 34.0, COLOR_KETTLE_SHADOW)
+		return
+	_draw_kettle()
 
-		# 2. Arka Kulp (Handle)
-		var handle_base := body_center + Vector2(-32, 0)
-		draw_line(handle_base, handle_base + Vector2(-22, -14), COLOR_HANDLE, 8.0)
-		draw_line(handle_base + Vector2(-22, -14), handle_base + Vector2(-22, 14), COLOR_HANDLE, 8.0)
-		draw_line(handle_base + Vector2(-22, 14), handle_base, COLOR_HANDLE, 8.0)
+func _draw_kettle() -> void:
+	var body := _body_polygon(BODY_CENTER, Vector2(58, 52))
+	# Tezgâha düşen gölge
+	draw_colored_polygon(_body_polygon(BODY_CENTER + Vector2(10, 16), Vector2(56, 46)), SHADOW)
+	# Kulp: önce mürekkep, sonra ahşap
+	var handle := PackedVector2Array([Vector2(56, 100), Vector2(26, 106), Vector2(14, 138), Vector2(26, 170), Vector2(54, 176)])
+	draw_polyline(handle, INK, 17.0, true)
+	draw_polyline(handle, WOOD, 10.0, true)
+	# Kuğu boynu ağız
+	var spout := PackedVector2Array([Vector2(146, 166), Vector2(176, 158), Vector2(192, 128), Vector2(200, 94), Vector2(212, 62), SPOUT_OFFSET])
+	draw_polyline(spout, INK, 14.0, true)
+	draw_polyline(spout, COPPER, 8.0, true)
+	draw_polyline(_offset(spout, Vector2(-2, -1)), COPPER_LIGHT, 2.5, true)
+	# Gövde: taban rengi, sağda gölge, solda ışık, parlama çizgileri
+	draw_colored_polygon(body, COPPER)
+	for part: PackedVector2Array in Geometry2D.intersect_polygons(body, _body_polygon(BODY_CENTER + Vector2(30, 6), Vector2(52, 56))):
+		draw_colored_polygon(part, COPPER_DARK)
+	for part: PackedVector2Array in Geometry2D.intersect_polygons(body, _body_polygon(BODY_CENTER + Vector2(-26, -8), Vector2(26, 40))):
+		draw_colored_polygon(part, COPPER_LIGHT)
+	draw_line(BODY_CENTER + Vector2(-34, -24), BODY_CENTER + Vector2(-40, 14), SHINE, 4.0, true)
+	draw_line(BODY_CENTER + Vector2(-24, -32), BODY_CENTER + Vector2(-27, -18), SHINE, 3.0, true)
+	draw_polyline(_closed(body), INK, 3.5, true)
+	# Kapak: kubbe, ağız halkası, ahşap topuz
+	var dome := PackedVector2Array()
+	for i in range(17):
+		var a := PI + PI * i / 16.0
+		dome.append(Vector2(100, 92) + Vector2(cos(a) * 30.0, sin(a) * 16.0))
+	draw_colored_polygon(dome, COPPER_DARK)
+	draw_polyline(dome, INK, 3.0, true)
+	var rim := _ellipse(Vector2(100, 92), Vector2(36, 9))
+	draw_colored_polygon(rim, COPPER_LIGHT)
+	draw_polyline(_closed(rim), INK, 3.0, true)
+	draw_circle(Vector2(100, 70), 9.0, INK)
+	draw_circle(Vector2(100, 70), 6.5, WOOD)
+	draw_circle(Vector2(98, 68), 2.0, SHINE)
+	# Ağız ucu deliği
+	draw_circle(SPOUT_OFFSET, 4.5, INK)
 
-		# 3. Kuğu Boyunlu İnce Ağız (Gooseneck Spout)
-		var spout_points := PackedVector2Array([
-			body_center + Vector2(26, -10),
-			body_center + Vector2(48, -24),
-			body_center + Vector2(58, -32),
-			body_center + Vector2(63, -34)
-		])
-		draw_polyline(spout_points, COLOR_BODY_METAL, 8.0)
-		draw_polyline(spout_points, COLOR_BODY_HIGHLIGHT, 2.5)
-		draw_circle(spout_tip, 3.5, COLOR_BODY_BASE)
+## Ağızdan yükselen kahve yüzeyine düşen, hafif dalgalı akış ve düştüğü yerde sıçrama.
+func _draw_stream() -> void:
+	var start := SPOUT_OFFSET
+	var end := to_local_pos(target_cup_pos)
+	var points := PackedVector2Array()
+	var steps := 14
+	var side := (end - start).orthogonal().normalized()
+	for k in range(steps + 1):
+		var t := float(k) / steps
+		points.append(start.lerp(end, t) + side * sin(stream_time * 0.9 + t * 9.0) * 1.6 * t)
+	draw_polyline(points, STREAM, 7.0, true)
+	draw_polyline(_offset(points, side * -1.2), STREAM_LIGHT, 2.2, true)
+	for i in range(3):
+		var t := fmod(stream_time * 0.25 + float(i) * 0.33, 1.0)
+		draw_circle(start.lerp(end, t) + side * 3.5, 1.8, STREAM_LIGHT)
+	var splash := 0.5 + 0.5 * sin(stream_time * 1.7)
+	draw_arc(end, 6.0 + splash * 3.0, PI * 1.1, PI * 1.9, 10, SPLASH, 2.0, true)
+	draw_circle(end, 3.0, STREAM_LIGHT)
 
-		# 4. Ana Gövde (Metal kettle body)
-		draw_circle(body_center, 32.0, COLOR_BODY_BASE)
-		draw_circle(body_center, 30.0, COLOR_BODY_METAL)
-		draw_arc(body_center, 26.0, -PI * 0.75, -PI * 0.15, 24, COLOR_BODY_HIGHLIGHT, 3.5)
+## Tabanı geniş, omuzları yuvarlak demlik gövdesi.
+func _body_polygon(center: Vector2, radii: Vector2) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for i in range(40):
+		var a := TAU * i / 40.0
+		var c := cos(a)
+		var s := sin(a)
+		var x := signf(c) * pow(absf(c), 0.75) * radii.x * (1.0 + 0.12 * s)
+		var y := signf(s) * pow(absf(s), 0.9) * radii.y
+		points.append(center + Vector2(x, y))
+	return points
 
-		# 5. Kapak (Lid)
-		draw_circle(body_center, 18.0, COLOR_LID)
-		draw_arc(body_center, 18.0, 0.0, TAU, 24, COLOR_BODY_BASE, 2.0)
+func _ellipse(center: Vector2, radii: Vector2) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for i in range(28):
+		var a := TAU * i / 28.0
+		points.append(center + Vector2(cos(a) * radii.x, sin(a) * radii.y))
+	return points
 
-		# 6. Kapak Kulpu (Brass knob)
-		draw_circle(body_center, 6.0, COLOR_KNOB)
-		draw_circle(body_center + Vector2(-1, -1), 2.0, Color(1, 1, 1, 0.6))
+func _closed(points: PackedVector2Array) -> PackedVector2Array:
+	var result := points.duplicate()
+	result.append(points[0])
+	return result
 
-	# 7. Kahve Akışı (Kahve Dökülürken)
-	if is_pouring and target_cup_pos != Vector2.ZERO:
-		var stream_end_local: Vector2 = to_local_pos(target_cup_pos)
-		var spout_local: Vector2 = spout_tip
-
-		# Ana kahve akış çizgisi
-		draw_line(spout_local, stream_end_local, COLOR_COFFEE_STREAM, 6.5)
-		draw_line(spout_local, stream_end_local, COLOR_COFFEE_STREAM_LIGHT, 2.5)
-
-		# Akış üzerindeki damlacıklar
-		for i in range(3):
-			var t: float = fmod((stream_time * 0.25) + float(i) * 0.33, 1.0)
-			var drop_pos: Vector2 = spout_local.lerp(stream_end_local, t)
-			draw_circle(drop_pos, 2.5, COLOR_COFFEE_STREAM_LIGHT)
-
-		# Fincandaki çarpma / sıçrama noktası
-		draw_circle(stream_end_local, 5.0, COLOR_COFFEE_STREAM_LIGHT)
-		draw_circle(stream_end_local, 2.5, Color.WHITE)
+func _offset(points: PackedVector2Array, by: Vector2) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for p in points:
+		result.append(p + by)
+	return result
