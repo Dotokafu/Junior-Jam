@@ -134,9 +134,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	is_hovered = false
-	if is_pouring:
-		is_pouring = false
-		pour_ended.emit(self)
+	# Dökmeyi menü durdurur: mıknatıs alanı bardaktan geniştir, düğmeden çıkmak alandan çıkmak değildir.
 	var pal: Dictionary = _get_palette()
 	title_label.modulate = pal.text_color
 	queue_redraw()

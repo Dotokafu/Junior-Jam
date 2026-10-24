@@ -148,6 +148,7 @@ godot --headless --path . --script tests/flow_test.gd
 godot --headless --path . --script tests/localization_test.gd
 godot --headless --path . --script tests/save_test.gd
 godot --path . --script tests/latte_test.gd
+godot --path . --script tests/menu_snap_test.gd
 godot --path . --script tests/visual_smoke.gd
 ```
 

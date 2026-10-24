@@ -9,6 +9,18 @@ class_name KettleCursor
 var stream_time: float = 0.0
 var tilt_angle: float = 0.0
 var active: bool = true
+## Mıknatıs: menü fareyi bir bardağın yakınında görünce ağzı bu noktaya kilitler (INF = fareyi izle).
+## Kilit kalkınca demlik fareye kayarak döner, ışınlanmaz.
+var snap_spout: Vector2 = Vector2.INF:
+	set(value):
+		if value == Vector2.INF and snap_spout != Vector2.INF:
+			gliding = true
+		snap_spout = value
+var gliding: bool = false
+## Farenin son konumu; menü fare hareketi olaylarından günceller (test olayları da aynı yoldan gelir).
+var pointer: Vector2 = Vector2.ZERO
+const SPOUT_OFFSET := Vector2(128, 46)
+const SNAP_SPEED := 18.0
 
 # Renkler
 const COLOR_KETTLE_SHADOW := Color(0.03, 0.02, 0.04, 0.45)
@@ -30,6 +42,7 @@ func _ready() -> void:
 	pivot_offset = Vector2(80, 80)
 	z_index = 50  # Her zaman fincanların ve arayüzün üstünde
 	_check_custom_kettle()
+	pointer = get_global_mouse_position()
 
 func _check_custom_kettle() -> void:
 	if ResourceLoader.exists(KETTLE_PATH):
@@ -43,11 +56,6 @@ func _process(delta: float) -> void:
 		return
 	visible = true
 
-	# Fare pozisyonuna hizalan
-	var mouse_pos := get_global_mouse_position()
-	# Demliğin ağzı (spout) fare ucuna yakın olacak şekilde hafif ofset
-	global_position = mouse_pos - Vector2(120, 40)
-
 	if is_pouring:
 		stream_time += delta * 12.0
 		# Hedef bardağa doğru hafif eğim
@@ -55,9 +63,26 @@ func _process(delta: float) -> void:
 		tilt_angle = lerpf(tilt_angle, clampf(dir * 0.3, -0.35, 0.35), delta * 10.0)
 	else:
 		tilt_angle = lerpf(tilt_angle, 0.0, delta * 8.0)
-
+	# Önce eğim: kilitliyken konum, bu karenin eğimine göre ağzı yerinde tutacak şekilde hesaplanır.
 	rotation = tilt_angle
+
+	# Fare pozisyonuna hizalan
+	var mouse_pos := pointer
+	# Demliğin ağzı (spout) fare ucuna yakın olacak şekilde hafif ofset
+	var follow := mouse_pos - Vector2(120, 40)
+	if snap_spout != Vector2.INF or gliding:
+		var target := follow if snap_spout == Vector2.INF else _snapped_position()
+		global_position = global_position.lerp(target, minf(1.0, delta * SNAP_SPEED))
+		gliding = snap_spout == Vector2.INF and global_position.distance_to(target) > 4.0
+	else:
+		global_position = follow
 	queue_redraw()
+
+## Ağız ucu, demlik eğilmiş olsa da snap_spout'ta kalsın diye gereken konum. Dönüşün nereye göre
+## uygulandığını varsaymaz: güncel dönüşüm matrisinden ağzın konuma göre kaymasını okur.
+func _snapped_position() -> Vector2:
+	var xform := get_global_transform()
+	return snap_spout - (xform.origin - global_position) - xform.basis_xform(SPOUT_OFFSET)
 
 ## Global koordinatı bu Control düğümünün yerel koordinatına çevirir (Node2D.to_local alternatifi)
 func to_local_pos(p_global: Vector2) -> Vector2:

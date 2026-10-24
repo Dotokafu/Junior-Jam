@@ -20,6 +20,12 @@ var has_save: bool = false
 var pouring_cup_id: String = ""
 var is_holding_pour: bool = false
 var selection_locked: bool = false
+## Mıknatıs: fare bir bardağın kenarına bu kadar yaklaşınca demlik o bardağın üstüne hizalanır.
+## Bardak arası 120 px; alanlar çakışmaz, çakışırsa en yakın bardak kazanır.
+const SNAP_MARGIN := 50.0
+## Demliğin ağzı bardak ağzının tam üstünde, bu kadar yukarıda durur: akış dümdüz iner.
+const SNAP_SPOUT_OFFSET := Vector2(0, -70)
+var snapped_cup_id: String = ""
 
 @onready var cups_container: HBoxContainer = $CenterContainer/CupsContainer
 @onready var story_cup: TopdownCup = $CenterContainer/CupsContainer/StoryCup
@@ -82,10 +88,36 @@ func _connect_cup(cup: TopdownCup, id: String) -> void:
 	cup.pour_started.connect(func(c: TopdownCup) -> void: _start_pouring(c.cup_id))
 	cup.pour_ended.connect(func(c: TopdownCup) -> void: _stop_pouring(c.cup_id))
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and kettle:
+		kettle.pointer = event.position
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
-		if is_holding_pour:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			# Bardağın kendisine değil, çevresindeki mıknatıs alanına basıldıysa da dökmeye başla.
+			if not is_holding_pour and snapped_cup_id != "":
+				_start_pouring(snapped_cup_id)
+		elif is_holding_pour:
 			_stop_pouring(pouring_cup_id)
+
+## Fareye en yakın, mıknatıs alanı içindeki bardağı seçer ve demliği ona kilitler.
+## Alandan çıkınca dökme durur (bardağın kendi düğmesinden çıkmak artık durdurmaz).
+func _update_snap() -> void:
+	var mouse: Vector2 = kettle.pointer if kettle else get_global_mouse_position()
+	var nearest: TopdownCup = null
+	for cup: TopdownCup in [story_cup, endless_cup, settings_cup]:
+		if cup and cup.get_global_rect().grow(SNAP_MARGIN).has_point(mouse):
+			if nearest == null or _cup_mouth(cup).distance_to(mouse) < _cup_mouth(nearest).distance_to(mouse):
+				nearest = cup
+	snapped_cup_id = nearest.cup_id if nearest else ""
+	if is_holding_pour and pouring_cup_id != snapped_cup_id:
+		_stop_pouring(pouring_cup_id)
+	if kettle:
+		kettle.snap_spout = (_cup_mouth(nearest) + SNAP_SPOUT_OFFSET) if nearest else Vector2.INF
+
+func _cup_mouth(cup: TopdownCup) -> Vector2:
+	return cup.global_position + cup.get_cup_center()
 
 func _start_pouring(cup_id: String) -> void:
 	if selection_locked:
@@ -93,6 +125,8 @@ func _start_pouring(cup_id: String) -> void:
 	pouring_cup_id = cup_id
 	is_holding_pour = true
 	var active_cup: TopdownCup = _get_cup_by_id(cup_id)
+	if active_cup:
+		active_cup.is_pouring = true
 	if active_cup and kettle:
 		kettle.is_pouring = true
 		kettle.target_cup_pos = active_cup.global_position + active_cup.get_cup_center()
@@ -110,6 +144,7 @@ func _stop_pouring(cup_id: String) -> void:
 func _process(delta: float) -> void:
 	if selection_locked or director == null:
 		return
+	_update_snap()
 
 	# Doldurma ve boşalma durumunu domain servisinde güncelle
 	var resolution: Dictionary = director.update_pouring(pouring_cup_id, is_holding_pour, delta, has_save)
