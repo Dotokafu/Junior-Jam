@@ -33,6 +33,8 @@ var snapped_cup_id: String = ""
 @onready var settings_cup: TopdownCup = $Cups/SettingsCup
 @onready var kettle: KettleCursor = $KettleCursor
 @onready var hint_label: Label = $Footer/HintLabel
+## Başlık duvara boyanmış gibi: Header (Node2D) duvarla tezgâhın birleşim çizgisine paralel eğik
+## (eğim ≈ -0,225, resimden ölçüldü); skew = -rotation, böylece harflerin dikeyleri dik kalır.
 ## Başlık üç parça: "CoF" + ters dönüp aşağı düşmüş "F" (Fallen) + "allen".
 @onready var title_parts: Array[Label] = [$Header/Title/TitleLeft, $Header/Title/FlipHolder/TitleFlip, $Header/Title/TitleRight]
 @onready var flip_holder: Control = $Header/Title/FlipHolder

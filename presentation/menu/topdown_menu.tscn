@@ -16,15 +16,10 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_menu_script")
 
-[node name="Header" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 120.0
-offset_top = 90.0
-offset_right = 900.0
-offset_bottom = 370.0
-rotation = -0.04
-mouse_filter = 2
+[node name="Header" type="Node2D" parent="."]
+position = Vector2(110, 262)
+rotation = -0.2213
+skew = 0.2213
 
 [node name="Title" type="HBoxContainer" parent="Header"]
 layout_mode = 0
