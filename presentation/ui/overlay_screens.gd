@@ -103,7 +103,9 @@ func _menu_strip(active: String, state: Dictionary) -> void:
 	else:
 		_menu_item(box, I18n.t("pause.new_game"), "new_game", active, func() -> void: page_requested.emit("new_game"))
 		_menu_item(box, I18n.t("pause.back"), "", active, func() -> void: modal_closed.emit())
-	_menu_item(box, I18n.t("pause.quit"), "", active, func() -> void: quit_requested.emit())
+	# Tarayıcıda oyun sekmeyi kapatamaz; çıkış yalnızca masaüstünde.
+	if not OS.has_feature("web"):
+		_menu_item(box, I18n.t("pause.quit"), "", active, func() -> void: quit_requested.emit())
 	# Konteyner dışındaki etiketlere genişlik verilmezse her harf alt satıra kayar.
 	var footer_width := STRIP_WIDTH - 120
 	var hint := _label(modal_layer, I18n.t("pause.esc_hint"), "Caption")
@@ -140,9 +142,11 @@ func _page(kind: String, state: Dictionary) -> void:
 			_button(box, I18n.t("menu.motion_reduced" if state.get("reduced_motion", false) else "menu.motion_normal"), func() -> void: motion_toggled.emit())
 			_button(box, I18n.t("menu.text_speed", {"speed": I18n.t("speed." + str(state.get("speed", "normal")))}), func() -> void: speed_cycled.emit())
 			_button(box, I18n.t("menu.fullscreen_on" if state.get("fullscreen", false) else "menu.fullscreen_off"), func() -> void: fullscreen_toggled.emit())
-			var window_size: Vector2i = state.get("window_size", Vector2i(1920, 1080))
-			var size_button := _button(box, I18n.t("menu.window_size", {"size": "%d×%d" % [window_size.x, window_size.y]}), func() -> void: window_size_cycled.emit())
-			size_button.disabled = state.get("fullscreen", false)
+			# Tarayıcıda pencere boyutunu sayfa belirler; seçenek yalnızca masaüstünde.
+			if not OS.has_feature("web"):
+				var window_size: Vector2i = state.get("window_size", Vector2i(1920, 1080))
+				var size_button := _button(box, I18n.t("menu.window_size", {"size": "%d×%d" % [window_size.x, window_size.y]}), func() -> void: window_size_cycled.emit())
+				size_button.disabled = state.get("fullscreen", false)
 		"save":
 			_label(box, I18n.t("save.instructions"), "Caption")
 			for summary: Dictionary in state.get("slots", []):

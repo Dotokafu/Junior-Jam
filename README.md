@@ -95,6 +95,17 @@ Ayar `export_presets.cfg` dosyasında: testler, belgeler, araçlar ve `.zip` dos
 Yerelde aynı çıktı için Godot 4.7.2 Windows şablonu kuruluyken:
 `godot --headless --path . --export-release "Windows Desktop" build/windows/CoFFallen.exe`
 
+## Web'de oynatma (GitHub Pages)
+
+GitHub'da **Actions → Web (GitHub Pages) → Run workflow**. Birkaç dakika sonra oyun
+https://dotokafu.github.io/Junior-Jam/ adresinde tarayıcıda oynanır (WebGL 2; Chrome, Firefox, Edge).
+Kayıtlar tarayıcının kendi deposunda tutulur. Bir kez yapılması gereken: repo → **Settings → Pages →
+Source: GitHub Actions** (repo yöneticisi açar).
+
+Tarayıcıda pencere boyutu seçeneği ve "Oyundan çık" gizlenir; boyutu sayfa belirler.
+Yerelde: `godot --headless --path . --export-release "Web" build/web/index.html`, sonra
+`python3 -m http.server -d build/web` ve http://localhost:8000 .
+
 ## Mimariyi basitçe anlamak
 
 Bir müşteri geldiğini düşün: **`content` kimin ne söyleyeceğini anlatır; `domain` hangi fincanın doğru olduğunu bilir; `application` sıradaki işi yürütür; `presentation` gördüğün ekranı çizer; `infrastructure` dosyaları okur ve kaydeder.** Bu görevler ayrı tutulduğu için yeni çizim veya konuşma eklerken kahve kurallarını değiştirmek gerekmez.

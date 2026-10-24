@@ -1,0 +1,82 @@
+# Elle tetiklenir: Actions → "Web (GitHub Pages)" → Run workflow. Oyunu tarayıcı için dışa aktarır
+# (tek iş parçacıklı, özel sunucu başlığı gerekmez) ve GitHub Pages'e yayınlar:
+# https://dotokafu.github.io/Junior-Jam/
+# Bir kez: repo → Settings → Pages → Source: "GitHub Actions" (repo yöneticisi açar).
+name: Web (GitHub Pages)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Aynı anda tek yayın; yenisi gelince yarımdaki iptal edilmez, sıraya girer.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  GODOT_VERSION: "4.7.2"
+  GODOT_STATUS: stable
+
+jobs:
+  build:
+    name: Web sürümünü oluştur
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      # Şablon paketi ~1,3 GB; Godot ve yalnızca web şablonu sürüm başına bir kez indirilip saklanır.
+      - name: Godot'u önbellekten al
+        id: godot-cache
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-${{ env.GODOT_VERSION }}-${{ env.GODOT_STATUS }}-web
+
+      - name: Godot ve web şablonunu indir
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_STATUS}"
+          tag="Godot_v${GODOT_VERSION}-${GODOT_STATUS}"
+          mkdir -p ~/godot
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/godot.zip" "$base/${tag}_linux.x86_64.zip"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d ~/godot
+          mv ~/godot/${tag}_linux.x86_64 ~/godot/godot
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/templates.tpz" "$base/${tag}_export_templates.tpz"
+          templates=~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_STATUS}
+          mkdir -p "$templates"
+          unzip -q -j "$RUNNER_TEMP/templates.tpz" templates/version.txt templates/web_nothreads_release.zip -d "$templates"
+          rm "$RUNNER_TEMP/godot.zip" "$RUNNER_TEMP/templates.tpz"
+
+      - name: Kaynakları içe aktar
+        run: ~/godot/godot --headless --path . --import
+
+      - name: Web için dışa aktar
+        run: |
+          set -euo pipefail
+          mkdir -p build/web
+          ~/godot/godot --headless --path . --export-release "Web" build/web/index.html
+          test -s build/web/index.wasm && test -s build/web/index.pck
+          ls -lh build/web
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: build/web
+
+  deploy:
+    name: GitHub Pages'e yayınla
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

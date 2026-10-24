@@ -330,6 +330,9 @@ func _apply_display() -> void:
 		window.mode = Window.MODE_FULLSCREEN
 		return
 	window.mode = Window.MODE_WINDOWED
+	# Tarayıcıda pencere yok: tuvalin boyutunu sayfa belirler, boyut vermek ölçeklemeyi bozar.
+	if OS.has_feature("web"):
+		return
 	window.size = settings.window_size
 	window.move_to_center()
 
