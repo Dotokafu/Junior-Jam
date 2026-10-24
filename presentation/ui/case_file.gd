@@ -169,7 +169,11 @@ func _render_record() -> void:
 	header.text = I18n.t("dossier.case_header", {"number": "%04d" % index})
 	number.text = I18n.t("dossier.record_title", {"name": current.name, "day": current.day})
 	name_label.text = current.name
-	observation.text = current.appearance
+	var marks: Array = current.get("marks", [])
+	var lines := PackedStringArray([current.appearance, "", I18n.t("dossier.marks") if not marks.is_empty() else I18n.t("dossier.no_marks")])
+	for line: String in marks:
+		lines.append("• " + line)
+	observation.text = "\n".join(lines)
 	record_text.text = current.dossier
 	var guess_text: String = {"unknown": I18n.t("dossier.guess_unknown"), "human": I18n.t("dossier.guess_human"), "fallen": I18n.t("dossier.guess_fallen")}.get(current.guess, I18n.t("common.unavailable"))
 	guess.text = I18n.t("dossier.guess", {"guess": guess_text})
