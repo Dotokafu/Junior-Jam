@@ -1,223 +1,283 @@
 {
   "characters": [
-    {
-      "id": "defne",
-      "name": "Defne",
-      "role": "Sabah tedarikçisi",
-      "species": "human",
-      "skin": "b88062",
-      "hair": "342c38",
-      "coat": "9b936d",
-      "dossier": "Teslimat ruhsatı geçerli. Belediye deposu çalışanı.",
-      "appearance": "Sol bileğinde eski bir yanık; her sabah aynı saatte gelir."
-    },
-    {
-      "id": "vey",
-      "name": "Vey",
-      "role": "Gece tedarikçisi",
-      "species": "fallen",
-      "skin": "a5aaa9",
-      "hair": "272b38",
-      "coat": "67526c",
-      "dossier": "Kayıt bulunamadı. Doğum tarihi alanı boş.",
-      "appearance": "Eldivenlerini hiç çıkarmıyor. Sesini yükseltmesi gerekmiyor."
-    },
-    {
-      "id": "ada",
-      "name": "Ada",
-      "role": "Gece vardiyası hemşiresi",
-      "species": "human",
-      "skin": "c4927e",
-      "hair": "3a2838",
-      "coat": "688b86",
-      "dossier": "Şehir hastanesi, kan bankası vardiyası. Kayıp yakını: Deniz.",
-      "appearance": "Uykusuz gözler, lekeli manşet. Cebinde bir hastane kartı."
-    },
-    {
-      "id": "eren",
-      "name": "Eren",
-      "role": "Son tramvayın yolcusu",
-      "species": "fallen",
-      "skin": "a3a0a4",
-      "hair": "292638",
-      "coat": "6c607f",
-      "dossier": "Ölüm bildirimi: 11 yıl önce. Kayıt aktarım hatası olabilir.",
-      "appearance": "Soluk bir yüz. Yağmura rağmen yakasında tek damla yok."
-    },
-    {
-      "id": "mira",
-      "name": "Mira",
-      "role": "Foto muhabiri",
-      "species": "human",
-      "skin": "bd927f",
-      "hair": "5a3846",
-      "coat": "b48161",
-      "dossier": "Basın kartı askıda. Polis tarafından iki kez sorgulanmış.",
-      "appearance": "Boynunda fotoğraf makinesi. Güneş gözlüğünü gece de takıyor."
-    },
-    {
-      "id": "ilya",
-      "name": "İlya",
-      "role": "Belediye arşivcisi",
-      "species": "fallen",
-      "skin": "c5ad95",
-      "hair": "403643",
-      "coat": "717c77",
-      "dossier": "Geçerli personel kartı. Sicil fotoğrafı 23 yıldır değişmemiş.",
-      "appearance": "Gülümsüyor. Kahvesine hiç dokunmadan ellerini ısıtıyor."
-    },
-    {
-      "id": "atlas",
-      "name": "Atlas",
-      "role": "Liman işçisi",
-      "species": "human",
-      "skin": "9b7567",
-      "hair": "332c35",
-      "coat": "7d7a91",
-      "dossier": "Liman kazasında yaralanmış. Göz protezi kayıtlı.",
-      "appearance": "Bir gözü ışığı farklı yansıtıyor. Boynunda taze bir bandaj."
-    },
-    {
-      "id": "saye",
-      "name": "Saye",
-      "role": "Kayıp birinin kardeşi",
-      "species": "fallen",
-      "skin": "ac9998",
-      "hair": "312b41",
-      "coat": "967179",
-      "dossier": "Kardeşi kayıp. Kendi kimliği üç farklı dosyada geçiyor.",
-      "appearance": "Üşüyor gibi yapıyor. Aynadaki yerinden gözlerini kaçırıyor."
-    },
-    {
-      "id": "narin",
-      "name": "Narin",
-      "role": "Müzik öğretmeni",
-      "species": "human",
-      "skin": "d4ab8d",
-      "hair": "685047",
-      "coat": "7c927b",
-      "dossier": "Geçerli ikamet. Akciğer tedavisi görüyor.",
-      "appearance": "Parmakları hep soğuk. Penceredeki çocuklara el sallıyor."
-    },
-    {
-      "id": "guest_h01",
-      "name": "Lale",
-      "role": "Postane çalışanı",
-      "species": "human",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Zimmetli posta çantası. Vardiya kaydı doğrulandı.",
-      "appearance": "Parmaklarında mürekkep lekesi var. Yüzü uykusuzluktan solgun.",
-      "smalltalk": [
-        "İsimleri yanlış adrese gönderdiğimizde bazen insanlar da kayboluyor.",
+	{
+	  "id": "defne",
+	  "name": "Defne",
+	  "role": "Sabah tedarikçisi",
+	  "species": "human",
+	  "skin": "b88062",
+	  "hair": "342c38",
+	  "coat": "9b936d",
+	  "dossier": "Teslimat ruhsatı geçerli. Belediye deposu çalışanı.",
+	  "appearance": "Sol bileğinde eski bir yanık; her sabah aynı saatte gelir."
+	},
+	{
+	  "id": "vey",
+	  "name": "Vey",
+	  "role": "Gece tedarikçisi",
+	  "species": "fallen",
+	  "skin": "a5aaa9",
+	  "hair": "272b38",
+	  "coat": "67526c",
+	  "dossier": "Kayıt bulunamadı. Doğum tarihi alanı boş.",
+	  "appearance": "Eldivenlerini hiç çıkarmıyor. Sesini yükseltmesi gerekmiyor."
+	},
+	{
+	  "id": "ada",
+	  "name": "Ada",
+	  "role": "Gece vardiyası hemşiresi",
+	  "species": "human",
+	  "skin": "c4927e",
+	  "hair": "3a2838",
+	  "coat": "688b86",
+	  "dossier": "Şehir hastanesi, kan bankası vardiyası. Kayıp yakını: Deniz.",
+	  "appearance": "Uykusuz gözler, lekeli manşet. Cebinde bir hastane kartı."
+	},
+	{
+	  "id": "eren",
+	  "name": "Eren",
+	  "role": "Son tramvayın yolcusu",
+	  "species": "fallen",
+	  "skin": "a3a0a4",
+	  "hair": "292638",
+	  "coat": "6c607f",
+	  "dossier": "Ölüm bildirimi: 11 yıl önce. Kayıt aktarım hatası olabilir.",
+	  "appearance": "Soluk bir yüz. Yağmura rağmen yakasında tek damla yok."
+	},
+	{
+	  "id": "mira",
+	  "name": "Mira",
+	  "role": "Foto muhabiri",
+	  "species": "human",
+	  "skin": "bd927f",
+	  "hair": "5a3846",
+	  "coat": "b48161",
+	  "dossier": "Basın kartı askıda. Polis tarafından iki kez sorgulanmış.",
+	  "appearance": "Boynunda fotoğraf makinesi. Güneş gözlüğünü gece de takıyor."
+	},
+	{
+	  "id": "ilya",
+	  "name": "İlya",
+	  "role": "Belediye arşivcisi",
+	  "species": "fallen",
+	  "skin": "c5ad95",
+	  "hair": "403643",
+	  "coat": "717c77",
+	  "dossier": "Geçerli personel kartı. Sicil fotoğrafı 23 yıldır değişmemiş.",
+	  "appearance": "Gülümsüyor. Kahvesine hiç dokunmadan ellerini ısıtıyor."
+	},
+	{
+	  "id": "atlas",
+	  "name": "Atlas",
+	  "role": "Liman işçisi",
+	  "species": "human",
+	  "skin": "9b7567",
+	  "hair": "332c35",
+	  "coat": "7d7a91",
+	  "dossier": "Liman kazasında yaralanmış. Göz protezi kayıtlı.",
+	  "appearance": "Bir gözü ışığı farklı yansıtıyor. Boynunda taze bir bandaj."
+	},
+	{
+	  "id": "saye",
+	  "name": "Saye",
+	  "role": "Kayıp birinin kardeşi",
+	  "species": "fallen",
+	  "skin": "ac9998",
+	  "hair": "312b41",
+	  "coat": "967179",
+	  "dossier": "Kardeşi kayıp. Kendi kimliği üç farklı dosyada geçiyor.",
+	  "appearance": "Üşüyor gibi yapıyor. Aynadaki yerinden gözlerini kaçırıyor."
+	},
+	{
+	  "id": "narin",
+	  "name": "Narin",
+	  "role": "Müzik öğretmeni",
+	  "species": "human",
+	  "skin": "d4ab8d",
+	  "hair": "685047",
+	  "coat": "7c927b",
+	  "dossier": "Geçerli ikamet. Akciğer tedavisi görüyor.",
+	  "appearance": "Parmakları hep soğuk. Penceredeki çocuklara el sallıyor."
+	},
+	{
+	  "id": "guest_h01",
+	  "name": "Lale",
+	  "role": "Postane çalışanı",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "Zimmetli posta çantası. Vardiya kaydı doğrulandı.",
+	  "appearance": "Parmaklarında mürekkep lekesi var. Yüzü uykusuzluktan solgun.",
+	  "smalltalk": [
+		"İsimleri yanlış adrese gönderdiğimizde bazen insanlar da kayboluyor.",
         "Bugün bütün zarflar aynı adrese gidiyordu. Açmadım."
-      ]
-    },
-    {
-      "id": "guest_h02",
-      "name": "Bora",
-      "role": "Gece bekçisi",
-      "species": "human",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Solunum maskesi kullanım raporu. Sabıka kaydı yok.",
-      "appearance": "Maskesini indirmiyor. Boynunda küçük bir aile fotoğrafı taşıyor.",
-      "smalltalk": [
-        "Maskenin altında ne olduğumu soran çok. Nasıl olduğumu soran yok.",
+	  ]
+	},
+	{
+	  "id": "guest_h02",
+	  "name": "Bora",
+	  "role": "Gece bekçisi",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "Solunum maskesi kullanım raporu. Sabıka kaydı yok.",
+	  "appearance": "Maskesini indirmiyor. Boynunda küçük bir aile fotoğrafı taşıyor.",
+	  "smalltalk": [
+		"Maskenin altında ne olduğumu soran çok. Nasıl olduğumu soran yok.",
         "Sabaha kadar bir kapıya bakıyorum. Bazen arkasında ben varmışım gibi geliyor."
-      ]
-    },
-    {
-      "id": "guest_h03",
-      "name": "Cemre",
-      "role": "Tamirci",
-      "species": "human",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Terk edilmiş metro hattında görevli. İş kazası kaydı mevcut.",
-      "appearance": "Ellerini cebinden çıkarmıyor. Yakası makine yağı kokuyor.",
-      "smalltalk": [
-        "Bir şeyin kırık olduğunu anlamak kolay. Kimin kırdığını anlamak zor.",
+	  ]
+	},
+	{
+	  "id": "guest_h03",
+	  "name": "Cemre",
+	  "role": "Tamirci",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "Terk edilmiş metro hattında görevli. İş kazası kaydı mevcut.",
+	  "appearance": "Ellerini cebinden çıkarmıyor. Yakası makine yağı kokuyor.",
+	  "smalltalk": [
+		"Bir şeyin kırık olduğunu anlamak kolay. Kimin kırdığını anlamak zor.",
         "Metro kapalı ama raylardan ses geliyor. Müdür bakım çalışması diyor."
-      ]
-    },
-    {
-      "id": "guest_h04",
-      "name": "Ozan",
-      "role": "Eczane çırağı",
-      "species": "human",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "İlaç teslimatı izinli. Gece sokağa çıkma belgesi geçerli.",
-      "appearance": "Gözbebekleri farklı büyüklükte. Cebindeki ilaç kutusu titriyor.",
-      "smalltalk": [
-        "Damlalardan. Gözlerimi soracaktın, değil mi?",
+	  ]
+	},
+	{
+	  "id": "guest_h04",
+	  "name": "Ozan",
+	  "role": "Eczane çırağı",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "İlaç teslimatı izinli. Gece sokağa çıkma belgesi geçerli.",
+	  "appearance": "Gözbebekleri farklı büyüklükte. Cebindeki ilaç kutusu titriyor.",
+	  "smalltalk": [
+		"Damlalardan. Gözlerimi soracaktın, değil mi?",
         "Eczanede her şeyin bir etiketi var. İnsanların olması o kadar kolay değil."
-      ]
-    },
-    {
-      "id": "guest_f01",
-      "name": "Rüya",
-      "role": "Sahaf",
-      "species": "fallen",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Dükkân ruhsatı 46 yıldır aynı isimde. Doğum tarihi uyuşmuyor.",
-      "appearance": "Eski bir kitabı göğsüne bastırıyor. Cilt kaplaması sıcak görünüyor.",
-      "smalltalk": [
-        "Bazı kitaplar okurunu bekler. Bazı okurlar hiç yaşlanmaz.",
+	  ]
+	},
+	{
+	  "id": "guest_h05",
+	  "name": "Alara",
+	  "role": "Fastfood Çalışanı",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "E827D0",
+	  "coat": "B82B1C",
+	  "dossier": "Hayatı istediği gibi gitmiyor. Sabıka kaydı yok.",
+	  "appearance": "Renkli toka ve koyu renk bir ceketin daha fazla yakışacağı başka biri yok.",
+	  "smalltalk": [
+		"Öyle bakma, göründüğümden daha zekiyim",
+        "Vanitas'a yemin olsun patronum molalarıma bir kez daha karışırsa evine zor dönecek."
+	  ]
+	},
+	{
+	  "id": "guest_h06",
+	  "name": "Berkecan",
+	  "role": "Konservatuar Öğrencisi",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "2A2C30",
+	  "coat": "756357",
+	  "dossier": "İkameti fakir bir mahallede gözüküyor.",
+	  "appearance": "Ters takılmış şapkası ve kafasını saran bir kulaklık, zamane genci işte.",
+	  "smalltalk": [
+		"Bu sabah rüyamda öyle güzel bir melodi duydum ki bu suratı reklam panolarında görmen an meselesi.",
+        "Akustik dersinin hocası bana fena taktı ya."
+	  ]
+	},
+	{
+	  "id": "guest_h07",
+	  "name": "Hasan",
+	  "role": "Kasap",
+	  "species": "human",
+	  "skin": "b9a08f",
+	  "hair": "3A3C3B",
+	  "coat": "5E5B58",
+	  "dossier": "Dükkanının izinleri tam ve bütün sertifikalara sahip.",
+	  "appearance": "Kanlı bir önlüğe ve güçlü ön kollara sahip.",
+	  "smalltalk": [
+		"Kasaplık tam bir sanat işi, eti nasıl keseceğin, nasıl yüzeceğin, bıçak tutuşun. Ben bu eğitimleri büyüklerimden aldım.",
+        "Kötü koktuğumu yüzünden okuyabiliyorum ama benim burnum artık hiç farketmiyor."
+	  ]
+	},
+	{
+	  "id": "guest_f01",
+	  "name": "Rüya",
+	  "role": "Sahaf",
+	  "species": "fallen",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "Dükkân ruhsatı 46 yıldır aynı isimde. Doğum tarihi uyuşmuyor.",
+	  "appearance": "Eski bir kitabı göğsüne bastırıyor. Cilt kaplaması sıcak görünüyor.",
+	  "smalltalk": [
+		"Bazı kitaplar okurunu bekler. Bazı okurlar hiç yaşlanmaz.",
         "Dükkânın ilk açıldığı kışı hatırlıyorum. Yok, babam anlatmıştı demek istedim."
-      ]
-    },
-    {
-      "id": "guest_f02",
-      "name": "Doruk",
-      "role": "Gezgin",
-      "species": "fallen",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Kimlik fotoğrafı üç kayıp dosyasıyla eşleşiyor. Kesin sonuç yok.",
-      "appearance": "Sıcak bir gülümsemesi var. Parmak izi okuyucuya elini sürmemiş.",
-      "smalltalk": [
-        "Eve dönmek için önce bir yerin seni hatırlaması gerekiyor.",
+	  ]
+	},
+	{
+	  "id": "guest_f02",
+	  "name": "Doruk",
+	  "role": "Gezgin",
+	  "species": "fallen",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "Kimlik fotoğrafı üç kayıp dosyasıyla eşleşiyor. Kesin sonuç yok.",
+	  "appearance": "Sıcak bir gülümsemesi var. Parmak izi okuyucuya elini sürmemiş.",
+	  "smalltalk": [
+		"Eve dönmek için önce bir yerin seni hatırlaması gerekiyor.",
         "Son otobüsü kaçırdım. Bu şehirde hâlâ otobüs var mıydı?"
-      ]
-    },
-    {
-      "id": "guest_f03",
-      "name": "İnci",
-      "role": "Terzi",
-      "species": "fallen",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Esnaf sicili geçerli. Son sağlık kontrolünde nabız alanı boş.",
-      "appearance": "Özenle ütülenmiş bir palto. Eldivenlerinden ince kırmızı ipler sarkıyor.",
-      "smalltalk": [
-        "Ölçü almak insanı tanımaya benzemez. Her dikiş iz bırakır.",
+	  ]
+	},
+	{
+	  "id": "guest_f03",
+	  "name": "İnci",
+	  "role": "Terzi",
+	  "species": "fallen",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "747081",
+	  "dossier": "Esnaf sicili geçerli. Son sağlık kontrolünde nabız alanı boş.",
+	  "appearance": "Özenle ütülenmiş bir palto. Eldivenlerinden ince kırmızı ipler sarkıyor.",
+	  "smalltalk": [
+		"Ölçü almak insanı tanımaya benzemez. Her dikiş iz bırakır.",
         "Bazı lekeleri çıkarmak için kumaşı kesmek gerekir."
-      ]
-    },
-    {
-      "id": "guest_f04",
-      "name": "Kuzey",
-      "role": "Saatçi",
-      "species": "fallen",
-      "skin": "b9a08f",
-      "hair": "382e3d",
-      "coat": "747081",
-      "dossier": "Adres mevcut değil. İkamet binası 18 yıl önce yıkılmış.",
-      "appearance": "Saatine hiç bakmıyor. Bütün saatleri durmuş gibi dinliyor.",
-      "smalltalk": [
-        "Gündüz saatlerini düzeltmiyorum artık. Kimse doğru zamanı sormuyor.",
+	  ]
+	},
+	{
+	  "id": "guest_f04",
+	  "name": "Kuzey",
+	  "role": "Saatçi",
+	  "species": "fallen",
+	  "skin": "b9a08f",
+	  "hair": "382e3d",
+	  "coat": "4A3B32",
+	  "dossier": "Adres mevcut değil. İkamet binası 18 yıl önce yıkılmış.",
+	  "appearance": "Saatine hiç bakmıyor. Bütün saatleri durmuş gibi dinliyor.",
+	  "smalltalk": [
+		"Gündüz saatlerini düzeltmiyorum artık. Kimse doğru zamanı sormuyor.",
         "Aynı saatin içinde yıllarca kalabilirsin. Dışarıdan beş dakika geçmiş olur."
-      ]
-    }
+	  ]
+	},
+	{
+	  "id": "guest_f05",
+	  "name": "Fulya",
+	  "role": "Çiçekçi",
+	  "species": "fallen",
+	  "skin": "b9a08f",
+	  "hair": "D8BE9B",
+	  "coat": "B82B1C",
+	  "dossier": "Adresin yerinde evsizler kol geziyor, çiçeklerinden geriye kalan ise sadece toz.",
+	  "appearance": "Çiçekli bir elbise ve saçında çiçeklerden bir taç ama içine işleyen bir gülüşü var.",
+	  "smalltalk": [
+		"Hayat da çiçekler gibidir bir gün en güzel hallerine ulaşırlar ve ondan sonra ölümün kollarına doğru DÜŞÜŞE geçmeye başlarlar.",
+        "Bütün gün boyunca insanlara ölüm döşeğindeki çiçekleri taze gibi satıyorum. Müşteri mutlu mesut kapıdan çıkarken elinde aslında bir cenaze çiçeği taşıdığının kaçı farkında acaba?."
+	  ]
+	}
   ]
 }
