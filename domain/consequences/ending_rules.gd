@@ -3,7 +3,7 @@ extends RefCounted
 ## Beş ana son. Yanlış teşhisler aynı sonun metin varyantını değiştirir.
 static func resolve(human_reports: int, fallen_reports: int, wrong_reports: int, wrong_serves: int, final_night: bool, rules: Dictionary = {}) -> Dictionary:
 	var total := human_reports + fallen_reports
-	var result := {"id": "", "variant": "errors" if wrong_reports + wrong_serves >= 2 else "standard"}
+	var result := {"id": "", "variant": variant(wrong_reports, wrong_serves)}
 	var capture := int(rules.get("supplier_capture_threshold", 3))
 	if human_reports >= capture:
 		result.id = "human_supplier"
@@ -16,3 +16,7 @@ static func resolve(human_reports: int, fallen_reports: int, wrong_reports: int,
 		else:
 			result.id = "fallen_world"
 	return result
+
+## Sonun hata varyantı: yanlış ihbar + yanlış servis toplamı ikiyse "errors".
+static func variant(wrong_reports: int, wrong_serves: int) -> String:
+	return "errors" if wrong_reports + wrong_serves >= 2 else "standard"
