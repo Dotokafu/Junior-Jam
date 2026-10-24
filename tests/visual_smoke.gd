@@ -59,9 +59,11 @@ func run() -> void:
 	await settle(0.6)
 	check(session.state.stage == "interview", "Konuşma bitince sorgu açılmalı")
 	await capture("interview")
+	var interview_top: float = screen.balloon.panel.global_position.y
 	var first_question: String = locale.t("balloon.question", {"number": 1, "text": session.snapshot().questions[0].text})
 	await click(first_question)
 	await settle(0.3)
+	check(absf(screen.balloon.panel.global_position.y - interview_top) < 2.0, "Balon sorudan cevaba geçerken zıplamamalı: %.0f → %.0f" % [interview_top, screen.balloon.panel.global_position.y])
 	check(session.state.stage == "answer" and session.state.asked == [0], "Soru düğmesine tıklamak soruyu sormalı")
 	await press(KEY_N)
 	check(session.state.marks.get(session._record_id(), []).size() == 1, "N cevabı işaretlemeli")
@@ -152,6 +154,13 @@ func run() -> void:
 	screen._toggle_files()
 	await settle(0.5)
 	await capture("files")
+	# Dosya açıkken demlemeye geçilirse dosya kapanır (demleme ekranının üstünde kalmaz).
+	for i in range(12):
+		if session.state.stage == "brewing":
+			break
+		bus.request("next")
+	await settle(0.8)
+	check(screen.brew_panel.is_open and not screen.case_file.visible and screen.modal == "", "Demlemeye geçince dava dosyası kapanmalı")
 	screen._close_modal()
 	await settle(0.5)
 	session.state.phase = "fall"

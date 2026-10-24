@@ -23,6 +23,8 @@ var muted: bool = false
 var reduced_motion: bool = false
 var settings: Dictionary = Settings.DEFAULTS.duplicate()
 var record_count: int = 0
+## Demleme ekranı (raf ya da çizgi roman sayfası) bir önceki güncellemede açık mıydı.
+var was_brewing_ui: bool = false
 var toast_tween: Tween
 @onready var world: Control = $World
 @onready var balloon: Control = $Balloon
@@ -133,6 +135,11 @@ func _on_state(snapshot: Dictionary) -> void:
 		world.hide_person()
 	brew_panel.apply(view if playing else {})
 	brew_comic.apply(view if playing else {})
+	var brewing_ui: bool = brew_panel.is_open or brew_comic.is_open
+	if brewing_ui and not was_brewing_ui and modal == "files" and not photo_busy:
+		# Dava dosyası demleme ekranının üstünde çizilir; demlemeye geçilince kapanır.
+		_close_modal()
+	was_brewing_ui = brewing_ui
 	if brew_comic.is_open:
 		# Sayfa içeceği zaten gösteriyor; "hazır" bildirimi makine karesinin üstüne binmesin.
 		toast.modulate.a = 0.0

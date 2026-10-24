@@ -11,6 +11,8 @@ const SPEEDS := {"slow": 22.0, "normal": 45.0, "fast": 95.0}
 const SCREEN_MARGIN := 24.0
 ## Kutunun sol kenarı çapanın biraz soluna biner (karakterin koluyla çakışır, Coffee Talk gibi).
 const ANCHOR_OVERLAP := 40.0
+## Kutunun üst kenarı çapanın bu kadar üstünde durur; en uzun sorgu kutusu (3 soru) ekrana sığar.
+const ANCHOR_RISE := 210.0
 const AUTO_DELAY := 1.1
 const AUTO_PER_CHAR := 0.03
 const FFWD_DELAY := 0.25
@@ -30,6 +32,8 @@ var typed: float = 0.0
 var waited: float = 0.0
 var awaiting_next: bool = false
 var interview_key: String = ""
+## Aynı konuşmacı konuşurken kutunun ulaştığı en yüksek üst kenar (-1: henüz yok).
+var held_top: float = -1.0
 var docked: bool = false:
 	set(value):
 		if value == docked:
@@ -65,6 +69,8 @@ func say(speaker: String, line: String, new_mode: Mode, key: String, hint_text: 
 	if key != line_key:
 		line_key = key
 		awaiting_next = false
+		if speaker != name_tag.text:
+			held_top = -1.0
 		name_tag.text = speaker
 		name_tag.visible = speaker != "" and not docked
 		text_label.text = line
@@ -112,6 +118,7 @@ func set_interview(questions: Array, left: int, marked: bool, can_mark: bool) ->
 
 func close() -> void:
 	line_key = ""
+	held_top = -1.0
 	hide()
 
 func point_at(point: Vector2) -> void:
@@ -177,16 +184,22 @@ func _pop() -> void:
 	panel.modulate.a = 0.0
 	create_tween().tween_property(panel, "modulate:a", 1.0, 0.12)
 
-## Kutuyu çapanın sağına, dikeyde ortalı koyar; ekran dışına taşarsa içeri çeker.
+## Kutuyu çapanın sağına koyar. Üst kenar sabittir, kutu aşağı doğru büyür; ekrana sığmazsa yukarı itilir.
+## Aynı konuşmacı konuşurken kutu yalnızca yukarı çıkar, aşağı inmez: satır uzunluğu değişince ya da soru
+## listesi açılıp kapanınca metin yerinde kalır (eskiden dikeyde ortalıydı ve her boy değişiminde zıplıyordu).
 func _place() -> void:
 	if not is_node_ready():
 		return
 	if docked:
+		held_top = -1.0
 		panel.global_position = DOCK_POSITION
 		return
 	var screen := get_viewport_rect().size
 	var size_now := panel.size
-	var target := Vector2(anchor.x - ANCHOR_OVERLAP, anchor.y - size_now.y * 0.5)
-	target.x = clampf(target.x, SCREEN_MARGIN, screen.x - size_now.x - SCREEN_MARGIN)
-	target.y = clampf(target.y, SCREEN_MARGIN, screen.y - size_now.y - SCREEN_MARGIN)
-	panel.global_position = target
+	var top := minf(anchor.y - ANCHOR_RISE, screen.y - size_now.y - SCREEN_MARGIN)
+	if held_top >= 0.0:
+		top = minf(top, held_top)
+	top = maxf(top, SCREEN_MARGIN)
+	held_top = top
+	var left := clampf(anchor.x - ANCHOR_OVERLAP, SCREEN_MARGIN, screen.x - size_now.x - SCREEN_MARGIN)
+	panel.global_position = Vector2(left, top)
