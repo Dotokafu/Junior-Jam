@@ -8,10 +8,12 @@
 [ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="6_liquid"]
 [ext_resource type="Texture2D" path="res://assets/comic/result_backdrop.png" id="7_result"]
 [ext_resource type="Texture2D" path="res://assets/comic/halftone.png" id="8_dots"]
-[ext_resource type="Texture2D" path="res://assets/comic/hand_cup.png" id="9_hand"]
-[ext_resource type="Texture2D" path="res://assets/comic/hand_cup_liquid.png" id="10_hand_liquid"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup.png" id="9_hand"]
+[ext_resource type="Texture2D" path="res://assets/cafe/cup_liquid.png" id="10_hand_liquid"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/trash.png" id="11_trash"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/serve.png" id="12_serve"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/latte_art.png" id="13_latte_icon"]
+[ext_resource type="PackedScene" path="res://presentation/brewing/latte_art.tscn" id="14_latte"]
 
 [node name="BrewComic" type="Control"]
 offset_right = 1920.0
@@ -58,19 +60,17 @@ theme_override_constants/separation = 24
 [node name="Readout" parent="Steps/MachineFrame/Machine/Box" instance=ExtResource("3_readout")]
 
 [node name="Cup" type="Control" parent="Steps/MachineFrame/Machine/Box"]
-custom_minimum_size = Vector2(192, 168)
+custom_minimum_size = Vector2(192, 192)
 
 [node name="Body" type="TextureRect" parent="Steps/MachineFrame/Machine/Box/Cup"]
-offset_top = 60.0
 offset_right = 192.0
-offset_bottom = 228.0
+offset_bottom = 192.0
 texture = ExtResource("5_cup")
 expand_mode = 1
 
 [node name="Liquid" type="TextureRect" parent="Steps/MachineFrame/Machine/Box/Cup"]
-offset_top = 60.0
 offset_right = 192.0
-offset_bottom = 228.0
+offset_bottom = 192.0
 texture = ExtResource("6_liquid")
 expand_mode = 1
 
@@ -154,6 +154,11 @@ points = PackedVector2Array(1620, 560, 1240, 560, 1040, 660)
 width = 3.0
 default_color = Color(0.72, 0.69, 0.6, 1)
 
+[node name="LatteLine" type="Line2D" parent="Serve/Leaders"]
+points = PackedVector2Array(940, 480, 940, 640)
+width = 3.0
+default_color = Color(0.72, 0.69, 0.6, 1)
+
 [node name="TrashChoice" type="Button" parent="Serve"]
 offset_left = 260.0
 offset_top = 330.0
@@ -178,6 +183,17 @@ icon = ExtResource("12_serve")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
+[node name="LatteChoice" type="Button" parent="Serve"]
+offset_left = 750.0
+offset_top = 250.0
+offset_right = 1130.0
+offset_bottom = 476.0
+theme_type_variation = &"ComicChoice"
+theme_override_font_sizes/font_size = 44
+icon = ExtResource("13_latte_icon")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
 [node name="HandCup" type="Control" parent="Serve"]
 offset_left = 640.0
 offset_top = 520.0
@@ -186,14 +202,18 @@ offset_bottom = 1020.0
 mouse_filter = 2
 
 [node name="Cup" type="TextureRect" parent="Serve/HandCup"]
-offset_right = 600.0
+offset_left = 60.0
+offset_top = 20.0
+offset_right = 540.0
 offset_bottom = 500.0
 mouse_filter = 2
 texture = ExtResource("9_hand")
 expand_mode = 1
 
 [node name="Liquid" type="TextureRect" parent="Serve/HandCup"]
-offset_right = 600.0
+offset_left = 60.0
+offset_top = 20.0
+offset_right = 540.0
 offset_bottom = 500.0
 mouse_filter = 2
 texture = ExtResource("10_hand_liquid")
@@ -204,3 +224,5 @@ offset_right = 1880.0
 offset_bottom = 1040.0
 mouse_filter = 2
 theme_type_variation = &"ComicFrame"
+
+[node name="LatteArt" parent="." instance=ExtResource("14_latte")]

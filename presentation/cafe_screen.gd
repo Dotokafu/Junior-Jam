@@ -61,6 +61,8 @@ func _ready() -> void:
 	balloon.advance_requested.connect(func() -> void: EventBus.request("next"))
 	balloon.decision_pressed.connect(func() -> void: EventBus.request("next"))
 	balloon.line_started.connect(func() -> void: world.character.bounce())
+	balloon.question_pressed.connect(func(index: int) -> void: EventBus.request("ask", {"index": index}))
+	balloon.mark_pressed.connect(func() -> void: EventBus.request("mark"))
 	book.closed.connect(_close_modal)
 	case_file.closed.connect(_close_modal)
 	screens.start_requested.connect(_start)
@@ -179,12 +181,18 @@ func _update_balloon(playing: bool) -> void:
 		"decision":
 			mode = Balloon.Mode.DECISION
 			hint = I18n.t("balloon.decision_hint") if view.day >= 2 else ""
+		"interview":
+			# Kısayol ipucu soru listesinin altında (balloon.questions_left); alt satır yalnızca düğmeler.
+			mode = Balloon.Mode.DECISION
 	if view.stage == "tutorial":
 		speaker = I18n.t("character.barista")
 	var key := "%d|%s|%d|%s|%d|%s" % [view.day, view.phase, view.visit_index, view.stage, view.line_index, view.line]
 	balloon.docked = mode == Balloon.Mode.STATIC
 	balloon.point_at(world.balloon_point())
-	balloon.say(speaker, view.line, mode, key, hint, I18n.t("button.finish_delivery"))
+	var decision_text := I18n.t("button.to_order") if view.stage == "interview" else I18n.t("button.finish_delivery")
+	balloon.say(speaker, view.line, mode, key, hint, decision_text)
+	var can_mark: bool = view.phase in ["day", "night"] and view.stage in ["dialogue", "answer", "interview"]
+	balloon.set_interview(view.get("questions", []), int(view.get("questions_left", 0)), view.get("marked", false), can_mark)
 
 # --- Komutlar ve pencereler -------------------------------------------------
 
@@ -370,6 +378,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var key: int = event.keycode
 	if key == KEY_F11:
 		_toggle_fullscreen()
+	elif brew_comic.latte.is_open:
+		# Latte art açıkken tuşlar önce ona gider (Esc = geri, Enter = servis).
+		if not brew_comic.latte.handle_key(key):
+			return
 	elif key == KEY_ESCAPE:
 		# Alt sayfadan menü listesine, listeden oyuna döner.
 		if modal in screens.PAGES and modal != "pause" and view.get("started", false):
@@ -384,6 +396,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			brew_comic.choose("serve")
 		elif key == KEY_T:
 			brew_comic.choose("trash")
+		elif key == KEY_L:
+			brew_comic.choose("latte_art")
 		else:
 			return
 	elif key == KEY_B:
@@ -395,7 +409,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif key in [KEY_SPACE, KEY_ENTER]:
 		if view.stage == "transition":
 			EventBus.request("next")
-		elif not balloon.try_advance() and view.stage == "decision":
+		elif not balloon.try_advance() and view.stage in ["decision", "interview"]:
 			EventBus.request("next")
 	elif key == KEY_A:
 		auto_button.button_pressed = not auto_button.button_pressed
@@ -407,8 +421,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_take_photo()
 	elif key == KEY_M:
 		EventBus.request("shelf")
+	elif key == KEY_N:
+		EventBus.request("mark")
 	elif key >= KEY_1 and key <= KEY_9:
-		brew_panel.select_index(key - KEY_1)
+		if view.stage == "interview":
+			EventBus.request("ask", {"index": key - KEY_1})
+		else:
+			brew_panel.select_index(key - KEY_1)
 	else:
 		return
 	get_viewport().set_input_as_handled()

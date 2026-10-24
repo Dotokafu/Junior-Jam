@@ -40,9 +40,9 @@ offset_bottom = 900.0
 [node name="Shutter" type="TextureRect" parent="Machine"]
 mouse_filter = 2
 offset_left = 24.0
-offset_top = 150.0
+offset_top = 100.0
 offset_right = 1116.0
-offset_bottom = 150.0
+offset_bottom = 100.0
 texture = ExtResource("6_shutter")
 expand_mode = 1
 stretch_mode = 1
@@ -65,7 +65,7 @@ text = "Kepenk   [M]"
 
 [node name="Body" type="PanelContainer" parent="Machine"]
 offset_left = 350.0
-offset_top = 450.0
+offset_top = 590.0
 offset_right = 1116.0
 offset_bottom = 876.0
 theme_type_variation = &"MachinePanel"
@@ -80,12 +80,10 @@ custom_minimum_size = Vector2(150, 0)
 theme_override_constants/separation = 10
 
 [node name="CupPreview" type="Control" parent="Machine/Body/Box/Right"]
-custom_minimum_size = Vector2(150, 110)
-size_flags_vertical = 3
+custom_minimum_size = Vector2(150, 96)
 
 [node name="Cup" type="TextureRect" parent="Machine/Body/Box/Right/CupPreview"]
 offset_left = 27.0
-offset_top = 12.0
 offset_right = 123.0
 offset_bottom = 96.0
 texture = ExtResource("3_cup")
@@ -93,7 +91,6 @@ expand_mode = 1
 
 [node name="Liquid" type="TextureRect" parent="Machine/Body/Box/Right/CupPreview"]
 offset_left = 27.0
-offset_top = 12.0
 offset_right = 123.0
 offset_bottom = 96.0
 texture = ExtResource("4_liquid")

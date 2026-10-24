@@ -12,10 +12,10 @@ oyunda **×3** büyütülür (keskin `nearest` filtre). Yani 1 çizim pikseli = 
 | `cafe/background_day.png` | 640×360 | Gündüz kafe duvarı, raflar, pencere |
 | `cafe/background_night.png` | 640×360 | Aynı mekân, gece (The Fall) |
 | `cafe/counter.png` | 740×80 | Tezgâh; karakterin önüne çizilir. Ekranda y=840'tan başlar, demlerken kamera kaydığı için ekrandan 100 px geniş |
-| `cafe/cup.png` | 32×28 | Servis fincanı |
-| `cafe/cup_liquid.png` | 32×28 | Fincanın sıvı kısmı, **beyaz** çiz; oyun içeceğin rengine boyar |
+| `cafe/cup.png` | 96×96 | Fincan (tezgâh ×1, makine ×1, çizgi roman adımı ×2, servis sayfası ×5). Şu an "Coffee Asset Pack by mimi" HotCupTemplate; ağzı **şeffaf** |
+| `cafe/cup_liquid.png` | 96×96 | Fincanın ağzındaki sıvı, **beyaz** maske; oyun içeceğin rengine boyar |
 | `characters/<id>.png` | serbest (önerilen 1080×1560) | **El çizimi**, şeffaf arka plan, piksel değil. 540×780 kutuya oranı korunarak sığar, alttan hizalanır, yumuşak filtreyle çizilir. Alt kısmı tezgâhın arkasında kalır |
-| `cafe/brew_shelf.png` | 380×300 | Demleme ekranının arka planı (yakın plan raf). Kavanozlar üst rafa (y=100) dizilir |
+| `cafe/brew_shelf.png` | 380×300 | Demleme ekranının arka planı. İki raf: üst tahta y=80 (x<280; ana malzemeler), alt tahta y=150 (ek malzemeler); sağda alt tahtaya oturan uzun serbest malzeme (süt) |
 | `ui/ingredients/<id>.png` | 32×40 | Raftaki kavanoz; makine slotunda da küçük ikon olarak görünür |
 | `ui/icons/*.png` | 24×24 (kayıtta ×3 = 72×72) | HUD ikonları: files, book, menu, auto, ffwd |
 | `ui/icons/camera_device.png` | 48×48 (kayıtta ×3) | Tezgâhtaki kare anlık fotoğraf makinesi; polaroid üst yarıktan çıkar |
@@ -26,9 +26,15 @@ oyunda **×3** büyütülür (keskin `nearest` filtre). Yani 1 çizim pikseli = 
 | `cafe/shutter.png` | 12×12 (kayıtta ×3) | Kepenk perdesi, döşenerek uzar |
 | `comic/step_backdrop.png` | 204×200 | Hazırlık sayfasındaki adım karesinin arka planı |
 | `comic/result_backdrop.png` | 627×347 | Servis sayfasının arka planı |
-| `comic/hand_cup.png`, `comic/hand_cup_liquid.png` | 120×100 | Elde tutulan fincan; sıvı maskesi **beyaz**, içeceğin rengine boyanır |
 | `comic/stream.png` | 6×16 | Kavanozdan dökülen akış; **beyaz**, malzemenin rengine boyanır |
 | `comic/<malzeme id>.png` | serbest | (İsteğe bağlı) O malzemenin adım karesi için hazır çizim; varsa kod kareyi kendisi kurmaz |
+| `latte/backdrop.png` | 640×360 | Latte art ekranının arka planı (üstten tezgâh) |
+| `latte/saucer.png` | 272×272 | Fincan tabağı, üstten (oyunda ×3 = 816 px) |
+| `latte/cup_top.png` | 224×224 | Fincan, üstten; ortadaki **yarıçapı 96 px daire şeffaf** kalmalı (köpük arkadan görünür) |
+| `latte/foam_mask.png` | 192×192 | Köpüğün görünen alanı: **beyaz daire**, `cup_top` iç dairesiyle aynı |
+| `latte/cup_handle.png` | 56×40 | Fincan kulpu; fincan Q/E ile dönerken kulp da döner |
+| `ui/icons/latte_pour.png`, `latte_etch.png`, `latte_flow.png`, `latte_flow_reverse.png`, `latte_reset.png` | 32×32 (kayıtta ×3) | Latte art araç düğmeleri (akış ikonu ters akışta değişir) |
+| `ui/icons/latte_art.png` | 32×32 (kayıtta ×3) | Servis sayfasındaki "Latte art" seçeneği |
 | `cutscene/city_back.png` | 640×360 | The Fall ara sahnesi: arka şehir, ay, zemin |
 | `cutscene/building.png` | 640×360 | Bizim bina, **opak**; kafe camı şeffaf bırakılır (ışık ve silüet arkadan görünür) |
 | `cutscene/cafe_light.png` | 108×30 | Kafe camının ışığı |

@@ -34,6 +34,105 @@
       "sfx": "VIIIN!"
     },
     {
+      "id": "matcha",
+      "name": "Matcha",
+      "side": "human",
+      "color": "8fae5a",
+      "description": "Toz yeşil çay, çırpılmış",
+      "base": true,
+      "mix": false,
+      "adjective": "Matchalı",
+      "stats": {
+        "warm": [
+          1,
+          1,
+          1
+        ],
+        "cool": [
+          1,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          2,
+          2,
+          1
+        ]
+      },
+      "sfx": "ÇIRP ÇIRP!"
+    },
+    {
+      "id": "cocoa",
+      "name": "Kakao",
+      "side": "human",
+      "color": "6b4440",
+      "description": "Acı, koyu kakao",
+      "base": true,
+      "mix": false,
+      "adjective": "Kakaolu",
+      "stats": {
+        "warm": [
+          1,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          3,
+          2,
+          1
+        ],
+        "bitter": [
+          1,
+          1,
+          0
+        ]
+      },
+      "sfx": "PUF!"
+    },
+    {
+      "id": "tea",
+      "name": "Çay",
+      "side": "human",
+      "color": "8c3b1e",
+      "description": "Çaykur, demlikten",
+      "base": true,
+      "mix": false,
+      "adjective": "Çaylı",
+      "stats": {
+        "warm": [
+          2,
+          1,
+          1
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          1,
+          1,
+          1
+        ]
+      },
+      "sfx": "FOKUR!"
+    },
+    {
       "id": "milk",
       "name": "Süt",
       "side": "human",
@@ -64,21 +163,22 @@
           0
         ]
       },
-      "sfx": "ŞIRRR!"
+      "sfx": "ŞIRRR!",
+      "latte": true
     },
     {
-      "id": "cocoa",
-      "name": "Kakao",
+      "id": "cinnamon",
+      "name": "Tarçın",
       "side": "human",
-      "color": "6b4440",
-      "description": "Acı, koyu kakao",
+      "color": "a0612f",
+      "description": "Bir tutam, sıcak",
       "base": false,
       "mix": true,
-      "adjective": "Kakaolu",
+      "adjective": "Tarçınlı",
       "stats": {
         "warm": [
           0,
-          1,
+          2,
           1
         ],
         "cool": [
@@ -88,103 +188,37 @@
         ],
         "sweet": [
           0,
-          2,
+          1,
           1
         ],
         "bitter": [
           0,
-          2,
-          1
-        ]
-      },
-      "sfx": "SERP SERP"
-    },
-    {
-      "id": "tea",
-      "name": "Çay",
-      "side": "human",
-      "color": "8f9b72",
-      "description": "Kurutulmuş yaprak",
-      "base": true,
-      "mix": false,
-      "adjective": "Çaylı",
-      "stats": {
-        "warm": [
-          2,
-          1,
-          1
-        ],
-        "cool": [
-          0,
           0,
           0
-        ],
-        "sweet": [
-          0,
-          0,
-          0
-        ],
-        "bitter": [
-          1,
-          1,
-          1
         ]
       },
-      "sfx": "FOKUR!"
+      "sfx": "SERP!"
     },
     {
-      "id": "honey",
-      "name": "Bal",
+      "id": "mint",
+      "name": "Nane",
       "side": "human",
-      "color": "d8a459",
-      "description": "Son kovanlardan",
+      "color": "7fc8a0",
+      "description": "Taze yaprak",
       "base": false,
       "mix": true,
-      "adjective": "Ballı",
+      "adjective": "Naneli",
       "stats": {
         "warm": [
           0,
-          1,
+          0,
           0
         ],
         "cool": [
-          0,
-          0,
-          0
-        ],
-        "sweet": [
           0,
           3,
           2
         ],
-        "bitter": [
-          0,
-          0,
-          0
-        ]
-      },
-      "sfx": "DAMLA..."
-    },
-    {
-      "id": "water",
-      "name": "Su",
-      "side": "human",
-      "color": "8bafba",
-      "description": "Arıtılmış su",
-      "base": false,
-      "mix": true,
-      "adjective": "Sulu",
-      "stats": {
-        "warm": [
-          0,
-          0,
-          0
-        ],
-        "cool": [
-          0,
-          2,
-          2
-        ],
         "sweet": [
           0,
           0,
@@ -196,7 +230,73 @@
           0
         ]
       },
-      "sfx": "ŞIRIL!"
+      "sfx": "ÇITIR!"
+    },
+    {
+      "id": "spice",
+      "name": "Baharat",
+      "side": "human",
+      "color": "b5652b",
+      "description": "Kakule, karanfil",
+      "base": false,
+      "mix": true,
+      "adjective": "Baharatlı",
+      "stats": {
+        "warm": [
+          0,
+          2,
+          2
+        ],
+        "cool": [
+          0,
+          0,
+          0
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          0,
+          1,
+          1
+        ]
+      },
+      "sfx": "TIK TIK!"
+    },
+    {
+      "id": "lemon",
+      "name": "Limon",
+      "side": "human",
+      "color": "e8d44d",
+      "description": "Taze sıkılmış",
+      "base": false,
+      "mix": true,
+      "adjective": "Limonlu",
+      "stats": {
+        "warm": [
+          0,
+          0,
+          0
+        ],
+        "cool": [
+          0,
+          2,
+          1
+        ],
+        "sweet": [
+          0,
+          0,
+          0
+        ],
+        "bitter": [
+          0,
+          1,
+          0
+        ]
+      },
+      "sfx": "FIŞŞ!"
     },
     {
       "id": "blood",

@@ -7,9 +7,9 @@
       "ingredients": [
         "coffee",
         "coffee",
-        "water"
+        "spice"
       ],
-      "description": "Çift kahve, bir ölçü su. Uyanık kalmak zorunda olanlara."
+      "description": "Çift kahve, bir tutam baharat. Uyanık kalmak zorunda olanlara."
     },
     {
       "id": "latte",
@@ -20,18 +20,20 @@
         "milk",
         "milk"
       ],
-      "description": "Bir kahve, iki süt. Eskiden sıradan bir sabah vardı."
+      "description": "Bir kahve, iki süt. Eskiden sıradan bir sabah vardı.",
+      "latte_art": true
     },
     {
       "id": "mocha",
       "name": "Son Işık",
       "side": "human",
       "ingredients": [
-        "coffee",
+        "cocoa",
         "milk",
-        "cocoa"
+        "cinnamon"
       ],
-      "description": "Kahve, süt, kakao. Biraz sıcaklık hâlâ mümkün."
+      "description": "Kakao, süt, tarçın. Biraz sıcaklık hâlâ mümkün.",
+      "latte_art": true
     },
     {
       "id": "tea",
@@ -39,10 +41,10 @@
       "side": "human",
       "ingredients": [
         "tea",
-        "honey",
-        "water"
+        "lemon",
+        "mint"
       ],
-      "description": "Çay, bal, su. Titreyen eller için."
+      "description": "Çay, limon, nane. Titreyen eller için."
     },
     {
       "id": "red",

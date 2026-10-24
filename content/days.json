@@ -5,7 +5,7 @@
       "headline": "SOKAĞA ÇIKMA SAATİ YİNE ÖNE ALINDI",
       "morning": [
         "Yeni anahtar sana yakışmış. Burası eskiden de sabaha kadar açık kalırdı.",
-        "Kahve, süt, kakao… rafları doldurdum. Üç ölçü seç, demle, sonra servis et.",
+        "Üst rafta ana malzemeler, altta eklemeler, süt her şeye gider… rafları doldurdum. Üç ölçü seç, demle, sonra servis et.",
         "Akşam haberlerini dinle. Soluk bir yüz, birini suçlamaya yetmez. Ada hastaneden gelecek; ellerindeki kan kendi işi."
       ],
       "day": [
@@ -13,18 +13,60 @@
           "character": "ada",
           "order": "latte",
           "dialogue": [
-            "Bir Sabah Sisi alabilir miyim? Bir kahve, iki süt.",
+            "Bütün gece ayaktaydım.",
             "Hastanede yine elektrik kesildi. Kan bankasını elle soğuttuk.",
-            "İnsanlar üzerimdeki lekelere bakıyor. Kimse ne kadar yorulduğumu sormuyor."
+            "İnsanlar üzerimdeki lekelere bakıyor.",
+            "Kimse ne kadar yorulduğumu sormuyor."
+          ],
+          "order_line": "Bana sıradan bir sabahı hatırlatacak bir şey ver. Yumuşak olsun, sütlü.",
+          "questions": [
+            {
+              "id": "where_from",
+              "answer": [
+                "Hastaneden. Ellerimdeki leke kan bankasından; temizlemeye vakit olmadı."
+              ]
+            },
+            {
+              "id": "sleep",
+              "answer": [
+                "Dün sabah, galiba. Güneş doğarken gözlerim kapandı, sonra yine çağırdılar."
+              ]
+            },
+            {
+              "id": "sirens",
+              "answer": [
+                "Ameliyathanedeydim. Siren çalınca kimse bıçağı bırakmaz."
+              ]
+            }
           ]
         },
         {
           "character": "mira",
           "order": "tea",
           "dialogue": [
-            "Bir Sığınak. Bugün tatlı bir şeye ihtiyacım var.",
-            "The Fall bir saat meselesi değil. Siren çalınca herkes birbirine başka türlü bakıyor.",
+            "Postaneden çıktım, ellerim hâlâ titriyor.",
             "Fotoğraf bazen gerçeği yakalar. Bazen yalnızca birinin en kötü anını."
+          ],
+          "order_line": "Titreyen ellere iyi gelecek bir şey… limonlu, naneli olsun.",
+          "questions": [
+            {
+              "id": "work",
+              "answer": [
+                "Mektup ayırıyorum. Çoğunun sahibi artık yok; yine de ayırıyorum."
+              ]
+            },
+            {
+              "id": "cold",
+              "answer": [
+                "İliklerime kadar. Bak, parmaklarım hâlâ buz gibi."
+              ]
+            },
+            {
+              "id": "previous_barista",
+              "answer": [
+                "Tanırdım. Hep aynı şarkıyı mırıldanırdı. Bir gece gitti, dönmedi."
+              ]
+            }
           ]
         }
       ],
@@ -33,9 +75,29 @@
           "character": "eren",
           "order": "red",
           "dialogue": [
-            "Kızıl Hatıra. Eskisi gibi, sıcak.",
-            "Bu saatte açık olacağını söylemişti. Kim mi? Senden önce tezgâhın arkasında duran kişi.",
-            "Ne kadar süredir buradasın? Bazı şeyleri ellerin hatırlayacaktır."
+            "Bu saatte açık olacağını söylemişti.",
+            "Kim mi? Senden önce tezgâhın arkasında duran kişi."
+          ],
+          "order_line": "Eskisi gibi bir şey. Sıcak… biraz demir tadında.",
+          "questions": [
+            {
+              "id": "where_from",
+              "answer": [
+                "Yürüyordum. Güneş tam tepedeydi, sokaklar bomboştu."
+              ]
+            },
+            {
+              "id": "cold",
+              "answer": [
+                "Soğuk mu? Hiç fark etmedim."
+              ]
+            },
+            {
+              "id": "previous_barista",
+              "answer": [
+                "Ellerini hatırlıyorum. Bardağı tutuşunu. Seninkiler de benziyor."
+              ]
+            }
           ]
         }
       ],
@@ -78,7 +140,7 @@
           "character": "ada",
           "order": "mocha",
           "dialogue": [
-            "Bu kez Son Işık. Kakao, kahve, süt… eve gitmeden önce.",
+            "Bu kez Son Işık. Kakao, süt, tarçın… eve gitmeden önce.",
             "Bugün Atlas diye bir işçiyi gördüm. Yeni gözüne alışamamış.",
             "Kayıp kardeşimi arıyorum. Gece dışarı çıkmamın başka bir nedeni yok."
           ]

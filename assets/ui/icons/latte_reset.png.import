@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yt4fbh8ccv40"
-path="res://.godot/imported/hand_cup.png-57abc98bd618721aaa10865cafc9ce97.ctex"
+uid="uid://lfnc074u61qo"
+path="res://.godot/imported/latte_reset.png-6aad7c090023a49f1483a1320fb48182.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/comic/hand_cup.png"
-dest_files=["res://.godot/imported/hand_cup.png-57abc98bd618721aaa10865cafc9ce97.ctex"]
+source_file="res://assets/ui/icons/latte_reset.png"
+dest_files=["res://.godot/imported/latte_reset.png-6aad7c090023a49f1483a1320fb48182.ctex"]
 
 [params]
 

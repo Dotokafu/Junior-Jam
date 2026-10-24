@@ -4,6 +4,8 @@ extends Control
 signal advance_requested
 signal decision_pressed
 signal line_started
+signal question_pressed(index: int)
+signal mark_pressed
 enum Mode { ADVANCE, STATIC, DECISION }
 const SPEEDS := {"slow": 22.0, "normal": 45.0, "fast": 95.0}
 const SCREEN_MARGIN := 24.0
@@ -27,6 +29,7 @@ var anchor := Vector2(1000, 760)
 var typed: float = 0.0
 var waited: float = 0.0
 var awaiting_next: bool = false
+var interview_key: String = ""
 var docked: bool = false:
 	set(value):
 		if value == docked:
@@ -41,11 +44,14 @@ var docked: bool = false:
 @onready var hint: Label = $Panel/Box/Footer/Hint
 @onready var decision_button: Button = $Panel/Box/Footer/DecisionButton
 @onready var arrow: Label = $Panel/Box/Footer/Arrow
+@onready var questions_box: VBoxContainer = $Panel/Box/Questions
+@onready var mark_button: Button = $Panel/Box/Footer/MarkButton
 
 func _ready() -> void:
 	panel.gui_input.connect(_on_panel_input)
 	panel.resized.connect(_place)
 	decision_button.pressed.connect(func() -> void: decision_pressed.emit())
+	mark_button.pressed.connect(func() -> void: mark_pressed.emit())
 	_apply_dock()
 	hide()
 
@@ -73,6 +79,35 @@ func say(speaker: String, line: String, new_mode: Mode, key: String, hint_text: 
 	# Kutu metne göre küçülsün: önce minimuma indir, yerleşimi bir kare sonra yap.
 	panel.reset_size()
 	_place()
+	_place.call_deferred()
+
+## Sorgu: soru düğmeleri (sorulanlar ve hak bitince kapalı), kalan hak; İşaretle düğmesi.
+## questions: [{text, asked}]. Liste değişmedikçe düğmeler yeniden kurulmaz.
+func set_interview(questions: Array, left: int, marked: bool, can_mark: bool) -> void:
+	mark_button.visible = can_mark
+	mark_button.text = I18n.t("balloon.marked" if marked else "balloon.mark")
+	var key := "%s|%d" % [str(questions), left]
+	if key == interview_key:
+		return
+	interview_key = key
+	for child: Node in questions_box.get_children():
+		child.queue_free()
+	questions_box.visible = not questions.is_empty()
+	for i in range(questions.size()):
+		var button := Button.new()
+		button.text = I18n.t("balloon.question", {"number": i + 1, "text": questions[i].text})
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.custom_minimum_size.x = TEXT_WIDTH
+		button.disabled = questions[i].asked or left <= 0
+		button.pressed.connect(func() -> void: question_pressed.emit(i))
+		questions_box.add_child(button)
+	if not questions.is_empty():
+		var remaining := Label.new()
+		remaining.theme_type_variation = &"Caption"
+		remaining.text = I18n.t("balloon.questions_left", {"count": left})
+		questions_box.add_child(remaining)
+	panel.reset_size()
 	_place.call_deferred()
 
 func close() -> void:

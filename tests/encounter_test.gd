@@ -6,6 +6,15 @@ func _initialize() -> void:
 	var content := ContentRepository.new()
 	check(content.load_all(), "Katalog okunmalı")
 	var catalog := content.catalog()
+	var first_day: Dictionary = catalog.days[0]
+	for visit: Dictionary in first_day.day + first_day.night:
+		check(visit.get("questions", []).size() == 3 and visit.get("order_line", "") != "", "1. günün müşterileri sorgulanabilir olmalı: " + visit.character)
+	var broken := ContentRepository.new()
+	broken.load_all()
+	broken.days[0].night[0]["questions"] = [{"id": "olmayan_soru", "answer": ["..."]}]
+	broken.errors.clear()
+	broken.validate_visits()
+	check(not broken.errors.is_empty(), "Havuzda olmayan soru içerik hatası vermeli")
 	var request := {"day": 2, "period": "night", "mode": "story", "seed": 12345}
 	var first := Director.build_shift(request, catalog)
 	check(first == Director.build_shift(request, catalog), "Aynı seed aynı vardiyayı üretmeli")
