@@ -164,14 +164,6 @@ autowrap_mode = 3
 [node name="Spacer" type="Control" parent="Folder/Paper/Box"]
 size_flags_vertical = 3
 
-[node name="ReportButton" type="Button" parent="Folder/Paper/Box"]
-visible = false
-custom_minimum_size = Vector2(0, 58)
-theme_type_variation = &"PrimaryButton"
-theme_override_font_sizes/font_size = 22
-text = "Teslim et"
-autowrap_mode = 3
-
 [node name="Clip" type="TextureRect" parent="Folder"]
 offset_left = 706.0
 offset_top = 14.0

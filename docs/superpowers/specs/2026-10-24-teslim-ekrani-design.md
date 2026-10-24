@@ -12,7 +12,7 @@ bir an olur (Papers, Please'te belgeyi memura uzatmak gibi).
 ## Davranış
 
 - **Ne zaman:** 2. günden itibaren, teslimatçı (sabah Defne, gece Vey) soruyu sorduğunda (`decision` aşaması).
-  1. günde ve hiç fotoğraf yokken tepsi yerine yalnızca bitirme düğmesi çıkar.
+  1. günde yalnızca verilecek fotoğraf varsa açılır; yoksa balondaki bitirme düğmesi kalır.
 - **Gölge:** Ekranın tamamı kararır. Teslimatçının ve konuşma kutusunun olduğu yerler aydınlık kalır; HUD da kararır.
   Kararan katman tıklamaları geçirmez.
 - **Belge tepsisi:** Altta, fotoğrafını çektiğin ve henüz kimseye verilmemiş kişilerin polaroidleri yan yana durur.

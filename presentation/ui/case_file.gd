@@ -31,7 +31,6 @@ var slide_tween: Tween
 @onready var number: Label = $Folder/Paper/Box/Number
 @onready var observation: Label = $Folder/Paper/Box/Observation
 @onready var record_text: Label = $Folder/Paper/Box/Record
-@onready var report_button: Button = $Folder/Paper/Box/ReportButton
 @onready var stamp: Label = $Folder/Stamp
 
 func _ready() -> void:
@@ -40,7 +39,6 @@ func _ready() -> void:
 	$Folder/CloseButton.pressed.connect(func() -> void: closed.emit())
 	$Folder/CloseButton.text = I18n.t("button.close_x")
 	$Folder/CloseButton.tooltip_text = I18n.t("key.close")
-	report_button.pressed.connect(func() -> void: EventBus.request("report", {"id": selected_id}))
 	$Folder/Paper/Box/ObservationCaption.text = I18n.t("dossier.observation")
 	$Folder/Paper/Box/RecordCaption.text = I18n.t("dossier.record")
 	hide()
@@ -154,7 +152,6 @@ func _render_record() -> void:
 			current = view.records[i]
 			index = i + 1
 	polaroid.visible = not current.is_empty()
-	report_button.hide()
 	stamp.hide()
 	if current.is_empty():
 		header.text = I18n.t("dossier.eyebrow")
@@ -177,12 +174,8 @@ func _render_record() -> void:
 	record_text.text = current.dossier
 	var guess_text: String = {"unknown": I18n.t("dossier.guess_unknown"), "human": I18n.t("dossier.guess_human"), "fallen": I18n.t("dossier.guess_fallen")}.get(current.guess, I18n.t("common.unavailable"))
 	guess.text = I18n.t("dossier.guess", {"guess": guess_text})
-	var can_report: bool = view.stage == "decision" and view.phase in ["morning_supplier", "night_supplier"] and current.reported_to == ""
-	hint.text = "" if can_report or current.reported_to != "" else I18n.t("dossier.delivery_only")
-	if can_report:
-		var recipient := I18n.t("dossier.defne_request") if view.phase == "morning_supplier" else I18n.t("dossier.vey_request")
-		report_button.text = I18n.t("button.report", {"recipient": recipient.replace("\n", " · ")})
-		report_button.show()
+	# Dosyalar yalnızca teslim ekranından (polaroidi teslimatçıya sürükleyerek) verilir.
+	hint.text = "" if current.reported_to != "" else I18n.t("dossier.delivery_only")
 	if current.reported_to != "":
 		_stamp(current)
 

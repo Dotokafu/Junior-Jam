@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://presentation/brewing/brew_comic.tscn" id="16_comic"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/book.png" id="13_book"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/menu.png" id="14_menu"]
+[ext_resource type="PackedScene" path="res://presentation/ui/delivery_tray.tscn" id="20_delivery"]
 
 [node name="CoFFallen" type="Control"]
 layout_mode = 3
@@ -150,6 +151,8 @@ text = "MENÜ"
 icon = ExtResource("14_menu")
 icon_alignment = 1
 vertical_icon_alignment = 0
+
+[node name="DeliveryTray" parent="." instance=ExtResource("20_delivery")]
 
 [node name="BrewComic" parent="." instance=ExtResource("16_comic")]
 visible = false

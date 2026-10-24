@@ -34,10 +34,11 @@ func _ready() -> void:
 	hide()
 	set_process(false)
 
-## Teslimatçı soruyu sorduğunda tepsi açılır.
+## Teslimatçı soruyu sorduğunda tepsi açılır. 1. günde yalnızca verilecek fotoğraf varsa (öğretici sabah boş kalır).
 static func wants(snapshot: Dictionary) -> bool:
 	return bool(snapshot.get("started", false)) and snapshot.get("stage", "") == "decision" \
-		and int(snapshot.get("day", 1)) >= 2 and snapshot.get("phase", "") in ["morning_supplier", "night_supplier"]
+		and snapshot.get("phase", "") in ["morning_supplier", "night_supplier"] \
+		and (int(snapshot.get("day", 1)) >= 2 or not snapshot.get("records", []).is_empty())
 
 func track(world_node: Control, panel: Control) -> void:
 	world = world_node
